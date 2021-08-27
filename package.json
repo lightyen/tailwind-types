@@ -1,0 +1,36 @@
+{
+  "name": "@types/tailwindcss",
+  "version": "2.2.8",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "lightyen",
+      "url": "https://github.com/lightyen",
+      "githubUsername": "lightyen"
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/lightyen/tailwind-types"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/forms": "^0.3.3",
+    "@tailwindcss/line-clamp": "^0.2.1",
+    "@tailwindcss/typography": "^0.4.1",
+    "dtslint": "^4.1.6",
+    "postcss": "^8.0.9",
+    "tailwindcss": "2.2.8",
+    "tailwindcss-capsize": "^1.2.2",
+    "tslint": "^6.1.3",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "csstype": "^3.0.8"
+  },
+  "keywords": [
+    "typescript",
+    "tailwindcss"
+  ],
+  "main": "",
+  "types": "index.d.ts"
+}

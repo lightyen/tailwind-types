@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["ESNext"],
+    "noEmit": true,
+    "types": ["./index"],
+    "esModuleInterop": true
+  },
+  "files": ["demo-tests.ts", "tailwindcss-tests.ts"]
+}
