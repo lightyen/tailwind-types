@@ -33,64 +33,83 @@ declare namespace Tailwind {
 		opacityVariable: string
 	}
 
+	type ColorConfig = {
+		50: Value
+		100: Value
+		200: Value
+		300: Value
+		400: Value
+		500: Value
+		600: Value
+		700: Value
+		800: Value
+		900: Value
+		DEFAULT: Value
+	}
+
+	type ColorConfigFunc = {
+		50: (opacity: OpacityOptions) => Value
+		100: (opacity: OpacityOptions) => Value
+		200: (opacity: OpacityOptions) => Value
+		300: (opacity: OpacityOptions) => Value
+		400: (opacity: OpacityOptions) => Value
+		500: (opacity: OpacityOptions) => Value
+		600: (opacity: OpacityOptions) => Value
+		700: (opacity: OpacityOptions) => Value
+		800: (opacity: OpacityOptions) => Value
+		900: (opacity: OpacityOptions) => Value
+		DEFAULT: (opacity: OpacityOptions) => Value
+	}
+
+	type Colors<V> = {
+		transparent?: V
+		current?: V
+		black?: V
+		white?: V
+		gray?: V
+		red?: V
+		yellow?: V
+		green?: V
+		blue?: V
+		indigo?: V
+		purple?: V
+		pink?: V
+		rose?: V
+		fuchsia?: V
+		violet?: V
+		lightBlue?: V
+		sky?: V
+		cyan?: V
+		teal?: V
+		emerald?: V
+		lime?: V
+		amber?: V
+		orange?: V
+		warmGray?: V
+		trueGray?: V
+		coolGray?: V
+		blueGray?: V
+	} & { [key: string]: V }
+
 	type Palette =
-		| ((
-				theme: (key: string, defaultValue?: string) => string,
-				options: ExtendOptions,
-		  ) => Record<string, Value | Record<string, Value>>)
-		| Record<
-				string,
-				| string
-				| (Partial<{
-						50: Value
-						100: Value
-						200: Value
-						300: Value
-						400: Value
-						500: Value
-						600: Value
-						700: Value
-						800: Value
-						900: Value
-						DEFAULT: Value
-				  }> & {
-						[key: string]: Value
-				  })
-				| (Partial<{
-						50: (opacity: OpacityOptions) => Value
-						100: (opacity: OpacityOptions) => Value
-						200: (opacity: OpacityOptions) => Value
-						300: (opacity: OpacityOptions) => Value
-						400: (opacity: OpacityOptions) => Value
-						500: (opacity: OpacityOptions) => Value
-						600: (opacity: OpacityOptions) => Value
-						700: (opacity: OpacityOptions) => Value
-						800: (opacity: OpacityOptions) => Value
-						900: (opacity: OpacityOptions) => Value
-						DEFAULT: (opacity: OpacityOptions) => Value
-				  }> & {
+		| Colors<
+				| Value
+				| (Partial<ColorConfig> & { [key: string]: Value })
+				| (Partial<ColorConfigFunc> & {
 						[key: string]: (opacity: OpacityOptions) => Value
 				  })
-				| ((opacity: OpacityOptions) =>
+				| ((
+						opacity: OpacityOptions,
+				  ) =>
 						| Value
-						| Partial<
-								{
-									50: Value
-									100: Value
-									200: Value
-									300: Value
-									400: Value
-									500: Value
-									600: Value
-									700: Value
-									800: Value
-									900: Value
-									DEFAULT: Value
-								} & {
-									[key: string]: Value
-								}
-						  >)
+						| (Partial<ColorConfig> & { [key: string]: Value }))
 		  >
+		| ((
+				theme: (key: string, defaultValue?: string) => Value,
+				options: ExtendOptions,
+		  ) => Colors<
+				Value | (Partial<ColorConfig> & { [key: string]: Value })
+		  >)
 
 	type CorePluginFeatures = {
 		accessibility: boolean
@@ -293,12 +312,12 @@ declare namespace Tailwind {
 			| Record<string, OutlineValue>
 		colors?: Palette
 		backgroundColor?: Palette
-		borderColor?: Palette
+		borderColor?: Palette & { DEFAULT?: Value }
 		caretColor?: Palette
-		divideColor?: Palette
+		divideColor?: Palette & { DEFAULT?: Value }
 		gradientColorStops?: Palette
 		placeholderColor?: Palette
-		ringColor?: Palette
+		ringColor?: Palette & { DEFAULT?: Value }
 		ringOffsetColor?: Palette
 		textColor?: Palette
 		fill?: Palette
@@ -1109,54 +1128,6 @@ declare namespace Tailwind {
 
 	type ResolvedResult<T, V = string> = Partial<T> & Record<string, V>
 
-	type ColorConfig = {
-		50: string
-		100: string
-		200: string
-		300: string
-		400: string
-		500: string
-		600: string
-		700: string
-		800: string
-		900: string
-		DEFAULT: string
-	} & {
-		[key: string]: string
-	}
-
-	type ResolvedPalette = {
-		transparent: string | ResolvedResult<ColorConfig>
-		current: string | ResolvedResult<ColorConfig>
-		black: string | ResolvedResult<ColorConfig>
-		white: string | ResolvedResult<ColorConfig>
-		gray: string | ResolvedResult<ColorConfig>
-		red: string | ResolvedResult<ColorConfig>
-		yellow: string | ResolvedResult<ColorConfig>
-		green: string | ResolvedResult<ColorConfig>
-		blue: string | ResolvedResult<ColorConfig>
-		indigo: string | ResolvedResult<ColorConfig>
-		purple: string | ResolvedResult<ColorConfig>
-		pink: string | ResolvedResult<ColorConfig>
-		rose: string | ResolvedResult<ColorConfig>
-		fuchsia: string | ResolvedResult<ColorConfig>
-		violet: string | ResolvedResult<ColorConfig>
-		lightBlue: string | ResolvedResult<ColorConfig>
-		sky: string | ResolvedResult<ColorConfig>
-		cyan: string | ResolvedResult<ColorConfig>
-		teal: string | ResolvedResult<ColorConfig>
-		emerald: string | ResolvedResult<ColorConfig>
-		lime: string | ResolvedResult<ColorConfig>
-		amber: string | ResolvedResult<ColorConfig>
-		orange: string | ResolvedResult<ColorConfig>
-		warmGray: string | ResolvedResult<ColorConfig>
-		trueGray: string | ResolvedResult<ColorConfig>
-		coolGray: string | ResolvedResult<ColorConfig>
-		blueGray: string | ResolvedResult<ColorConfig>
-	} & {
-		[key: string]: string | ResolvedResult<ColorConfig>
-	}
-
 	type SpacingConfig = {
 		0: string
 		1: string
@@ -1236,7 +1207,7 @@ declare namespace Tailwind {
 				xl: string
 				"2xl": string
 			}>
-			colors: ResolvedPalette
+			colors: Palette
 			spacing: ResolvedResult<SpacingConfig>
 			animation: ResolvedResult<{
 				none: string
@@ -1311,7 +1282,7 @@ declare namespace Tailwind {
 				0: string
 				DEFAULT: string
 			}>
-			backgroundColor: ResolvedPalette
+			backgroundColor: Palette
 			backgroundImage: ResolvedResult<{
 				none: string
 				"gradient-to-t": string
@@ -1364,7 +1335,7 @@ declare namespace Tailwind {
 				150: string
 				200: string
 			}>
-			borderColor: ResolvedPalette &
+			borderColor: Palette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
@@ -1397,7 +1368,7 @@ declare namespace Tailwind {
 				inner: string
 				none: string
 			}>
-			caretColor: ResolvedPalette
+			caretColor: Palette
 			contrast: ResolvedResult<{
 				0: string
 				50: string
@@ -1421,7 +1392,7 @@ declare namespace Tailwind {
 				help: string
 				"not-allowed": string
 			}>
-			divideColor: ResolvedPalette &
+			divideColor: Palette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
@@ -1458,7 +1429,7 @@ declare namespace Tailwind {
 				"2xl": string | string[]
 				none: string | string[]
 			}>
-			fill: ResolvedPalette &
+			fill: Palette &
 				ResolvedResult<{
 					current: string
 				}>
@@ -1532,7 +1503,7 @@ declare namespace Tailwind {
 				black: string
 			}>
 			gap: ResolvedResult<SpacingConfig>
-			gradientColorStops: ResolvedPalette
+			gradientColorStops: Palette
 			gridAutoColumns: ResolvedResult<{
 				auto: string
 				min: string
@@ -1812,13 +1783,13 @@ declare namespace Tailwind {
 				OutlineValue
 			>
 			padding: ResolvedResult<SpacingConfig>
-			placeholderColor: ResolvedPalette
+			placeholderColor: Palette
 			placeholderOpacity: ResolvedResult<OpacityConfig>
-			ringColor: ResolvedPalette &
+			ringColor: Palette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
-			ringOffsetColor: ResolvedPalette
+			ringOffsetColor: Palette
 			ringOffsetWidth: ResolvedResult<{
 				0: string
 				1: string
@@ -1903,7 +1874,7 @@ declare namespace Tailwind {
 				1: string
 				2: string
 			}>
-			textColor: ResolvedPalette
+			textColor: Palette
 			textOpacity: ResolvedResult<OpacityConfig>
 			transformOrigin: ResolvedResult<{
 				center: string

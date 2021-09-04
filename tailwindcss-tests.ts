@@ -2592,7 +2592,11 @@ tailwindcss(resolved)
 resolved.theme.height
 
 // $ExpectType string | undefined
-resolved.theme.colors?.gray[100]
+if (typeof resolved.theme.colors === "object") {
+	if (typeof resolved.theme.colors?.gray === "object") {
+		resolved.theme.colors?.gray[100]
+	}
+}
 
 // Examples from https://tailwindcss.com/docs/configuration#referencing-in-java-script
 
