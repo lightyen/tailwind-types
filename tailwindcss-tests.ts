@@ -2583,6 +2583,8 @@ const config: Tailwind.ConfigJS = {
 	},
 }
 
+resolveConfig()
+
 const resolved = resolveConfig(config)
 
 tailwindcss(resolved)
