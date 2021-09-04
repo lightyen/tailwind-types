@@ -87,9 +87,7 @@ declare namespace Tailwind {
 									900: Value
 									DEFAULT: Value
 								} & {
-									[key: string]:
-										| Value
-										| ((opacity: OpacityOptions) => Value)
+									[key: string]: Value
 								}
 						  >)
 		  >
