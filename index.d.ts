@@ -91,25 +91,21 @@ declare namespace Tailwind {
 		blueGray?: V
 	} & { [key: string]: V }
 
-	type Palette =
-		| Colors<
-				| Value
-				| (Partial<ColorConfig> & { [key: string]: Value })
-				| (Partial<ColorConfigFunc> & {
-						[key: string]: (opacity: OpacityOptions) => Value
-				  })
-				| ((
-						opacity: OpacityOptions,
-				  ) =>
-						| Value
-						| (Partial<ColorConfig> & { [key: string]: Value }))
-		  >
+	type Palette = Colors<
+		| Value
+		| (Partial<ColorConfig> & { [key: string]: Value })
+		| (Partial<ColorConfigFunc> & {
+				[key: string]: (opacity: OpacityOptions) => Value
+		  })
 		| ((
-				theme: (key: string, defaultValue?: string) => Value,
-				options: ExtendOptions,
-		  ) => Colors<
-				Value | (Partial<ColorConfig> & { [key: string]: Value })
-		  >)
+				opacity: OpacityOptions,
+		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
+	>
+
+	type WithTheme<V> = V | ((
+		theme: (key: string, defaultValue?: string) => Value,
+		options: ExtendOptions,
+	) => V)
 
 	type ResolvedPalette = Colors<
 		| Value
@@ -279,10 +275,6 @@ declare namespace Tailwind {
 		  ]
 
 	type FontSizeString = Value
-	// type FontSizeString = [
-	// 	fontSize: Value,
-	// 	options: { letterSpacing?: Value; lineHeight?: Value },
-	// ]
 
 	type KeyframesValue = Record<string, CSSProperties>
 	type DropShadowValue = Value | Value[]
@@ -321,17 +313,17 @@ declare namespace Tailwind {
 					options: ExtendOptions,
 			  ) => Record<string, OutlineValue>)
 			| Record<string, OutlineValue>
-		colors?: Palette
-		backgroundColor?: Palette
-		borderColor?: Palette & { DEFAULT?: Value }
-		caretColor?: Palette
-		divideColor?: Palette & { DEFAULT?: Value }
-		gradientColorStops?: Palette
-		placeholderColor?: Palette
-		ringColor?: Palette & { DEFAULT?: Value }
-		ringOffsetColor?: Palette
-		textColor?: Palette
-		fill?: Palette
+		colors?: WithTheme<Palette>
+		backgroundColor?: WithTheme<Palette>
+		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
+		caretColor?: WithTheme<Palette>
+		divideColor?: WithTheme<Palette & { DEFAULT?: Value }>
+		gradientColorStops?: WithTheme<Palette>
+		placeholderColor?: WithTheme<Palette>
+		ringColor?: WithTheme<Palette & { DEFAULT?: Value }>
+		ringOffsetColor?: WithTheme<Palette>
+		textColor?: WithTheme<Palette>
+		fill?: WithTheme<Palette>
 		borderWidth?:
 			| ((
 					theme: (key: string, defaultValue?: string) => string,
