@@ -102,10 +102,12 @@ declare namespace Tailwind {
 		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
 	>
 
-	type WithTheme<V> = V | ((
-		theme: (key: string, defaultValue?: string) => Value,
-		options: ExtendOptions,
-	) => V)
+	type WithTheme<V> =
+		| V
+		| ((
+				theme: (key: string, defaultValue?: string) => Value,
+				options: ExtendOptions,
+		  ) => V)
 
 	type ResolvedPalette = Colors<
 		| Value
@@ -313,7 +315,7 @@ declare namespace Tailwind {
 					options: ExtendOptions,
 			  ) => Record<string, OutlineValue>)
 			| Record<string, OutlineValue>
-		colors?: WithTheme<Palette>
+		colors?: WithTheme<Palette> | DefaultColors
 		backgroundColor?: WithTheme<Palette>
 		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		caretColor?: WithTheme<Palette>
