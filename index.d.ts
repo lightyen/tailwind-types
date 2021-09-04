@@ -111,6 +111,17 @@ declare namespace Tailwind {
 				Value | (Partial<ColorConfig> & { [key: string]: Value })
 		  >)
 
+	type ResolvedPalette = Colors<
+		| Value
+		| (Partial<ColorConfig> & { [key: string]: Value })
+		| (Partial<ColorConfigFunc> & {
+				[key: string]: (opacity: OpacityOptions) => Value
+		  })
+		| ((
+				opacity: OpacityOptions,
+		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
+	>
+
 	type CorePluginFeatures = {
 		accessibility: boolean
 		alignContent: boolean
@@ -1207,7 +1218,7 @@ declare namespace Tailwind {
 				xl: string
 				"2xl": string
 			}>
-			colors: Palette
+			colors: ResolvedPalette
 			spacing: ResolvedResult<SpacingConfig>
 			animation: ResolvedResult<{
 				none: string
@@ -1282,7 +1293,7 @@ declare namespace Tailwind {
 				0: string
 				DEFAULT: string
 			}>
-			backgroundColor: Palette
+			backgroundColor: ResolvedPalette
 			backgroundImage: ResolvedResult<{
 				none: string
 				"gradient-to-t": string
@@ -1335,7 +1346,7 @@ declare namespace Tailwind {
 				150: string
 				200: string
 			}>
-			borderColor: Palette &
+			borderColor: ResolvedPalette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
@@ -1368,7 +1379,7 @@ declare namespace Tailwind {
 				inner: string
 				none: string
 			}>
-			caretColor: Palette
+			caretColor: ResolvedPalette
 			contrast: ResolvedResult<{
 				0: string
 				50: string
@@ -1392,7 +1403,7 @@ declare namespace Tailwind {
 				help: string
 				"not-allowed": string
 			}>
-			divideColor: Palette &
+			divideColor: ResolvedPalette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
@@ -1429,7 +1440,7 @@ declare namespace Tailwind {
 				"2xl": string | string[]
 				none: string | string[]
 			}>
-			fill: Palette &
+			fill: ResolvedPalette &
 				ResolvedResult<{
 					current: string
 				}>
@@ -1503,7 +1514,7 @@ declare namespace Tailwind {
 				black: string
 			}>
 			gap: ResolvedResult<SpacingConfig>
-			gradientColorStops: Palette
+			gradientColorStops: ResolvedPalette
 			gridAutoColumns: ResolvedResult<{
 				auto: string
 				min: string
@@ -1783,13 +1794,13 @@ declare namespace Tailwind {
 				OutlineValue
 			>
 			padding: ResolvedResult<SpacingConfig>
-			placeholderColor: Palette
+			placeholderColor: ResolvedPalette
 			placeholderOpacity: ResolvedResult<OpacityConfig>
-			ringColor: Palette &
+			ringColor: ResolvedPalette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
-			ringOffsetColor: Palette
+			ringOffsetColor: ResolvedPalette
 			ringOffsetWidth: ResolvedResult<{
 				0: string
 				1: string
@@ -1874,7 +1885,7 @@ declare namespace Tailwind {
 				1: string
 				2: string
 			}>
-			textColor: Palette
+			textColor: ResolvedPalette
 			textOpacity: ResolvedResult<OpacityConfig>
 			transformOrigin: ResolvedResult<{
 				center: string
