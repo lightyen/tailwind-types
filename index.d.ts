@@ -127,6 +127,7 @@ declare namespace Tailwind {
 		alignSelf: boolean
 		animation: boolean
 		appearance: boolean
+		aspectRatio: boolean
 		backdropBlur: boolean
 		backdropBrightness: boolean
 		backdropContrast: boolean
@@ -1211,6 +1212,11 @@ declare namespace Tailwind {
 				lg: string
 				xl: string
 				"2xl": string
+			}>
+			aspectRatio: ResolvedResult<{
+				auto: string
+				square: string
+				video: string
 			}>
 			colors: ResolvedPalette
 			spacing: ResolvedResult<SpacingConfig>

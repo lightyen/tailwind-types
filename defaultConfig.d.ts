@@ -71,6 +71,11 @@ declare namespace Tailwind {
 				pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
 				bounce: "bounce 1s infinite"
 			}
+			aspectRatio: {
+				auto: "auto"
+				square: "1 / 1"
+				video: "16 / 9"
+			}
 			backdropBlur: (theme: GetTheme) => DefaultConfig["theme"]["blur"]
 			backdropBrightness: (
 				theme: GetTheme,
