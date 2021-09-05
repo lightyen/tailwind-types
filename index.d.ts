@@ -1871,9 +1871,10 @@ declare namespace Tailwind {
 				"-1": string
 			}>
 			space: ResolvedResult<SpacingConfig & NegtiveSpacingConfig>
-			stroke: ResolvedResult<{
-				current: string
-			}>
+			stroke: ResolvedPalette &
+				ResolvedResult<{
+					current: string
+				}>
 			strokeWidth: ResolvedResult<{
 				0: string
 				1: string
@@ -1911,7 +1912,6 @@ declare namespace Tailwind {
 				500: string
 				700: string
 				1000: string
-				DEFAULT: string
 			}>
 			transitionProperty: ResolvedResult<{
 				none: string
@@ -1923,7 +1923,6 @@ declare namespace Tailwind {
 				transform: string
 			}>
 			transitionTimingFunction: ResolvedResult<{
-				DEFAULT: string
 				linear: string
 				in: string
 				out: string
