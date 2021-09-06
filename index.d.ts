@@ -1894,7 +1894,7 @@ declare module "tailwindcss/defaultTheme" {
 
 declare module "tailwindcss/resolveConfig" {
 	function resolveConfig(
-		config?: Tailwind.ConfigJS,
+		...config: Tailwind.ConfigJS[]
 	): Tailwind.ResolvedConfigJS
 	export = resolveConfig
 }
