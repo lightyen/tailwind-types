@@ -105,7 +105,7 @@ declare namespace Tailwind {
 	type WithTheme<V> =
 		| V
 		| ((
-				theme: (key: string, defaultValue?: string) => Value,
+				theme: GetTheme,
 				options: ExtendOptions,
 		  ) => V)
 
