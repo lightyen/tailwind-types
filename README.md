@@ -1,5 +1,6 @@
 # tailwindcss types
 
 ```sh
-yarn link
+cd typings
+git submodule add git@github.com:lightyen/tailwind-types tailwindcss
 ```
