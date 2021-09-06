@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "target": "ESNext",
     "lib": ["ESNext"],
     "noEmit": true,
     "types": ["./index"],

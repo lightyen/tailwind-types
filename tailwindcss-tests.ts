@@ -274,7 +274,7 @@ const configWithoutExtend: Tailwind.ConfigJS = {
 				800: "#1e293b",
 				900: "#0f172a",
 			},
-			lightBlue() {
+			get lightBlue() {
 				return {
 					50: "#f0f9ff",
 					100: "#e0f2fe",
@@ -2609,9 +2609,8 @@ const config: Tailwind.ConfigJS = {
 	},
 }
 
-resolveConfig()
 resolveConfig({ theme: { extend: { colors } } })
-resolveConfig({ theme: defaultTheme })
+resolveConfig(resolveConfig({}, { theme: defaultTheme }, { separator: "abc" }))
 
 const resolved = resolveConfig(config)
 
@@ -2641,7 +2640,7 @@ colors.red[500]
 colors.rose[500]
 colors.fuchsia[500]
 colors.violet[500]
-colors.lightBlue?.()[500]
+colors.lightBlue?.[500]
 colors.sky[500]
 colors.cyan[500]
 colors.teal[500]
@@ -2753,8 +2752,7 @@ resolved.separator = 1234
 	purgeConfig.mode = "all"
 }
 
-const tmp = resolveConfig(defaultConfig)
-tailwindcss(tmp)
+tailwindcss(resolveConfig(defaultConfig))
 
 tailwindcss({
 	plugins: [

@@ -962,18 +962,17 @@ declare namespace Tailwind {
 
 	type Plugin = (pluginOptions: PluginOptions) => void
 
+	type PresetVariants = Partial<
+		Record<
+			keyof CorePluginFeatures,
+			Variant[] | ((options: VariantFuncOption) => Variant[])
+		>
+	>
+
 	interface Preset {
 		presets?: Preset[]
 		theme?: Theme
-		variants?: Record<
-			keyof CorePluginFeatures,
-			Variant[] | ((options: VariantFuncOption) => Variant[])
-		> & {
-			extend?: Record<
-				keyof CorePluginFeatures,
-				Variant[] | ((options: VariantFuncOption) => Variant[])
-			>
-		}
+		variants?: PresetVariants & { extend?: PresetVariants }
 		plugins?: Plugin[]
 		corePlugins?:
 			| Partial<CorePluginFeatures>
@@ -1870,7 +1869,11 @@ declare namespace Tailwind {
 		variants: Record<keyof CorePluginFeatures, Variant[]>
 	}
 
-	function tailwindcss(config: string | ConfigJS): any
+	/**
+	 * If param is not set, Tailwind will look for an optional `tailwind.config.js` file at
+	 * the root of your project where you can define any customizations.
+	 */
+	function tailwindcss(configOrPath?: ConfigJS | string): any
 }
 
 declare module "tailwindcss" {
