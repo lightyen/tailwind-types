@@ -1,9 +1,9 @@
-import resolveConfig from "tailwindcss/resolveConfig"
-import colors from "tailwindcss/colors"
-import defaultConfig from "tailwindcss/defaultConfig"
-import defaultTheme from "tailwindcss/defaultTheme"
-import plugin from "tailwindcss/plugin"
-import tailwindcss from "tailwindcss"
+import tailwindcss = require("tailwindcss")
+import resolveConfig = require("tailwindcss/resolveConfig")
+import colors = require("tailwindcss/colors")
+import plugin = require("tailwindcss/plugin")
+import defaultConfig = require("tailwindcss/defaultConfig")
+import defaultTheme = require("tailwindcss/defaultTheme")
 
 // A typical TailwindCSS Config
 const configWithoutExtend: Tailwind.ConfigJS = {
@@ -2609,7 +2609,11 @@ const config: Tailwind.ConfigJS = {
 	},
 }
 
+resolveConfig({ theme: { colors } })
 resolveConfig({ theme: { extend: { colors } } })
+resolveConfig({
+	theme: { extend: { fill: { ...colors, hello: { 100: "#123" } } } },
+})
 resolveConfig(resolveConfig({}, { theme: defaultTheme }, { separator: "abc" }))
 
 const resolved = resolveConfig(config)

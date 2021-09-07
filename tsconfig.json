@@ -3,10 +3,9 @@
     "module": "commonjs",
     "target": "ESNext",
     "lib": ["ESNext"],
-    "noEmit": true,
     "types": ["./index"],
-    "esModuleInterop": true,
+    "noEmit": true,
     "strict": true
   },
-  "files": ["demo-tests.ts", "tailwindcss-tests.ts"]
+  "files": ["demo.js", "demo.ts", "tailwindcss-tests.ts"]
 }

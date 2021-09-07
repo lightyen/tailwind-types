@@ -1,8 +1,8 @@
 import postcss, { Result } from "postcss"
-import tailwindcss from "tailwindcss"
-import resolveConfig from "tailwindcss/resolveConfig"
-import colors from "tailwindcss/colors"
-import plugin from "tailwindcss/plugin"
+import tailwindcss = require("tailwindcss")
+import resolveConfig = require("tailwindcss/resolveConfig")
+import colors = require("tailwindcss/colors")
+import plugin = require("tailwindcss/plugin")
 
 delete colors.lightBlue
 
@@ -18,13 +18,28 @@ const config: Tailwind.ConfigJS = {
 		},
 	},
 	plugins: [
-		plugin(({ addUtilities }) => {
-			addUtilities({
-				".abcde": {
-					width: 10,
+		plugin(
+			function ({ addUtilities, theme, variants }) {
+				addUtilities(
+					Object.fromEntries(
+						Object.entries(theme("testPlugin")).map(([k, v]) => [
+							`.test-${k}`,
+							{ testProperty: v },
+						]),
+					) as any,
+					variants("testPlugin" as any),
+				)
+			},
+			{
+				theme: {
+					testPlugin: {
+						sm: "1rem",
+						md: "2rem",
+						lg: "3rem",
+					},
 				},
-			})
-		}),
+			},
+		),
 	],
 }
 

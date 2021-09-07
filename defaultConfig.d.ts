@@ -2,9 +2,10 @@
 
 declare namespace Tailwind {
 	type DefaultConfig = {
-		content: []
-		presets: []
-		darkMode: "media"
+		content?: string[]
+		purge?: ConfigJS["purge"]
+		presets?: ConfigJS["presets"]
+		darkMode: ConfigJS["darkMode"]
 		theme: {
 			screens: {
 				sm: "640px"
@@ -16,16 +17,16 @@ declare namespace Tailwind {
 			colors: {
 				transparent: "transparent"
 				current: "currentColor"
-				black: DefaultColors["black"]
-				white: DefaultColors["white"]
-				gray: DefaultColors["coolGray"]
-				red: DefaultColors["red"]
-				yellow: DefaultColors["amber"]
-				green: DefaultColors["emerald"]
-				blue: DefaultColors["blue"]
-				indigo: DefaultColors["indigo"]
-				purple: DefaultColors["violet"]
-				pink: DefaultColors["pink"]
+				black: ExtendedPalette["black"]
+				white: ExtendedPalette["white"]
+				gray: ExtendedPalette["coolGray"]
+				red: ExtendedPalette["red"]
+				yellow: ExtendedPalette["amber"]
+				green: ExtendedPalette["emerald"]
+				blue: ExtendedPalette["blue"]
+				indigo: ExtendedPalette["indigo"]
+				purple: ExtendedPalette["violet"]
+				pink: ExtendedPalette["pink"]
 			}
 			spacing: {
 				px: "1px"
@@ -71,7 +72,7 @@ declare namespace Tailwind {
 				pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
 				bounce: "bounce 1s infinite"
 			}
-			aspectRatio: {
+			aspectRatio?: {
 				auto: "auto"
 				square: "1 / 1"
 				video: "16 / 9"
@@ -481,27 +482,29 @@ declare namespace Tailwind {
 				full: "100%"
 				screen: "100vh"
 			}
-			inset: (
+			inset(
 				theme: GetTheme,
 				options: ExtendOptions,
-			) => DefaultConfig["theme"]["spacing"] &
-				Negtive<DefaultConfig["theme"]["spacing"]> & {
-					auto: "auto"
-					"1/2": "50%"
-					"1/3": "33.333333%"
-					"2/3": "66.666667%"
-					"1/4": "25%"
-					"2/4": "50%"
-					"3/4": "75%"
-					full: "100%"
-					"-1/2": "-50%"
-					"-1/3": "-33.333333%"
-					"-2/3": "-66.666667%"
-					"-1/4": "-25%"
-					"-2/4": "-50%"
-					"-3/4": "-75%"
-					"-full": "-100%"
-				}
+			): Partial<
+				DefaultConfig["theme"]["spacing"] &
+					Negative<DefaultConfig["theme"]["spacing"]> & {
+						auto: "auto"
+						"1/2": "50%"
+						"1/3": "33.333333%"
+						"2/3": "66.666667%"
+						"1/4": "25%"
+						"2/4": "50%"
+						"3/4": "75%"
+						full: "100%"
+						"-1/2": "-50%"
+						"-1/3": "-33.333333%"
+						"-2/3": "-66.666667%"
+						"-1/4": "-25%"
+						"-2/4": "-50%"
+						"-3/4": "-75%"
+						"-full": "-100%"
+					}
+			>
 			keyframes: {
 				spin: {
 					to: {
@@ -563,7 +566,7 @@ declare namespace Tailwind {
 				theme: GetTheme,
 				options: ExtendOptions,
 			) => DefaultConfig["theme"]["spacing"] &
-				Negtive<DefaultConfig["theme"]["spacing"]> & {
+				Negative<DefaultConfig["theme"]["spacing"]> & {
 					auto: "auto"
 				}
 			maxHeight: (
@@ -575,7 +578,7 @@ declare namespace Tailwind {
 			maxWidth: (
 				theme: GetTheme,
 				options: ExtendOptions,
-			) => BreakPoints<DefaultConfig["theme"]["screens"]> & {
+			) => Partial<BreakPoints<DefaultConfig["theme"]["screens"]>> & {
 				none: "none"
 				0: "0rem"
 				xs: "20rem"
@@ -747,7 +750,7 @@ declare namespace Tailwind {
 				theme: GetTheme,
 				options: ExtendOptions,
 			) => DefaultConfig["theme"]["spacing"] &
-				Negtive<DefaultConfig["theme"]["spacing"]>
+				Negative<DefaultConfig["theme"]["spacing"]>
 			stroke: {
 				current: "currentColor"
 			}
@@ -810,7 +813,7 @@ declare namespace Tailwind {
 				theme: GetTheme,
 				options: ExtendOptions,
 			) => DefaultConfig["theme"]["spacing"] &
-				Negtive<DefaultConfig["theme"]["spacing"]> & {
+				Negative<DefaultConfig["theme"]["spacing"]> & {
 					"1/2": "50%"
 					"1/3": "33.333333%"
 					"2/3": "66.666667%"
@@ -887,6 +890,211 @@ declare namespace Tailwind {
 			"active",
 			"disabled",
 		]
+		variants: {
+			accessibility: ["responsive", "focus-within", "focus"]
+			alignContent: ["responsive"]
+			alignItems: ["responsive"]
+			alignSelf: ["responsive"]
+			animation: ["responsive"]
+			appearance: ["responsive"]
+			backdropBlur: ["responsive"]
+			backdropBrightness: ["responsive"]
+			backdropContrast: ["responsive"]
+			backdropFilter: ["responsive"]
+			backdropGrayscale: ["responsive"]
+			backdropHueRotate: ["responsive"]
+			backdropInvert: ["responsive"]
+			backdropOpacity: ["responsive"]
+			backdropSaturate: ["responsive"]
+			backdropSepia: ["responsive"]
+			backgroundAttachment: ["responsive"]
+			backgroundBlendMode: ["responsive"]
+			backgroundClip: ["responsive"]
+			backgroundColor: [
+				"responsive",
+				"dark",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			backgroundImage: ["responsive"]
+			backgroundOpacity: [
+				"responsive",
+				"dark",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			backgroundPosition: ["responsive"]
+			backgroundRepeat: ["responsive"]
+			backgroundSize: ["responsive"]
+			backgroundOrigin: ["responsive"]
+			blur: ["responsive"]
+			borderCollapse: ["responsive"]
+			borderColor: [
+				"responsive",
+				"dark",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			borderOpacity: [
+				"responsive",
+				"dark",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			borderRadius: ["responsive"]
+			borderStyle: ["responsive"]
+			borderWidth: ["responsive"]
+			boxDecorationBreak: ["responsive"]
+			boxShadow: [
+				"responsive",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			boxSizing: ["responsive"]
+			brightness: ["responsive"]
+			clear: ["responsive"]
+			container: ["responsive"]
+			contrast: ["responsive"]
+			cursor: ["responsive"]
+			display: ["responsive"]
+			divideColor: ["responsive", "dark"]
+			divideOpacity: ["responsive", "dark"]
+			divideStyle: ["responsive"]
+			divideWidth: ["responsive"]
+			dropShadow: ["responsive"]
+			fill: ["responsive"]
+			filter: ["responsive"]
+			flex: ["responsive"]
+			flexDirection: ["responsive"]
+			flexGrow: ["responsive"]
+			flexShrink: ["responsive"]
+			flexWrap: ["responsive"]
+			float: ["responsive"]
+			fontFamily: ["responsive"]
+			fontSize: ["responsive"]
+			fontSmoothing: ["responsive"]
+			fontStyle: ["responsive"]
+			fontVariantNumeric: ["responsive"]
+			fontWeight: ["responsive"]
+			gap: ["responsive"]
+			gradientColorStops: ["responsive", "dark", "hover", "focus"]
+			grayscale: ["responsive"]
+			gridAutoColumns: ["responsive"]
+			gridAutoFlow: ["responsive"]
+			gridAutoRows: ["responsive"]
+			gridColumn: ["responsive"]
+			gridColumnEnd: ["responsive"]
+			gridColumnStart: ["responsive"]
+			gridRow: ["responsive"]
+			gridRowEnd: ["responsive"]
+			gridRowStart: ["responsive"]
+			gridTemplateColumns: ["responsive"]
+			gridTemplateRows: ["responsive"]
+			height: ["responsive"]
+			hueRotate: ["responsive"]
+			inset: ["responsive"]
+			invert: ["responsive"]
+			isolation: ["responsive"]
+			justifyContent: ["responsive"]
+			justifyItems: ["responsive"]
+			justifySelf: ["responsive"]
+			letterSpacing: ["responsive"]
+			lineHeight: ["responsive"]
+			listStylePosition: ["responsive"]
+			listStyleType: ["responsive"]
+			margin: ["responsive"]
+			maxHeight: ["responsive"]
+			maxWidth: ["responsive"]
+			minHeight: ["responsive"]
+			minWidth: ["responsive"]
+			mixBlendMode: ["responsive"]
+			objectFit: ["responsive"]
+			objectPosition: ["responsive"]
+			opacity: [
+				"responsive",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			order: ["responsive"]
+			outline: ["responsive", "focus-within", "focus"]
+			overflow: ["responsive"]
+			overscrollBehavior: ["responsive"]
+			padding: ["responsive"]
+			placeContent: ["responsive"]
+			placeItems: ["responsive"]
+			placeSelf: ["responsive"]
+			placeholderColor: ["responsive", "dark", "focus"]
+			placeholderOpacity: ["responsive", "dark", "focus"]
+			pointerEvents: ["responsive"]
+			position: ["responsive"]
+			resize: ["responsive"]
+			ringColor: ["responsive", "dark", "focus-within", "focus"]
+			ringOffsetColor: ["responsive", "dark", "focus-within", "focus"]
+			ringOffsetWidth: ["responsive", "focus-within", "focus"]
+			ringOpacity: ["responsive", "dark", "focus-within", "focus"]
+			ringWidth: ["responsive", "focus-within", "focus"]
+			rotate: ["responsive", "hover", "focus"]
+			saturate: ["responsive"]
+			scale: ["responsive", "hover", "focus"]
+			sepia: ["responsive"]
+			skew: ["responsive", "hover", "focus"]
+			space: ["responsive"]
+			stroke: ["responsive"]
+			strokeWidth: ["responsive"]
+			tableLayout: ["responsive"]
+			textAlign: ["responsive"]
+			textColor: [
+				"responsive",
+				"dark",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			textDecoration: [
+				"responsive",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			textOpacity: [
+				"responsive",
+				"dark",
+				"group-hover",
+				"focus-within",
+				"hover",
+				"focus",
+			]
+			textOverflow: ["responsive"]
+			textTransform: ["responsive"]
+			transform: ["responsive"]
+			transformOrigin: ["responsive"]
+			transitionDelay: ["responsive"]
+			transitionDuration: ["responsive"]
+			transitionProperty: ["responsive"]
+			transitionTimingFunction: ["responsive"]
+			translate: ["responsive", "hover", "focus"]
+			userSelect: ["responsive"]
+			verticalAlign: ["responsive"]
+			visibility: ["responsive"]
+			whitespace: ["responsive"]
+			width: ["responsive"]
+			wordBreak: ["responsive"]
+			zIndex: ["responsive", "focus-within", "focus"]
+		}
 		plugins: []
 	}
 }

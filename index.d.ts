@@ -8,13 +8,13 @@
 declare namespace Tailwind {
 	type Value = string | number
 
-	type GetTheme = (key: string, defaultValue?: string) => string
+	type GetTheme = (key: string, defaultValue?: string) => any
 
-	type Negtive<T extends Record<string, string>> = {
-		[P in keyof T]: `-${T[P]}`
+	type Negative<T extends Record<number | string, string>> = {
+		[P in keyof T as `-${(number | string) & P}`]: `-${T[P]}`
 	}
 
-	type BreakPoints<T extends Record<string, string>> = {
+	type BreakPoints<T extends Record<number | string, string>> = {
 		[K in keyof T as `screen-${string & K}`]: T[K]
 	}
 
@@ -311,7 +311,7 @@ declare namespace Tailwind {
 					options: ExtendOptions,
 			  ) => Record<string, OutlineValue>)
 			| Record<string, OutlineValue>
-		colors?: WithTheme<Palette> | DefaultColors
+		colors?: WithTheme<Palette>
 		backgroundColor?: WithTheme<Palette>
 		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		caretColor?: WithTheme<Palette>
@@ -810,6 +810,10 @@ declare namespace Tailwind {
 			| Record<string, Value>
 	}
 
+	interface CustomTheme {
+		[key: string]: any
+	}
+
 	type Variant =
 		| "responsive"
 		| "first"
@@ -960,7 +964,15 @@ declare namespace Tailwind {
 		matchUtilities: any
 	}
 
-	type Plugin = (pluginOptions: PluginOptions) => void
+	type PluginFunction = (pluginOptions: PluginOptions) => void
+
+	type PluginObject = {
+		config?: ConfigJS
+		handler?(pluginOptions: PluginOptions): void
+	}
+
+	type PluginWithOptions = (options: any) => PluginFunction
+	type Plugin = PluginFunction | PluginObject | PluginWithOptions
 
 	type PresetVariants = Partial<
 		Record<
@@ -971,7 +983,7 @@ declare namespace Tailwind {
 
 	interface Preset {
 		presets?: Preset[]
-		theme?: Theme
+		theme?: Theme | CustomTheme
 		variants?: PresetVariants & { extend?: PresetVariants }
 		plugins?: Plugin[]
 		corePlugins?:
@@ -991,6 +1003,7 @@ declare namespace Tailwind {
 
 	interface ConfigJS extends Preset {
 		mode?: "jit" | "aot"
+		content?: string[]
 		purge?: string[] | PurgeConfig
 		separator?: string
 		prefix?: string
@@ -1038,10 +1051,6 @@ declare namespace Tailwind {
 		1.5: string
 		2.5: string
 		3.5: string
-	}
-
-	type NegtiveSpacingConfig = {
-		[K in keyof SpacingConfig as `-${(number | string) & K}`]: string
 	}
 
 	type OpacityConfig = {
@@ -1521,7 +1530,7 @@ declare namespace Tailwind {
 			>
 			inset: ResolvedResult<
 				SpacingConfig &
-					NegtiveSpacingConfig & {
+					Negative<SpacingConfig> & {
 						auto: string
 						"1/2": string
 						"1/3": string
@@ -1579,7 +1588,7 @@ declare namespace Tailwind {
 			}>
 			margin: ResolvedResult<
 				SpacingConfig &
-					NegtiveSpacingConfig & {
+					Negative<SpacingConfig> & {
 						auto: string
 					}
 			>
@@ -1744,7 +1753,7 @@ declare namespace Tailwind {
 				"-2": string
 				"-1": string
 			}>
-			space: ResolvedResult<SpacingConfig & NegtiveSpacingConfig>
+			space: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
 			stroke: ResolvedPalette &
 				ResolvedResult<{
 					current: string
@@ -1804,7 +1813,7 @@ declare namespace Tailwind {
 			}>
 			translate: ResolvedResult<
 				SpacingConfig &
-					NegtiveSpacingConfig & {
+					Negative<SpacingConfig> & {
 						"1/2": string
 						"1/3": string
 						"2/3": string
@@ -1881,7 +1890,7 @@ declare module "tailwindcss" {
 }
 
 declare module "tailwindcss/colors" {
-	const colors: Tailwind.DefaultColors
+	const colors: Tailwind.ExtendedPalette
 	export = colors
 }
 
@@ -1896,6 +1905,7 @@ declare module "tailwindcss/defaultTheme" {
 }
 
 declare module "tailwindcss/resolveConfig" {
+	/** Generate a fully merged version of configuration. */
 	function resolveConfig(
 		...config: Tailwind.ConfigJS[]
 	): Tailwind.ResolvedConfigJS
@@ -1903,6 +1913,17 @@ declare module "tailwindcss/resolveConfig" {
 }
 
 declare module "tailwindcss/plugin" {
-	function plugin(plugin: Tailwind.Plugin): Tailwind.Plugin
+	interface Plugin {
+		(
+			handler: Tailwind.PluginFunction,
+			config?: Tailwind.ConfigJS,
+		): Tailwind.PluginObject
+		withOptions(
+			pluginFunction: (options: any) => Tailwind.PluginFunction,
+			configFunction?: (...args: any[]) => Tailwind.ConfigJS,
+		): void
+	}
+
+	const plugin: Plugin
 	export = plugin
 }

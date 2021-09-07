@@ -1,5 +1,5 @@
 declare namespace Tailwind {
-	interface DefaultColors {
+	type ExtendedPalette = {
 		black: "#000"
 		white: "#fff"
 		rose: {
