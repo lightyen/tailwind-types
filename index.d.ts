@@ -934,7 +934,7 @@ declare namespace Tailwind {
 				container: import("postcss").Root
 				modifySelectors: any
 				separator: any
-			}) => string,
+			}) => any,
 			options: any,
 		): void
 
