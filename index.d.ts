@@ -935,7 +935,7 @@ declare namespace Tailwind {
 				modifySelectors: any
 				separator: any
 			}) => any,
-			options: any,
+			options?: any,
 		): void
 
 		/** Escape strings meant to be used in class names. */
