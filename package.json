@@ -1,6 +1,6 @@
 {
-  "name": "@types/tailwindcss",
-  "version": "2.2.8",
+  "name": "tailwind-types",
+  "version": "2.2.15",
   "license": "MIT",
   "contributors": [
     {
@@ -30,6 +30,14 @@
     "typescript",
     "tailwindcss"
   ],
-  "main": "",
+  "files": [
+    "index.d.ts",
+    "colors.d.ts",
+    "defaultConfig.d.ts",
+    "LICENSE",
+    "README.md",
+    "empty.js"
+  ],
+  "main": "empty.js",
   "types": "index.d.ts"
 }

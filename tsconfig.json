@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "noEmit": true,
     "module": "commonjs",
     "target": "ESNext",
     "lib": ["ESNext"],
-    "types": ["./index"],
-    "noEmit": true,
-    "strict": true
+    "types": ["./index"]
   },
   "files": ["demo.js", "demo.ts", "tailwindcss-tests.ts"]
 }
