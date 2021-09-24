@@ -1,6 +1,6 @@
 {
   "name": "tailwind-types",
-  "version": "2.2.15",
+  "version": "2.2.16-alpha.0",
   "license": "MIT",
   "contributors": [
     {
@@ -32,6 +32,7 @@
   ],
   "files": [
     "index.d.ts",
+    "tailwind.d.ts",
     "colors.d.ts",
     "defaultConfig.d.ts",
     "LICENSE",

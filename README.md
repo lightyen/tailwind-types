@@ -10,9 +10,11 @@ npm install --save-dev tailwind-types
 
 ## Examples
 
-**tailwind.config.js**:
+- JavaScript
 
 ```js
+// tailwind.config.js
+
 /** @typedef {import("tailwind-types")} */
 
 const colors = require("tailwindcss/colors")
@@ -33,11 +35,17 @@ module.exports = {
 }
 ```
 
-**demo.ts**:
+- TypeScript
 
 ```ts
+// typings/demo.d.ts
 
-import "tailwind-types"
+/// <reference types="tailwind-types" />
+```
+
+```ts
+// demo.ts
+
 import colors from "tailwindcss/colors"
 
 const config: Tailwind.ConfigJS = {
