@@ -1,5 +1,10 @@
 # tailwind-types
 
+[npm:latest]: https://www.npmjs.com/package/tailwind-types/v/latest
+[npm:latest:badge]: https://img.shields.io/npm/v/tailwind-types/latest?style=flat-square
+
+[![Latest Version][npm:latest:badge]][npm:latest]
+
 Type declarations of Tailwind
 
 ## Install
