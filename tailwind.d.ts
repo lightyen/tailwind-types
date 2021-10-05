@@ -834,24 +834,110 @@ declare namespace Tailwind {
 	}
 
 	type Variant =
-		| "responsive"
+		| "first-letter"
+		| "first-line"
+		| "marker"
+		| "selection"
+		| "file"
+		| "before"
+		| "after"
 		| "first"
 		| "last"
+		| "only"
 		| "odd"
 		| "even"
+		| "first-of-type"
+		| "last-of-type"
+		| "only-of-type"
 		| "visited"
+		| "target"
+		| "open"
+		| "default"
 		| "checked"
-		| "group-hover"
-		| "group-focus"
+		| "indeterminate"
+		| "placeholder-shown"
+		| "autofill"
+		| "required"
+		| "valid"
+		| "invalid"
+		| "in-range"
+		| "out-of-range"
+		| "read-only"
+		| "empty"
 		| "focus-within"
 		| "hover"
 		| "focus"
 		| "focus-visible"
 		| "active"
 		| "disabled"
+		| "group-first"
+		| "group-last"
+		| "group-only"
+		| "group-odd"
+		| "group-even"
+		| "group-first-of-type"
+		| "group-last-of-type"
+		| "group-only-of-type"
+		| "group-visited"
+		| "group-target"
+		| "group-open"
+		| "group-default"
+		| "group-checked"
+		| "group-indeterminate"
+		| "group-placeholder-shown"
+		| "group-autofill"
+		| "group-required"
+		| "group-valid"
+		| "group-invalid"
+		| "group-in-range"
+		| "group-out-of-range"
+		| "group-read-only"
+		| "group-empty"
+		| "group-focus-within"
+		| "group-hover"
+		| "group-focus"
+		| "group-focus-visible"
+		| "group-active"
+		| "group-disabled"
+		| "peer-first"
+		| "peer-last"
+		| "peer-only"
+		| "peer-odd"
+		| "peer-even"
+		| "peer-first-of-type"
+		| "peer-last-of-type"
+		| "peer-only-of-type"
+		| "peer-visited"
+		| "peer-target"
+		| "peer-open"
+		| "peer-default"
+		| "peer-checked"
+		| "peer-indeterminate"
+		| "peer-placeholder-shown"
+		| "peer-autofill"
+		| "peer-required"
+		| "peer-valid"
+		| "peer-invalid"
+		| "peer-in-range"
+		| "peer-out-of-range"
+		| "peer-read-only"
+		| "peer-empty"
+		| "peer-focus-within"
+		| "peer-hover"
+		| "peer-focus"
+		| "peer-focus-visible"
+		| "peer-active"
+		| "peer-disabled"
+		| "ltr"
+		| "rtl"
+		| "motion-safe"
+		| "motion-reduce"
 		| "dark"
-		| "empty"
-		| "read-only"
+		| "sm"
+		| "md"
+		| "lg"
+		| "xl"
+		| "2xl"
 
 	type VariantFuncOption = {
 		/** The `before` helper lets you add new variants to the beginning of a plugin's default variant list. */
@@ -865,78 +951,98 @@ declare namespace Tailwind {
 	}
 
 	interface InnerCustomProperties {
-		"--tw-border-opacity"?: Value
-		"--tw-translate-x"?: Value
-		"--tw-translate-y"?: Value
-		"--tw-rotate"?: Value
-		"--tw-skew-x"?: Value
-		"--tw-skew-y"?: Value
-		"--tw-scale-x"?: Value
-		"--tw-scale-y"?: Value
-		"--tw-space-x-reverse"?: Value
-		"--tw-space-y-reverse"?: Value
-		"--tw-divide-x-reverse"?: Value
-		"--tw-divide-y-reverse"?: Value
-		"--tw-divide-opacity"?: Value
-		"--tw-bg-opacity"?: Value
-		"--tw-gradient-from"?: Value
-		"--tw-gradient-stops"?: Value
-		"--tw-gradient-to"?: Value
-		"--tw-ordinal"?: Value
-		"--tw-slashed-zero"?: Value
-		"--tw-numeric-figure"?: Value
-		"--tw-numeric-spacing"?: Value
-		"--tw-numeric-fraction"?: Value
-		"--tw-text-opacity"?: Value
-		"--tw-placeholder-opacity"?: Value
-		"--tw-shadow"?: Value
-		"--tw-ring-inset"?: Value
-		"--tw-ring-offset-width"?: Value
-		"--tw-ring-offset-color"?: Value
-		"--tw-ring-color"?: Value
-		"--tw-ring-offset-shadow"?: Value
-		"--tw-ring-shadow"?: Value
-		"--tw-ring-opacity"?: Value
-		"--tw-blur"?: Value
-		"--tw-brightness"?: Value
-		"--tw-contrast"?: Value
-		"--tw-grayscale"?: Value
-		"--tw-hue-rotate"?: Value
-		"--tw-invert"?: Value
-		"--tw-saturate"?: Value
-		"--tw-sepia"?: Value
-		"--tw-drop-shadow"?: Value
-		"--tw-backdrop-blur"?: Value
-		"--tw-backdrop-brightness"?: Value
-		"--tw-backdrop-contrast"?: Value
-		"--tw-backdrop-grayscale"?: Value
-		"--tw-backdrop-hue-rotate"?: Value
-		"--tw-backdrop-invert"?: Value
-		"--tw-backdrop-opacity"?: Value
-		"--tw-backdrop-saturate"?: Value
-		"--tw-backdrop-sepia"?: Value
+		"--tw-translate-x": Value
+		"--tw-translate-y": Value
+		"--tw-rotate": Value
+		"--tw-skew-x": Value
+		"--tw-skew-y": Value
+		"--tw-scale-x": Value
+		"--tw-scale-y": Value
+		"--tw-transform": Value
+		"--tw-scroll-snap-strictness": Value
+		"--tw-space-x-reverse": Value
+		"--tw-space-y-reverse": Value
+		"--tw-divide-x-reverse": Value
+		"--tw-divide-y-reverse": Value
+		"--tw-divide-opacity": Value
+		"--tw-border-opacity": Value
+		"--tw-bg-opacity": Value
+		"--tw-gradient-from": Value
+		"--tw-gradient-stops": Value
+		"--tw-gradient-to": Value
+		"--tw-ordinal": Value
+		"--tw-slashed-zero": Value
+		"--tw-numeric-figure": Value
+		"--tw-numeric-spacing": Value
+		"--tw-numeric-fraction": Value
+		"--tw-text-opacity": Value
+		"--tw-placeholder-opacity": Value
+		"--tw-shadow": Value
+		"--tw-ring-offset-shadow": Value
+		"--tw-ring-shadow": Value
+		"--tw-ring-inset": Value
+		"--tw-ring-color": Value
+		"--tw-ring-opacity": Value
+		"--tw-ring-offset-width": Value
+		"--tw-ring-offset-color": Value
+		"--tw-blur": Value
+		"--tw-brightness": Value
+		"--tw-contrast": Value
+		"--tw-drop-shadow": Value
+		"--tw-grayscale": Value
+		"--tw-hue-rotate": Value
+		"--tw-invert": Value
+		"--tw-saturate": Value
+		"--tw-sepia": Value
+		"--tw-backdrop-blur": Value
+		"--tw-backdrop-brightness": Value
+		"--tw-backdrop-contrast": Value
+		"--tw-backdrop-grayscale": Value
+		"--tw-backdrop-hue-rotate": Value
+		"--tw-backdrop-invert": Value
+		"--tw-backdrop-opacity": Value
+		"--tw-backdrop-saturate": Value
+		"--tw-backdrop-sepia": Value
 	}
 
-	type CSSProperties =
-		| import("csstype").Properties<string | number>
-		| InnerCustomProperties
-		| Record<string, Value>
+	type DefinedCSSProperties = Partial<InnerCustomProperties> &
+		import("csstype").Properties<Value>
+
+	type CSSProperties = DefinedCSSProperties &
+		Record<string, Value | DefinedCSSProperties>
+
+	type Styles = Record<string, CSSProperties>
 
 	interface PluginOptions {
 		/** Register new base styles. */
-		addBase(baseStyles: Record<string, CSSProperties>): void
+		addBase(
+			styles:
+				| Styles
+				| import("postcss").Node
+				| Array<Styles | import("postcss").Node>,
+		): void
 
 		/** Register new component styles. */
 		addComponents(
-			components: Record<string, CSSProperties>,
+			styles:
+				| Styles
+				| import("postcss").Node
+				| Array<Styles | import("postcss").Node>,
 			options?:
 				| Variant[]
-				| { variants?: Variant[]; respectPrefix?: boolean },
+				| {
+						variants?: Variant[]
+						respectPrefix?: boolean
+						respectImportant?: boolean
+				  },
 		): void
 
 		/** Register new utility styles. */
 		addUtilities(
-			utilities: Record<string, CSSProperties>,
+			styles:
+				| Styles
+				| import("postcss").Node
+				| Array<Styles | import("postcss").Node>,
 			options?:
 				| Variant[]
 				| {
@@ -948,12 +1054,8 @@ declare namespace Tailwind {
 
 		/** Register custom variants. */
 		addVariant(
-			name: string,
-			generator: (args: {
-				container: import("postcss").Root
-				modifySelectors: any
-				separator: any
-			}) => any,
+			variantName: string,
+			generator: Generator,
 			options?: any,
 		): void
 
@@ -966,21 +1068,24 @@ declare namespace Tailwind {
 		/** Look up values in the user's theme configuration. */
 		theme(key: string): any
 
-		/** Look up values in the user's variants configuration. */
-		variants(
-			variant: Exclude<
-				keyof CorePluginFeatures,
-				"preflight" | "caretColor" | "content"
-			>,
-		): Variant[]
-
 		/** Apply the user's configured prefix to parts of a selector. */
 		prefix(prefix: string): string
 
+		corePlugins(name: keyof CorePluginFeatures): boolean
+
+		matchUtilities(
+			param: Record<string, (value: Value) => CSSProperties>,
+			options?: {
+				values: string[]
+				type?: string | string[] | undefined
+			},
+		): void
+
+		/** @deprecated Look up values in the user's variants configuration. */
+		variants(features: keyof CorePluginFeatures): Variant[]
+
 		/** low-level manipulation with PostCSS directly */
 		postcss: import("postcss").Postcss
-		corePlugins(name: keyof CorePluginFeatures): boolean
-		matchUtilities: any
 	}
 
 	type PluginFunction = (pluginOptions: PluginOptions) => void
@@ -1009,26 +1114,42 @@ declare namespace Tailwind {
 			| Array<keyof CorePluginFeatures>
 	}
 
+	type SafeList = Array<string | { pattern: RegExp; variants: string[] }>
+	type Content = Array<string | { raw: string }>
+	type Extract =
+		| ((content: string) => string)
+		| Record<string, (content: string) => string>
+	type Transform =
+		| ((content: string) => string)
+		| Record<string, (content: string) => string>
+
 	/** @deprecated */
 	type PurgeConfig = {
 		mode?: "all"
-		content: string[]
+		content?: Content
+		transform?: Transform | { DEFAULT: Transform }
 		preserveHtmlElements?: boolean
 		layers?: Array<"base" | "components" | "utilities">
 		enabled?: boolean
-		safelist?: string[]
+		safelist?: SafeList
+		extract?: Extract | { DEFAULT: Extract }
 		options?: any
 	}
 
 	type ContentConfig = {
-		files?: string[]
+		content?: Content
+		files?: Content
+		transform?: Transform | { DEFAULT: Transform }
+		extract?: Extract | { DEFAULT: Extract }
+		safelist?: SafeList
+		options?: any
 	}
 
 	interface ConfigJS extends Preset {
-		content?: string[] | ContentConfig
+		content?: Content | ContentConfig
 		/** @deprecated */
-		purge?: string[] | PurgeConfig
-		safelist?: string[]
+		purge?: Content | PurgeConfig
+		safelist?: SafeList
 		separator?: string
 		prefix?: string
 		important?: boolean
@@ -1906,9 +2027,14 @@ declare namespace Tailwind {
 	interface Generator {
 		(opts: {
 			container: import("postcss").Root
-			modifySelectors: any
 			separator: string
-		}): any
+			modifySelectors(
+				modifierFunction: (opts: {
+					className: string
+					selector: string
+				}) => string,
+			): import("postcss").Root
+		}): void
 	}
 
 	interface Context {
