@@ -18,7 +18,8 @@ declare namespace Tailwind {
 		[K in keyof T as `screen-${string & K}`]: T[K]
 	}
 
-	type ExtendOptions = {
+	interface ResolvePath extends GetTheme {
+		theme: GetTheme
 		colors: Record<string, Record<string, string>>
 		negative<T extends Record<string, string>>(
 			value: T,
@@ -107,7 +108,7 @@ declare namespace Tailwind {
 		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
 	>
 
-	type WithTheme<V> = V | ((theme: GetTheme, options: ExtendOptions) => V)
+	type WithTheme<V> = V | ((options: ResolvePath) => V)
 
 	type ResolvedPalette = Colors<
 		| Value
@@ -301,39 +302,25 @@ declare namespace Tailwind {
 	interface Theme {
 		extend?: Omit<Theme, "extend">
 		fontSize?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, FontSizeValue>)
+			| ((options: ResolvePath) => Record<string, FontSizeValue>)
 			| Record<string, FontSizeValue>
 		keyframes?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, KeyframesValue>)
+			| ((options: ResolvePath) => Record<string, KeyframesValue>)
 			| Record<string, KeyframesValue>
 		dropShadow?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, DropShadowValue>)
+			| ((options: ResolvePath) => Record<string, DropShadowValue>)
 			| Record<string, DropShadowValue>
 		fontFamily?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, FontFamilyValue>)
+			| ((options: ResolvePath) => Record<string, FontFamilyValue>)
 			| Record<string, FontFamilyValue>
 		outline?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, OutlineValue>)
+			| ((options: ResolvePath) => Record<string, OutlineValue>)
 			| Record<string, OutlineValue>
 		colors?: WithTheme<Palette>
 		backgroundColor?: WithTheme<Palette>
 		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		caretColor?: WithTheme<Palette>
+		accentColor?: WithTheme<Palette> & { auto: "auto" }
 		divideColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		gradientColorStops?: WithTheme<Palette>
 		placeholderColor?: WithTheme<Palette>
@@ -342,490 +329,265 @@ declare namespace Tailwind {
 		textColor?: WithTheme<Palette>
 		fill?: WithTheme<Palette>
 		borderWidth?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		screens?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		spacing?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		animation?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropBlur?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropBrightness?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropContrast?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropGrayscale?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropHueRotate?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropInvert?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropOpacity?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropSaturate?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backdropSepia?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backgroundImage?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backgroundOpacity?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backgroundPosition?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		backgroundSize?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		blur?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		brightness?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		borderOpacity?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		borderRadius?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		boxShadow?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		contrast?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		container?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		content?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		cursor?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		divideOpacity?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		divideWidth?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		grayscale?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		hueRotate?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		invert?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		flex?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		flexGrow?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		flexShrink?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		fontWeight?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gap?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridAutoColumns?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridAutoRows?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridColumn?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridColumnEnd?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridColumnStart?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridRow?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridRowStart?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridRowEnd?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridTemplateColumns?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		gridTemplateRows?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		height?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		inset?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		letterSpacing?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		lineHeight?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		listStyleType?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		margin?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		maxHeight?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		maxWidth?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		minHeight?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		minWidth?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		objectPosition?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		opacity?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		order?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		padding?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		placeholderOpacity?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		ringOffsetWidth?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		ringOpacity?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		ringWidth?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		rotate?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		saturate?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		scale?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		sepia?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		skew?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		space?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		stroke?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		strokeWidth?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		textOpacity?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		transformOrigin?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		transitionDelay?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		transitionDuration?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		transitionProperty?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		transitionTimingFunction?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		translate?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		width?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		zIndex?:
-			| ((
-					theme: (key: string, defaultValue?: string) => string,
-					options: ExtendOptions,
-			  ) => Record<string, Value>)
+			| ((options: ResolvePath) => Record<string, Value>)
+			| Record<string, Value>
+		aspectRatio?:
+			| ((options: ResolvePath) => Record<string, Value>)
+			| Record<string, Value>
+		columns?:
+			| ((options: ResolvePath) => Record<string, Value>)
+			| Record<string, Value>
+		scrollMargin?:
+			| ((options: ResolvePath) => Record<string, Value>)
+			| Record<string, Value>
+		scrollPadding?:
+			| ((options: ResolvePath) => Record<string, Value>)
+			| Record<string, Value>
+		textIndent?:
+			| ((options: ResolvePath) => Record<string, Value>)
+			| Record<string, Value>
+		willChange?:
+			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 	}
 
@@ -1237,11 +999,6 @@ declare namespace Tailwind {
 				xl: string
 				"2xl": string
 			}>
-			aspectRatio: ResolvedResult<{
-				auto: string
-				square: string
-				video: string
-			}>
 			colors: ResolvedPalette
 			spacing: ResolvedResult<SpacingConfig>
 			animation: ResolvedResult<{
@@ -1404,6 +1161,7 @@ declare namespace Tailwind {
 				none: string
 			}>
 			caretColor: ResolvedPalette
+			accentColor: ResolvedPalette & { auto?: string }
 			contrast: ResolvedResult<{
 				0: string
 				50: string
@@ -2020,6 +1778,53 @@ declare namespace Tailwind {
 				40: string
 				50: string
 				auto: string
+			}>
+			aspectRatio: ResolvedResult<{
+				auto: string
+				square: string
+				video: string
+			}>
+			columns: ResolvedResult<{
+				auto: string
+				1: string
+				2: string
+				3: string
+				4: string
+				5: string
+				6: string
+				7: string
+				8: string
+				9: string
+				10: string
+				11: string
+				12: string
+				"3xs": string
+				"2xs": string
+				xs: string
+				sm: string
+				md: string
+				lg: string
+				xl: string
+				"2xl": string
+				"3xl": string
+				"4xl": string
+				"5xl": string
+				"6xl": string
+				"7xl": string
+			}>
+			scrollMargin: ResolvedResult<
+				SpacingConfig &
+					Negative<SpacingConfig> & {
+						auto: string
+					}
+			>
+			scrollPadding: ResolvedResult<SpacingConfig>
+			textIndent: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
+			willChange: ResolvedResult<{
+				auto: string
+				scroll: string
+				contents: string
+				transform: string
 			}>
 		}
 	}

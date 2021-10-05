@@ -14,6 +14,34 @@ declare namespace Tailwind {
 				"2xl": "1536px"
 			}
 			colors: DefaultPalette
+			columns: {
+				auto: "auto"
+				1: "1"
+				2: "2"
+				3: "3"
+				4: "4"
+				5: "5"
+				6: "6"
+				7: "7"
+				8: "8"
+				9: "9"
+				10: "10"
+				11: "11"
+				12: "12"
+				"3xs": "16rem"
+				"2xs": "18rem"
+				xs: "20rem"
+				sm: "24rem"
+				md: "28rem"
+				lg: "32rem"
+				xl: "36rem"
+				"2xl": "42rem"
+				"3xl": "48rem"
+				"4xl": "56rem"
+				"5xl": "64rem"
+				"6xl": "72rem"
+				"7xl": "80rem"
+			}
 			spacing: {
 				px: "1px"
 				0: "0px"
@@ -58,36 +86,34 @@ declare namespace Tailwind {
 				pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
 				bounce: "bounce 1s infinite"
 			}
-			aspectRatio?: {
+			aspectRatio: {
 				auto: "auto"
 				square: "1 / 1"
 				video: "16 / 9"
 			}
-			backdropBlur: (theme: GetTheme) => DefaultConfig["theme"]["blur"]
+			backdropBlur: (r: ResolvePath) => DefaultConfig["theme"]["blur"]
 			backdropBrightness: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["brightness"]
 			backdropContrast: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["contrast"]
 			backdropGrayscale: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["grayscale"]
 			backdropHueRotate: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["hueRotate"]
-			backdropInvert: (
-				theme: GetTheme,
-			) => DefaultConfig["theme"]["invert"]
+			backdropInvert: (r: ResolvePath) => DefaultConfig["theme"]["invert"]
 			backdropOpacity: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["opacity"]
 			backdropSaturate: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["saturate"]
-			backdropSepia: (theme: GetTheme) => DefaultConfig["theme"]["sepia"]
+			backdropSepia: (r: ResolvePath) => DefaultConfig["theme"]["sepia"]
 			backgroundColor: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["colors"]
 			backgroundImage: {
 				none: "none"
@@ -101,7 +127,7 @@ declare namespace Tailwind {
 				"gradient-to-tl": "linear-gradient(to top left, var(--tw-gradient-stops))"
 			}
 			backgroundOpacity: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["opacity"]
 			backgroundPosition: {
 				bottom: "bottom"
@@ -144,13 +170,11 @@ declare namespace Tailwind {
 				200: "2"
 			}
 			borderColor: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["colors"] & {
 				DEFAULT: DefaultConfig["theme"]["colors"]["gray"]["200"]
 			}
-			borderOpacity: (
-				theme: GetTheme,
-			) => DefaultConfig["theme"]["opacity"]
+			borderOpacity: (r: ResolvePath) => DefaultConfig["theme"]["opacity"]
 			borderRadius: {
 				none: "0px"
 				sm: "0.125rem"
@@ -179,7 +203,10 @@ declare namespace Tailwind {
 				inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)"
 				none: "none"
 			}
-			caretColor: (theme: GetTheme) => DefaultConfig["theme"]["colors"]
+			caretColor: (r: ResolvePath) => DefaultConfig["theme"]["colors"]
+			accentColor: (
+				r: ResolvePath,
+			) => DefaultConfig["theme"]["colors"] & { auto: "auto" }
 			contrast: {
 				0: "0"
 				50: ".5"
@@ -206,7 +233,7 @@ declare namespace Tailwind {
 			divideColor: DefaultConfig["theme"]["borderColor"]
 			divideOpacity: DefaultConfig["theme"]["borderOpacity"]
 			divideWidth: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["borderWidth"]
 			dropShadow: {
 				sm: "0 1px 1px rgba(0,0,0,0.05)"
@@ -327,12 +354,9 @@ declare namespace Tailwind {
 				extrabold: "800"
 				black: "900"
 			}
-			gap: (
-				theme: GetTheme,
-				options: ExtendOptions,
-			) => DefaultConfig["theme"]["spacing"]
+			gap: (r: ResolvePath) => DefaultConfig["theme"]["spacing"]
 			gradientColorStops: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["colors"]
 			gridAutoColumns: {
 				auto: "auto"
@@ -448,7 +472,7 @@ declare namespace Tailwind {
 				5: "repeat(5, minmax(0, 1fr))"
 				6: "repeat(6, minmax(0, 1fr))"
 			}
-			height: (theme: GetTheme) => DefaultConfig["theme"]["spacing"] & {
+			height: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] & {
 				auto: "auto"
 				"1/2": "50%"
 				"1/3": "33.333333%"
@@ -468,10 +492,7 @@ declare namespace Tailwind {
 				full: "100%"
 				screen: "100vh"
 			}
-			inset(
-				theme: GetTheme,
-				options: ExtendOptions,
-			): Partial<
+			inset(r: ResolvePath): Partial<
 				DefaultConfig["theme"]["spacing"] &
 					Negative<DefaultConfig["theme"]["spacing"]> & {
 						auto: "auto"
@@ -548,23 +569,17 @@ declare namespace Tailwind {
 				disc: "disc"
 				decimal: "decimal"
 			}
-			margin: (
-				theme: GetTheme,
-				options: ExtendOptions,
-			) => DefaultConfig["theme"]["spacing"] &
+			margin: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] &
 				Negative<DefaultConfig["theme"]["spacing"]> & {
 					auto: "auto"
 				}
-			maxHeight: (
-				theme: GetTheme,
-			) => DefaultConfig["theme"]["spacing"] & {
+			maxHeight: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] & {
 				full: "100%"
 				screen: "100vh"
 			}
-			maxWidth: (
-				theme: GetTheme,
-				options: ExtendOptions,
-			) => Partial<BreakPoints<DefaultConfig["theme"]["screens"]>> & {
+			maxWidth: (r: ResolvePath) => Partial<
+				BreakPoints<DefaultConfig["theme"]["screens"]>
+			> & {
 				none: "none"
 				0: "0rem"
 				xs: "20rem"
@@ -644,18 +659,18 @@ declare namespace Tailwind {
 				white: ["2px dotted white", "2px"]
 				black: ["2px dotted black", "2px"]
 			}
-			padding: (theme: GetTheme) => DefaultConfig["theme"]["spacing"]
+			padding: (r: ResolvePath) => DefaultConfig["theme"]["spacing"]
 			placeholderColor: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["colors"]
 			placeholderOpacity: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["opacity"]
-			ringColor: (theme: GetTheme) => DefaultConfig["theme"]["colors"] & {
+			ringColor: (r: ResolvePath) => DefaultConfig["theme"]["colors"] & {
 				DEFAULT: DefaultConfig["theme"]["colors"]["blue"]["500"]
 			}
 			ringOffsetColor: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["colors"]
 			ringOffsetWidth: {
 				0: "0px"
@@ -665,7 +680,7 @@ declare namespace Tailwind {
 				8: "8px"
 			}
 			ringOpacity: (
-				theme: GetTheme,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["opacity"] & {
 				DEFAULT: "0.5"
 			}
@@ -715,6 +730,11 @@ declare namespace Tailwind {
 				125: "1.25"
 				150: "1.5"
 			}
+			scrollMargin: (
+				r: ResolvePath,
+			) => DefaultConfig["theme"]["spacing"] &
+				Negative<DefaultConfig["theme"]["spacing"]>
+			scrollPadding: (r: ResolvePath) => DefaultConfig["theme"]["spacing"]
 			sepia: {
 				0: "0"
 				DEFAULT: "100%"
@@ -733,8 +753,7 @@ declare namespace Tailwind {
 				12: "12deg"
 			}
 			space: (
-				theme: GetTheme,
-				options: ExtendOptions,
+				r: ResolvePath,
 			) => DefaultConfig["theme"]["spacing"] &
 				Negative<DefaultConfig["theme"]["spacing"]>
 			stroke: {
@@ -745,8 +764,12 @@ declare namespace Tailwind {
 				1: "1"
 				2: "2"
 			}
-			textColor: (theme: GetTheme) => DefaultConfig["theme"]["colors"]
-			textOpacity: (theme: GetTheme) => DefaultConfig["theme"]["opacity"]
+			textColor: (r: ResolvePath) => DefaultConfig["theme"]["colors"]
+			textIndent: (
+				r: ResolvePath,
+			) => DefaultConfig["theme"]["spacing"] &
+				Negative<DefaultConfig["theme"]["spacing"]>
+			textOpacity: (r: ResolvePath) => DefaultConfig["theme"]["opacity"]
 			transformOrigin: {
 				center: "center"
 				top: "top"
@@ -795,10 +818,7 @@ declare namespace Tailwind {
 				out: "cubic-bezier(0, 0, 0.2, 1)"
 				"in-out": "cubic-bezier(0.4, 0, 0.2, 1)"
 			}
-			translate: (
-				theme: GetTheme,
-				options: ExtendOptions,
-			) => DefaultConfig["theme"]["spacing"] &
+			translate: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] &
 				Negative<DefaultConfig["theme"]["spacing"]> & {
 					"1/2": "50%"
 					"1/3": "33.333333%"
@@ -815,7 +835,7 @@ declare namespace Tailwind {
 					"-3/4": "-75%"
 					"-full": "-100%"
 				}
-			width: (theme: GetTheme) => DefaultConfig["theme"]["spacing"] & {
+			width: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] & {
 				auto: "auto"
 				"1/2": "50%"
 				"1/3": "33.333333%"
@@ -848,6 +868,12 @@ declare namespace Tailwind {
 				min: "min-content"
 				max: "max-content"
 			}
+			willChange: {
+				auto: "auto"
+				scroll: "scroll-position"
+				contents: "contents"
+				transform: "transform"
+			}
 			zIndex: {
 				auto: "auto"
 				0: "0"
@@ -876,211 +902,6 @@ declare namespace Tailwind {
 			"active",
 			"disabled",
 		]
-		variants: {
-			accessibility: ["responsive", "focus-within", "focus"]
-			alignContent: ["responsive"]
-			alignItems: ["responsive"]
-			alignSelf: ["responsive"]
-			animation: ["responsive"]
-			appearance: ["responsive"]
-			backdropBlur: ["responsive"]
-			backdropBrightness: ["responsive"]
-			backdropContrast: ["responsive"]
-			backdropFilter: ["responsive"]
-			backdropGrayscale: ["responsive"]
-			backdropHueRotate: ["responsive"]
-			backdropInvert: ["responsive"]
-			backdropOpacity: ["responsive"]
-			backdropSaturate: ["responsive"]
-			backdropSepia: ["responsive"]
-			backgroundAttachment: ["responsive"]
-			backgroundBlendMode: ["responsive"]
-			backgroundClip: ["responsive"]
-			backgroundColor: [
-				"responsive",
-				"dark",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			backgroundImage: ["responsive"]
-			backgroundOpacity: [
-				"responsive",
-				"dark",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			backgroundPosition: ["responsive"]
-			backgroundRepeat: ["responsive"]
-			backgroundSize: ["responsive"]
-			backgroundOrigin: ["responsive"]
-			blur: ["responsive"]
-			borderCollapse: ["responsive"]
-			borderColor: [
-				"responsive",
-				"dark",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			borderOpacity: [
-				"responsive",
-				"dark",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			borderRadius: ["responsive"]
-			borderStyle: ["responsive"]
-			borderWidth: ["responsive"]
-			boxDecorationBreak: ["responsive"]
-			boxShadow: [
-				"responsive",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			boxSizing: ["responsive"]
-			brightness: ["responsive"]
-			clear: ["responsive"]
-			container: ["responsive"]
-			contrast: ["responsive"]
-			cursor: ["responsive"]
-			display: ["responsive"]
-			divideColor: ["responsive", "dark"]
-			divideOpacity: ["responsive", "dark"]
-			divideStyle: ["responsive"]
-			divideWidth: ["responsive"]
-			dropShadow: ["responsive"]
-			fill: ["responsive"]
-			filter: ["responsive"]
-			flex: ["responsive"]
-			flexDirection: ["responsive"]
-			flexGrow: ["responsive"]
-			flexShrink: ["responsive"]
-			flexWrap: ["responsive"]
-			float: ["responsive"]
-			fontFamily: ["responsive"]
-			fontSize: ["responsive"]
-			fontSmoothing: ["responsive"]
-			fontStyle: ["responsive"]
-			fontVariantNumeric: ["responsive"]
-			fontWeight: ["responsive"]
-			gap: ["responsive"]
-			gradientColorStops: ["responsive", "dark", "hover", "focus"]
-			grayscale: ["responsive"]
-			gridAutoColumns: ["responsive"]
-			gridAutoFlow: ["responsive"]
-			gridAutoRows: ["responsive"]
-			gridColumn: ["responsive"]
-			gridColumnEnd: ["responsive"]
-			gridColumnStart: ["responsive"]
-			gridRow: ["responsive"]
-			gridRowEnd: ["responsive"]
-			gridRowStart: ["responsive"]
-			gridTemplateColumns: ["responsive"]
-			gridTemplateRows: ["responsive"]
-			height: ["responsive"]
-			hueRotate: ["responsive"]
-			inset: ["responsive"]
-			invert: ["responsive"]
-			isolation: ["responsive"]
-			justifyContent: ["responsive"]
-			justifyItems: ["responsive"]
-			justifySelf: ["responsive"]
-			letterSpacing: ["responsive"]
-			lineHeight: ["responsive"]
-			listStylePosition: ["responsive"]
-			listStyleType: ["responsive"]
-			margin: ["responsive"]
-			maxHeight: ["responsive"]
-			maxWidth: ["responsive"]
-			minHeight: ["responsive"]
-			minWidth: ["responsive"]
-			mixBlendMode: ["responsive"]
-			objectFit: ["responsive"]
-			objectPosition: ["responsive"]
-			opacity: [
-				"responsive",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			order: ["responsive"]
-			outline: ["responsive", "focus-within", "focus"]
-			overflow: ["responsive"]
-			overscrollBehavior: ["responsive"]
-			padding: ["responsive"]
-			placeContent: ["responsive"]
-			placeItems: ["responsive"]
-			placeSelf: ["responsive"]
-			placeholderColor: ["responsive", "dark", "focus"]
-			placeholderOpacity: ["responsive", "dark", "focus"]
-			pointerEvents: ["responsive"]
-			position: ["responsive"]
-			resize: ["responsive"]
-			ringColor: ["responsive", "dark", "focus-within", "focus"]
-			ringOffsetColor: ["responsive", "dark", "focus-within", "focus"]
-			ringOffsetWidth: ["responsive", "focus-within", "focus"]
-			ringOpacity: ["responsive", "dark", "focus-within", "focus"]
-			ringWidth: ["responsive", "focus-within", "focus"]
-			rotate: ["responsive", "hover", "focus"]
-			saturate: ["responsive"]
-			scale: ["responsive", "hover", "focus"]
-			sepia: ["responsive"]
-			skew: ["responsive", "hover", "focus"]
-			space: ["responsive"]
-			stroke: ["responsive"]
-			strokeWidth: ["responsive"]
-			tableLayout: ["responsive"]
-			textAlign: ["responsive"]
-			textColor: [
-				"responsive",
-				"dark",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			textDecoration: [
-				"responsive",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			textOpacity: [
-				"responsive",
-				"dark",
-				"group-hover",
-				"focus-within",
-				"hover",
-				"focus",
-			]
-			textOverflow: ["responsive"]
-			textTransform: ["responsive"]
-			transform: ["responsive"]
-			transformOrigin: ["responsive"]
-			transitionDelay: ["responsive"]
-			transitionDuration: ["responsive"]
-			transitionProperty: ["responsive"]
-			transitionTimingFunction: ["responsive"]
-			translate: ["responsive", "hover", "focus"]
-			userSelect: ["responsive"]
-			verticalAlign: ["responsive"]
-			visibility: ["responsive"]
-			whitespace: ["responsive"]
-			width: ["responsive"]
-			wordBreak: ["responsive"]
-			zIndex: ["responsive", "focus-within", "focus"]
-		}
 		plugins: []
 	}
 }
