@@ -2,10 +2,9 @@
 
 declare namespace Tailwind {
 	type DefaultConfig = {
-		content?: string[]
-		purge?: ConfigJS["purge"]
-		presets?: ConfigJS["presets"]
-		darkMode: ConfigJS["darkMode"]
+		content: string[]
+		presets: Exclude<ConfigJS["presets"], undefined>
+		darkMode: Exclude<ConfigJS["darkMode"], undefined>
 		theme: {
 			screens: {
 				sm: "640px"
@@ -14,20 +13,7 @@ declare namespace Tailwind {
 				xl: "1280px"
 				"2xl": "1536px"
 			}
-			colors: {
-				transparent: "transparent"
-				current: "currentColor"
-				black: ExtendedPalette["black"]
-				white: ExtendedPalette["white"]
-				gray: ExtendedPalette["coolGray"]
-				red: ExtendedPalette["red"]
-				yellow: ExtendedPalette["amber"]
-				green: ExtendedPalette["emerald"]
-				blue: ExtendedPalette["blue"]
-				indigo: ExtendedPalette["indigo"]
-				purple: ExtendedPalette["violet"]
-				pink: ExtendedPalette["pink"]
-			}
+			colors: DefaultPalette
 			spacing: {
 				px: "1px"
 				0: "0px"

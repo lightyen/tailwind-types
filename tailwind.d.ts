@@ -62,29 +62,34 @@ declare namespace Tailwind {
 	}
 
 	type Colors<V> = {
-		transparent?: V
+		inherit?: V
 		current?: V
+		transparent?: V
 		black?: V
 		white?: V
+		slate?: V
 		gray?: V
+		zinc?: V
+		neutral?: V
+		stone?: V
 		red?: V
+		orange?: V
+		amber?: V
 		yellow?: V
+		lime?: V
 		green?: V
+		emerald?: V
+		teal?: V
+		cyan?: V
+		sky?: V
 		blue?: V
 		indigo?: V
+		violet?: V
 		purple?: V
+		fuchsia?: V
 		pink?: V
 		rose?: V
-		fuchsia?: V
-		violet?: V
 		lightBlue?: V
-		sky?: V
-		cyan?: V
-		teal?: V
-		emerald?: V
-		lime?: V
-		amber?: V
-		orange?: V
 		warmGray?: V
 		trueGray?: V
 		coolGray?: V
@@ -116,6 +121,7 @@ declare namespace Tailwind {
 	>
 
 	type CorePluginFeatures = {
+		accentColor: boolean
 		accessibility: boolean
 		alignContent: boolean
 		alignItems: boolean
@@ -153,9 +159,13 @@ declare namespace Tailwind {
 		boxDecorationBreak: boolean
 		boxShadow: boolean
 		boxSizing: boolean
+		breakAfter: boolean
+		breakBefore: boolean
+		breakInside: boolean
 		brightness: boolean
 		caretColor: boolean
 		clear: boolean
+		columns: boolean
 		container: boolean
 		content: boolean
 		contrast: boolean
@@ -237,6 +247,12 @@ declare namespace Tailwind {
 		rotate: boolean
 		saturate: boolean
 		scale: boolean
+		scrollBehavior: boolean
+		scrollMargin: boolean
+		scrollPadding: boolean
+		scrollSnapAlign: boolean
+		scrollSnapStop: boolean
+		scrollSnapType: boolean
 		sepia: boolean
 		skew: boolean
 		space: boolean
@@ -246,9 +262,11 @@ declare namespace Tailwind {
 		textAlign: boolean
 		textColor: boolean
 		textDecoration: boolean
+		textIndent: boolean
 		textOpacity: boolean
 		textOverflow: boolean
 		textTransform: boolean
+		touchAction: boolean
 		transform: boolean
 		transformOrigin: boolean
 		transitionDelay: boolean
@@ -261,6 +279,7 @@ declare namespace Tailwind {
 		visibility: boolean
 		whitespace: boolean
 		width: boolean
+		willChange: boolean
 		wordBreak: boolean
 		zIndex: boolean
 	}
@@ -991,6 +1010,7 @@ declare namespace Tailwind {
 			| Array<keyof CorePluginFeatures>
 	}
 
+	/** @deprecated */
 	type PurgeConfig = {
 		mode?: "all"
 		content: string[]
@@ -1001,16 +1021,22 @@ declare namespace Tailwind {
 		options?: any
 	}
 
+	type ContentConfig = {
+		files?: string[]
+	}
+
 	interface ConfigJS extends Preset {
-		mode?: "jit" | "aot"
-		content?: string[]
+		content?: string[] | ContentConfig
+		/** @deprecated */
 		purge?: string[] | PurgeConfig
+		safelist?: string[]
 		separator?: string
 		prefix?: string
 		important?: boolean
-		darkMode?: false | "media" | "class"
+		darkMode?: "media" | "class"
 		variantOrder?: Variant[]
 		future?: "all" | Record<string, boolean>
+		experimental?: "all" | Record<string, boolean>
 	}
 
 	type ResolvedResult<T, V = string> = Partial<T> & Record<string, V>
@@ -1072,12 +1098,13 @@ declare namespace Tailwind {
 	}
 
 	type ResolvedConfigJS = {
-		mode?: ConfigJS["mode"]
 		purge?: ConfigJS["purge"]
+		content: ConfigJS["content"]
+		safelist: string[]
 		separator: string
 		prefix: string
 		important: boolean
-		darkMode: false | "media" | "class"
+		darkMode: "media" | "class"
 		corePlugins: Array<keyof CorePluginFeatures>
 		variantOrder: Variant[]
 		presets: Preset[]
@@ -1875,7 +1902,18 @@ declare namespace Tailwind {
 				auto: string
 			}>
 		}
-		variants: Record<keyof CorePluginFeatures, Variant[]>
+	}
+
+	interface Generator {
+		(opts: {
+			container: import("postcss").Root
+			modifySelectors: any
+			separator: string
+		}): any
+	}
+
+	interface Context {
+		variantMap: Map<string, Array<[bigint, Generator]>>
 	}
 }
 
@@ -1889,7 +1927,7 @@ declare module "tailwindcss" {
 }
 
 declare module "tailwindcss/colors" {
-	const colors: Tailwind.ExtendedPalette
+	const colors: Tailwind.DefaultPalette
 	export = colors
 }
 
@@ -1925,4 +1963,35 @@ declare module "tailwindcss/plugin" {
 
 	const plugin: Plugin
 	export = plugin
+}
+
+declare module "tailwindcss/lib/corePluginList" {
+	const corePluginList: Array<keyof Tailwind.CorePluginFeatures>
+	export default corePluginList
+}
+
+declare module "tailwindcss/lib/public/colors" {
+	const colors: Tailwind.DefaultPalette
+	export default colors
+}
+
+declare module "tailwindcss/lib/lib/setupContextUtils" {
+	export function createContext(
+		config: Tailwind.ResolvedConfigJS,
+		changedContent?: any[],
+		root?: import("postcss").Root,
+	): Tailwind.Context
+}
+declare module "tailwindcss/lib/lib/generateRules" {
+	export function generateRules(
+		classnames: string[],
+		context: Tailwind.Context,
+	): Array<[bigint, import("postcss").Rule]>
+}
+declare module "tailwindcss/lib/lib/expandApplyAtRules" {
+	interface Handler {
+		(root: import("postcss").Root): void
+	}
+	function expandApplyAtRules(context: Tailwind.Context): Handler
+	export = expandApplyAtRules
 }
