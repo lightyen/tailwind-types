@@ -908,7 +908,7 @@ declare namespace Tailwind {
 	}
 
 	interface ConfigJS extends Preset {
-		content?: Content | ContentConfig
+		content?: Content | ContentConfig | undefined
 		/** @deprecated */
 		purge?: Content | PurgeConfig
 		safelist?: SafeList
