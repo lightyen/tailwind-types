@@ -1003,7 +1003,6 @@ declare namespace Tailwind {
 	interface Preset {
 		presets?: Preset[]
 		theme?: Theme | CustomTheme
-		variants?: PresetVariants & { extend?: PresetVariants }
 		plugins?: Plugin[]
 		corePlugins?:
 			| Partial<CorePluginFeatures>
