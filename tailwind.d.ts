@@ -2039,6 +2039,19 @@ declare namespace Tailwind {
 
 	interface Context {
 		variantMap: Map<string, Array<[bigint, Generator]>>
+		getClassList(): string[]
+		tailwindConfig: Tailwind.ResolvedConfigJS
+		changedContent: Array<{ content: string; extension: string }>
+		layerOrder: Record<string, bigint>
+		minimumScreen: bigint
+		candidateRuleMap: Map<string, Array<any>>
+		// disposables
+		// stylesheetCache
+		// ruleCache
+		// classCache
+		// applyClassCache
+		// notClassCache
+		// postCssNodeCache
 	}
 }
 
