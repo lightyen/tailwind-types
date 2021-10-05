@@ -1,6 +1,7 @@
 {
   "name": "tailwind-types",
   "version": "3.0.0-alpha.4",
+  "description": "Tailwind types",
   "license": "MIT",
   "contributors": [
     {
