@@ -916,7 +916,21 @@ const configWithoutExtend: Tailwind.ConfigJS = {
 		"active",
 		"disabled",
 	],
-	plugins: [],
+	plugins: [
+		plugin(
+			({
+				addComponents,
+				addUtilities,
+				addBase,
+				addVariant,
+				e,
+				postcss,
+				prefix,
+				corePlugins,
+				matchUtilities,
+			}) => {},
+		),
+	],
 	prefix: "",
 	important: false,
 	separator: ":",

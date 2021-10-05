@@ -1,4 +1,4 @@
-// Type definitions for tailwindcss 2.2
+// Type definitions for tailwindcss 3.0
 // Project: https://github.com/tailwindlabs/tailwindcss
 // Definitions by: lightyen <https://github.com/lightyen>
 
@@ -1829,11 +1829,22 @@ declare namespace Tailwind {
 		}
 	}
 
+	interface PluginWrapper {
+		(
+			handler: Tailwind.PluginFunction,
+			config?: Tailwind.ConfigJS,
+		): Tailwind.PluginObject
+		withOptions(
+			pluginFunction: (options: any) => Tailwind.PluginFunction,
+			configFunction?: (...args: any[]) => Tailwind.ConfigJS,
+		): void
+	}
+
 	interface Generator {
 		(opts: {
 			container: import("postcss").Root
-			separator: string
-			modifySelectors(
+			separator?: string
+			modifySelectors?(
 				modifierFunction: (opts: {
 					className: string
 					selector: string
@@ -1857,6 +1868,24 @@ declare namespace Tailwind {
 		// applyClassCache
 		// notClassCache
 		// postCssNodeCache
+	}
+
+	interface createContextFn {
+		(
+			config: Tailwind.ResolvedConfigJS,
+			changedContent?: Array<{ content: string; extension: string }>,
+			root?: import("postcss").Root,
+		): Tailwind.Context
+	}
+
+	interface generateRulesFn {
+		(classnames: string[], context: Tailwind.Context): Array<
+			[bigint, import("postcss").Rule]
+		>
+	}
+
+	interface expandApplyAtRulesFn {
+		(context: Tailwind.Context): (root: import("postcss").Root) => void
 	}
 }
 
@@ -1893,18 +1922,7 @@ declare module "tailwindcss/resolveConfig" {
 }
 
 declare module "tailwindcss/plugin" {
-	interface Plugin {
-		(
-			handler: Tailwind.PluginFunction,
-			config?: Tailwind.ConfigJS,
-		): Tailwind.PluginObject
-		withOptions(
-			pluginFunction: (options: any) => Tailwind.PluginFunction,
-			configFunction?: (...args: any[]) => Tailwind.ConfigJS,
-		): void
-	}
-
-	const plugin: Plugin
+	const plugin: Tailwind.PluginWrapper
 	export = plugin
 }
 
@@ -1919,22 +1937,12 @@ declare module "tailwindcss/lib/public/colors" {
 }
 
 declare module "tailwindcss/lib/lib/setupContextUtils" {
-	export function createContext(
-		config: Tailwind.ResolvedConfigJS,
-		changedContent?: any[],
-		root?: import("postcss").Root,
-	): Tailwind.Context
+	export const createContext: Tailwind.createContextFn
 }
 declare module "tailwindcss/lib/lib/generateRules" {
-	export function generateRules(
-		classnames: string[],
-		context: Tailwind.Context,
-	): Array<[bigint, import("postcss").Rule]>
+	export const generateRules: Tailwind.generateRulesFn
 }
 declare module "tailwindcss/lib/lib/expandApplyAtRules" {
-	interface Handler {
-		(root: import("postcss").Root): void
-	}
-	function expandApplyAtRules(context: Tailwind.Context): Handler
+	const expandApplyAtRules: Tailwind.expandApplyAtRulesFn
 	export = expandApplyAtRules
 }

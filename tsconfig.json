@@ -3,6 +3,8 @@
     "strict": true,
     "allowJs": true,
     "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "exactOptionalPropertyTypes": true,
     "module": "commonjs",
     "target": "ESNext",
     "lib": ["ESNext"],
