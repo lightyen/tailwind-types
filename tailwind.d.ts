@@ -825,10 +825,10 @@ declare namespace Tailwind {
 		e(classname: string): string
 
 		/** Look up values in the user's Tailwind configuration. */
-		config(key: string): any
+		config(path: string, defaultValue?: any): any
 
 		/** Look up values in the user's theme configuration. */
-		theme(key: string): any
+		theme(path: string, defaultValue?: any): any
 
 		/** Apply the user's configured prefix to parts of a selector. */
 		prefix(prefix: string): string
@@ -857,8 +857,7 @@ declare namespace Tailwind {
 		handler?(pluginOptions: PluginOptions): void
 	}
 
-	type PluginWithOptions = (options: any) => PluginFunction
-	type Plugin = PluginFunction | PluginObject | PluginWithOptions
+	type Plugin = PluginFunction | PluginObject
 
 	type PresetVariants = Partial<
 		Record<
