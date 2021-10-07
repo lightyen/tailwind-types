@@ -817,7 +817,7 @@ declare namespace Tailwind {
 		/** Register custom variants. */
 		addVariant(
 			variantName: string,
-			generator: Generator,
+			generator: Generator | Generator[],
 			options?: any,
 		): void
 
