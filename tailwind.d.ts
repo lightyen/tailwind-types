@@ -775,90 +775,6 @@ declare namespace Tailwind {
 
 	type Styles = Record<string, CSSProperties>
 
-	interface PluginOptions {
-		/** Register new base styles. */
-		addBase(
-			styles:
-				| Styles
-				| import("postcss").Node
-				| Array<Styles | import("postcss").Node>,
-		): void
-
-		/** Register new component styles. */
-		addComponents(
-			styles:
-				| Styles
-				| import("postcss").Node
-				| Array<Styles | import("postcss").Node>,
-			options?:
-				| Variant[]
-				| {
-						variants?: Variant[]
-						respectPrefix?: boolean
-						respectImportant?: boolean
-				  },
-		): void
-
-		/** Register new utility styles. */
-		addUtilities(
-			styles:
-				| Styles
-				| import("postcss").Node
-				| Array<Styles | import("postcss").Node>,
-			options?:
-				| Variant[]
-				| {
-						variants?: Variant[]
-						respectPrefix?: boolean
-						respectImportant?: boolean
-				  },
-		): void
-
-		/** Register custom variants. */
-		addVariant(
-			variantName: string,
-			generator: Generator | Generator[],
-			options?: any,
-		): void
-
-		/** Escape strings meant to be used in class names. */
-		e(classname: string): string
-
-		/** Look up values in the user's Tailwind configuration. */
-		config(path: string, defaultValue?: any): any
-
-		/** Look up values in the user's theme configuration. */
-		theme(path: string, defaultValue?: any): any
-
-		/** Apply the user's configured prefix to parts of a selector. */
-		prefix(prefix: string): string
-
-		corePlugins(name: keyof CorePluginFeatures): boolean
-
-		matchUtilities(
-			param: Record<string, (value: Value) => CSSProperties>,
-			options?: {
-				values: string[]
-				type?: string | string[] | undefined
-			},
-		): void
-
-		/** @deprecated Look up values in the user's variants configuration. */
-		variants(features: keyof CorePluginFeatures): Variant[]
-
-		/** low-level manipulation with PostCSS directly */
-		postcss: import("postcss").Postcss
-	}
-
-	type PluginFunction = (pluginOptions: PluginOptions) => void
-
-	type PluginObject = {
-		config?: ConfigJS
-		handler?(pluginOptions: PluginOptions): void
-	}
-
-	type Plugin = PluginFunction | PluginObject
-
 	type PresetVariants = Partial<
 		Record<
 			keyof CorePluginFeatures,
@@ -1828,17 +1744,6 @@ declare namespace Tailwind {
 		}
 	}
 
-	interface PluginWrapper {
-		(
-			handler: Tailwind.PluginFunction,
-			config?: Tailwind.ConfigJS,
-		): Tailwind.PluginObject
-		withOptions(
-			pluginFunction: (options: any) => Tailwind.PluginFunction,
-			configFunction?: (...args: any[]) => Tailwind.ConfigJS,
-		): void
-	}
-
 	interface Generator {
 		(opts: {
 			container: import("postcss").Root
@@ -1851,7 +1756,113 @@ declare namespace Tailwind {
 			): import("postcss").Root
 		}): void
 	}
+}
 
+declare namespace Tailwind {
+	interface PluginOptions {
+		/** Register new base styles. */
+		addBase(
+			styles:
+				| Styles
+				| import("postcss").Node
+				| Array<Styles | import("postcss").Node>,
+		): void
+
+		/** Register new component styles. */
+		addComponents(
+			styles:
+				| Styles
+				| import("postcss").Node
+				| Array<Styles | import("postcss").Node>,
+			options?:
+				| Variant[]
+				| {
+						variants?: Variant[]
+						respectPrefix?: boolean
+						respectImportant?: boolean
+				  },
+		): void
+
+		/** Register new utility styles. */
+		addUtilities(
+			styles:
+				| Styles
+				| import("postcss").Node
+				| Array<Styles | import("postcss").Node>,
+			options?:
+				| Variant[]
+				| {
+						variants?: Variant[]
+						respectPrefix?: boolean
+						respectImportant?: boolean
+				  },
+		): void
+
+		/** Register custom variants. */
+		addVariant(
+			variantName: string,
+			generator: Generator | Generator[],
+			options?: any,
+		): void
+
+		/** Escape strings meant to be used in class names. */
+		e(classname: string): string
+
+		/** Look up values in the user's Tailwind configuration. */
+		config(path: string, defaultValue?: any): any
+
+		/** Look up values in the user's theme configuration. */
+		theme(path: string, defaultValue?: any): any
+
+		/** Apply the user's configured prefix to parts of a selector. */
+		prefix(prefix: string): string
+
+		corePlugins(name: keyof CorePluginFeatures): boolean
+
+		matchUtilities(
+			param: Record<string, (value: Value) => CSSProperties>,
+			options?: {
+				values: string[]
+				type?: string | string[] | undefined
+			},
+		): void
+
+		/** @deprecated Look up values in the user's variants configuration. */
+		variants(features: keyof CorePluginFeatures): Variant[]
+
+		/** low-level manipulation with PostCSS directly */
+		postcss: import("postcss").Postcss
+	}
+
+	type PluginFunction = (options: PluginOptions) => void
+
+	type PluginObject = {
+		handler?: PluginFunction
+		config?: ConfigJS
+	}
+
+	type Plugin = PluginFunction | PluginObject
+
+	type OptionType<F> = F extends (options: infer P) => any ? P : F
+
+	interface createPlugin {
+		(
+			handler: Tailwind.PluginFunction,
+			config?: Tailwind.ConfigJS,
+		): Tailwind.PluginObject
+		withOptions<P extends (options: any) => Tailwind.PluginFunction>(
+			pluginFunction: P,
+			configFunction?: (options: OptionType<P>) => Tailwind.ConfigJS,
+		): (options: OptionType<P>) => PluginObject & {
+			__options: OptionType<P>
+			__isOptionsFunction: true
+			__pluginFunction: P
+			__configFunction?: (options: OptionType<P>) => Tailwind.ConfigJS
+		}
+	}
+}
+
+declare namespace Tailwind {
 	interface Context {
 		variantMap: Map<string, Array<[bigint, Generator]>>
 		getClassList(): string[]
@@ -1869,7 +1880,15 @@ declare namespace Tailwind {
 		// postCssNodeCache
 	}
 
-	interface createContextFn {
+	interface tailwindcss {
+		(configOrPath?: Tailwind.ConfigJS | string): import("postcss").Plugin
+	}
+
+	interface resolveConfig {
+		(...config: Tailwind.ConfigJS[]): Tailwind.ResolvedConfigJS
+	}
+
+	interface createContext {
 		(
 			config: Tailwind.ResolvedConfigJS,
 			changedContent?: Array<{ content: string; extension: string }>,
@@ -1877,13 +1896,13 @@ declare namespace Tailwind {
 		): Tailwind.Context
 	}
 
-	interface generateRulesFn {
+	interface generateRules {
 		(classnames: string[], context: Tailwind.Context): Array<
 			[bigint, import("postcss").Rule]
 		>
 	}
 
-	interface expandApplyAtRulesFn {
+	interface expandApplyAtRules {
 		(context: Tailwind.Context): (root: import("postcss").Root) => void
 	}
 }
@@ -1893,7 +1912,7 @@ declare module "tailwindcss" {
 	 * If param is not set, Tailwind will look for an optional `tailwind.config.js` file at
 	 * the root of your project where you can define any customizations.
 	 */
-	function tailwindcss(configOrPath?: Tailwind.ConfigJS | string): any
+	const tailwindcss: Tailwind.tailwindcss
 	export = tailwindcss
 }
 
@@ -1914,15 +1933,19 @@ declare module "tailwindcss/defaultTheme" {
 
 declare module "tailwindcss/resolveConfig" {
 	/** Generate a fully merged version of configuration. */
-	function resolveConfig(
-		...config: Tailwind.ConfigJS[]
-	): Tailwind.ResolvedConfigJS
+	const resolveConfig: Tailwind.resolveConfig
 	export = resolveConfig
 }
 
+declare module "tailwindcss/lib/public/resolve-config" {
+	/** Generate a fully merged version of configuration. */
+	const resolveConfig: Tailwind.resolveConfig
+	export default resolveConfig
+}
+
 declare module "tailwindcss/plugin" {
-	const plugin: Tailwind.PluginWrapper
-	export = plugin
+	const createPlugin: Tailwind.createPlugin
+	export = createPlugin
 }
 
 declare module "tailwindcss/lib/corePluginList" {
@@ -1936,12 +1959,12 @@ declare module "tailwindcss/lib/public/colors" {
 }
 
 declare module "tailwindcss/lib/lib/setupContextUtils" {
-	export const createContext: Tailwind.createContextFn
+	export const createContext: Tailwind.createContext
 }
 declare module "tailwindcss/lib/lib/generateRules" {
-	export const generateRules: Tailwind.generateRulesFn
+	export const generateRules: Tailwind.generateRules
 }
 declare module "tailwindcss/lib/lib/expandApplyAtRules" {
-	const expandApplyAtRules: Tailwind.expandApplyAtRulesFn
+	const expandApplyAtRules: Tailwind.expandApplyAtRules
 	export = expandApplyAtRules
 }
