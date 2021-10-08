@@ -792,33 +792,44 @@ declare namespace Tailwind {
 	}
 
 	type SafeList = Array<string | { pattern: RegExp; variants: string[] }>
+
 	type Content = Array<string | { raw: string }>
-	type Extract =
-		| ((content: string) => string)
-		| Record<string, (content: string) => string>
-	type Transform =
-		| ((content: string) => string)
-		| Record<string, (content: string) => string>
+
+	interface Extractor {
+		(content: string): RegExpMatchArray | null
+	}
+
+	type Extractors =
+		| Extractor
+		| (Partial<{ DEFAULT: Extractor }> & Record<string, Extractor>)
+
+	interface Transformer {
+		(content: string): string
+	}
+
+	type Transformers =
+		| Transformer
+		| (Partial<{ DEFAULT: Transformer }> & Record<string, Transformer>)
+
+	type ContentConfig = {
+		content?: Content
+		files?: Content
+		transform?: Transformers
+		extract?: Extractors
+		safelist?: SafeList
+		options?: any
+	}
 
 	/** @deprecated */
 	type PurgeConfig = {
 		mode?: "all"
 		content?: Content
-		transform?: Transform | { DEFAULT: Transform }
+		transform?: Transformers
 		preserveHtmlElements?: boolean
 		layers?: Array<"base" | "components" | "utilities">
 		enabled?: boolean
 		safelist?: SafeList
-		extract?: Extract | { DEFAULT: Extract }
-		options?: any
-	}
-
-	type ContentConfig = {
-		content?: Content
-		files?: Content
-		transform?: Transform | { DEFAULT: Transform }
-		extract?: Extract | { DEFAULT: Extract }
-		safelist?: SafeList
+		extract?: Extractors
 		options?: any
 	}
 
