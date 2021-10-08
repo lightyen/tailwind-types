@@ -1,4 +1,4 @@
-// Type definitions for tailwindcss 3.0
+// Type definitions for tailwindcss 2.2
 // Project: https://github.com/tailwindlabs/tailwindcss
 // Definitions by: lightyen <https://github.com/lightyen>
 
@@ -63,34 +63,29 @@ declare namespace Tailwind {
 	}
 
 	type Colors<V> = {
-		inherit?: V
 		current?: V
 		transparent?: V
 		black?: V
 		white?: V
-		slate?: V
 		gray?: V
-		zinc?: V
-		neutral?: V
-		stone?: V
 		red?: V
-		orange?: V
-		amber?: V
 		yellow?: V
-		lime?: V
 		green?: V
-		emerald?: V
-		teal?: V
-		cyan?: V
-		sky?: V
 		blue?: V
 		indigo?: V
-		violet?: V
 		purple?: V
-		fuchsia?: V
 		pink?: V
 		rose?: V
+		fuchsia?: V
+		violet?: V
 		lightBlue?: V
+		sky?: V
+		cyan?: V
+		teal?: V
+		emerald?: V
+		lime?: V
+		amber?: V
+		orange?: V
 		warmGray?: V
 		trueGray?: V
 		coolGray?: V
@@ -122,7 +117,6 @@ declare namespace Tailwind {
 	>
 
 	type CorePluginFeatures = {
-		accentColor: boolean
 		accessibility: boolean
 		alignContent: boolean
 		alignItems: boolean
@@ -160,13 +154,9 @@ declare namespace Tailwind {
 		boxDecorationBreak: boolean
 		boxShadow: boolean
 		boxSizing: boolean
-		breakAfter: boolean
-		breakBefore: boolean
-		breakInside: boolean
 		brightness: boolean
 		caretColor: boolean
 		clear: boolean
-		columns: boolean
 		container: boolean
 		content: boolean
 		contrast: boolean
@@ -248,12 +238,6 @@ declare namespace Tailwind {
 		rotate: boolean
 		saturate: boolean
 		scale: boolean
-		scrollBehavior: boolean
-		scrollMargin: boolean
-		scrollPadding: boolean
-		scrollSnapAlign: boolean
-		scrollSnapStop: boolean
-		scrollSnapType: boolean
 		sepia: boolean
 		skew: boolean
 		space: boolean
@@ -263,11 +247,9 @@ declare namespace Tailwind {
 		textAlign: boolean
 		textColor: boolean
 		textDecoration: boolean
-		textIndent: boolean
 		textOpacity: boolean
 		textOverflow: boolean
 		textTransform: boolean
-		touchAction: boolean
 		transform: boolean
 		transformOrigin: boolean
 		transitionDelay: boolean
@@ -280,7 +262,6 @@ declare namespace Tailwind {
 		visibility: boolean
 		whitespace: boolean
 		width: boolean
-		willChange: boolean
 		wordBreak: boolean
 		zIndex: boolean
 	}
@@ -596,6 +577,7 @@ declare namespace Tailwind {
 	}
 
 	type Variant =
+		| "responsive"
 		| "first-letter"
 		| "first-line"
 		| "marker"
@@ -789,6 +771,7 @@ declare namespace Tailwind {
 		corePlugins?:
 			| Partial<CorePluginFeatures>
 			| Array<keyof CorePluginFeatures>
+		variants?: PresetVariants & { extend?: PresetVariants }
 	}
 
 	type SafeList = Array<string | { pattern: RegExp; variants: string[] }>
@@ -800,7 +783,6 @@ declare namespace Tailwind {
 		| ((content: string) => string)
 		| Record<string, (content: string) => string>
 
-	/** @deprecated */
 	type PurgeConfig = {
 		mode?: "all"
 		content?: Content
@@ -813,24 +795,14 @@ declare namespace Tailwind {
 		options?: any
 	}
 
-	type ContentConfig = {
-		content?: Content
-		files?: Content
-		transform?: Transform | { DEFAULT: Transform }
-		extract?: Extract | { DEFAULT: Extract }
-		safelist?: SafeList
-		options?: any
-	}
-
 	interface ConfigJS extends Preset {
-		content?: Content | ContentConfig | undefined
-		/** @deprecated */
-		purge?: Content | PurgeConfig
+		mode?: "jit" | "aot"
+		purge?: string[] | PurgeConfig
 		safelist?: SafeList
 		separator?: string
 		prefix?: string
 		important?: boolean
-		darkMode?: "media" | "class"
+		darkMode?: false | "media" | "class"
 		variantOrder?: Variant[]
 		future?: "all" | Record<string, boolean>
 		experimental?: "all" | Record<string, boolean>
@@ -896,12 +868,11 @@ declare namespace Tailwind {
 
 	type ResolvedConfigJS = {
 		purge?: ConfigJS["purge"]
-		content: ConfigJS["content"]
 		safelist: string[]
 		separator: string
 		prefix: string
 		important: boolean
-		darkMode: "media" | "class"
+		darkMode: false | "media" | "class"
 		corePlugins: Array<keyof CorePluginFeatures>
 		variantOrder: Variant[]
 		presets: Preset[]
@@ -1865,19 +1836,9 @@ declare namespace Tailwind {
 declare namespace Tailwind {
 	interface Context {
 		variantMap: Map<string, Array<[bigint, Generator]>>
-		getClassList(): string[]
 		tailwindConfig: Tailwind.ResolvedConfigJS
 		changedContent: Array<{ content: string; extension: string }>
-		layerOrder: Record<string, bigint>
-		minimumScreen: bigint
 		candidateRuleMap: Map<string, Array<any>>
-		// disposables
-		// stylesheetCache
-		// ruleCache
-		// classCache
-		// applyClassCache
-		// notClassCache
-		// postCssNodeCache
 	}
 
 	interface tailwindcss {
@@ -1892,6 +1853,7 @@ declare namespace Tailwind {
 		(
 			config: Tailwind.ResolvedConfigJS,
 			changedContent?: Array<{ content: string; extension: string }>,
+			tailwindDirectives?: Set<string>,
 			root?: import("postcss").Root,
 		): Tailwind.Context
 	}
@@ -1937,12 +1899,6 @@ declare module "tailwindcss/resolveConfig" {
 	export = resolveConfig
 }
 
-declare module "tailwindcss/lib/public/resolve-config" {
-	/** Generate a fully merged version of configuration. */
-	const resolveConfig: Tailwind.resolveConfig
-	export default resolveConfig
-}
-
 declare module "tailwindcss/plugin" {
 	const createPlugin: Tailwind.createPlugin
 	export = createPlugin
@@ -1953,18 +1909,13 @@ declare module "tailwindcss/lib/corePluginList" {
 	export default corePluginList
 }
 
-declare module "tailwindcss/lib/public/colors" {
-	const colors: Tailwind.DefaultPalette
-	export default colors
-}
-
-declare module "tailwindcss/lib/lib/setupContextUtils" {
+declare module "tailwindcss/lib/jit/lib/setupContextUtils" {
 	export const createContext: Tailwind.createContext
 }
-declare module "tailwindcss/lib/lib/generateRules" {
+declare module "tailwindcss/lib/jit/lib/generateRules" {
 	export const generateRules: Tailwind.generateRules
 }
-declare module "tailwindcss/lib/lib/expandApplyAtRules" {
+declare module "tailwindcss/lib/jit/lib/expandApplyAtRules" {
 	const expandApplyAtRules: Tailwind.expandApplyAtRules
 	export = expandApplyAtRules
 }
