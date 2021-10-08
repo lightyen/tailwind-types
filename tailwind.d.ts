@@ -848,6 +848,7 @@ declare namespace Tailwind {
 	}
 
 	type ResolvedConfigJS = {
+		mode?: ConfigJS["mode"]
 		purge?: ConfigJS["purge"]
 		safelist: string[]
 		separator: string
