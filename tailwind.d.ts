@@ -123,7 +123,6 @@ declare namespace Tailwind {
 		alignSelf: boolean
 		animation: boolean
 		appearance: boolean
-		aspectRatio: boolean
 		backdropBlur: boolean
 		backdropBrightness: boolean
 		backdropContrast: boolean
@@ -550,24 +549,6 @@ declare namespace Tailwind {
 			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 		zIndex?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		aspectRatio?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		columns?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		scrollMargin?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		scrollPadding?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		textIndent?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		willChange?:
 			| ((options: ResolvePath) => Record<string, Value>)
 			| Record<string, Value>
 	}
@@ -1664,53 +1645,6 @@ declare namespace Tailwind {
 				40: string
 				50: string
 				auto: string
-			}>
-			aspectRatio: ResolvedResult<{
-				auto: string
-				square: string
-				video: string
-			}>
-			columns: ResolvedResult<{
-				auto: string
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				8: string
-				9: string
-				10: string
-				11: string
-				12: string
-				"3xs": string
-				"2xs": string
-				xs: string
-				sm: string
-				md: string
-				lg: string
-				xl: string
-				"2xl": string
-				"3xl": string
-				"4xl": string
-				"5xl": string
-				"6xl": string
-				"7xl": string
-			}>
-			scrollMargin: ResolvedResult<
-				SpacingConfig &
-					Negative<SpacingConfig> & {
-						auto: string
-					}
-			>
-			scrollPadding: ResolvedResult<SpacingConfig>
-			textIndent: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
-			willChange: ResolvedResult<{
-				auto: string
-				scroll: string
-				contents: string
-				transform: string
 			}>
 		}
 	}
