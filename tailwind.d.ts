@@ -300,7 +300,6 @@ declare namespace Tailwind {
 		backgroundColor?: WithTheme<Palette>
 		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		caretColor?: WithTheme<Palette>
-		accentColor?: WithTheme<Palette> & { auto: "auto" }
 		divideColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		gradientColorStops?: WithTheme<Palette>
 		placeholderColor?: WithTheme<Palette>
@@ -1029,7 +1028,6 @@ declare namespace Tailwind {
 				none: string
 			}>
 			caretColor: ResolvedPalette
-			accentColor: ResolvedPalette & { auto?: string }
 			contrast: ResolvedResult<{
 				0: string
 				50: string
