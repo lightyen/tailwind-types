@@ -18,8 +18,7 @@ declare namespace Tailwind {
 		[K in keyof T as `screen-${string & K}`]: T[K]
 	}
 
-	interface ResolvePath extends GetTheme {
-		theme: GetTheme
+	interface ResolvePathOptions {
 		colors: Record<string, Record<string, string>>
 		negative<T extends Record<string, string>>(
 			value: T,
@@ -27,6 +26,10 @@ declare namespace Tailwind {
 		breakpoints<T extends Record<string, string>>(
 			value: T,
 		): { [K in keyof T as `screen-${string & K}`]: T[K] }
+	}
+
+	interface ResolvePath<T> {
+		(theme: GetTheme, options: ResolvePathOptions): T
 	}
 
 	type OpacityOptions = {
@@ -103,7 +106,7 @@ declare namespace Tailwind {
 		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
 	>
 
-	type WithTheme<V> = V | ((options: ResolvePath) => V)
+	type WithTheme<V> = V | ResolvePath<V>
 
 	type ResolvedPalette = Colors<
 		| Value
@@ -282,19 +285,19 @@ declare namespace Tailwind {
 	interface Theme {
 		extend?: Omit<Theme, "extend">
 		fontSize?:
-			| ((options: ResolvePath) => Record<string, FontSizeValue>)
+			| ResolvePath<Record<string, FontSizeValue>>
 			| Record<string, FontSizeValue>
 		keyframes?:
-			| ((options: ResolvePath) => Record<string, KeyframesValue>)
+			| ResolvePath<Record<string, KeyframesValue>>
 			| Record<string, KeyframesValue>
 		dropShadow?:
-			| ((options: ResolvePath) => Record<string, DropShadowValue>)
+			| ResolvePath<Record<string, DropShadowValue>>
 			| Record<string, DropShadowValue>
 		fontFamily?:
-			| ((options: ResolvePath) => Record<string, FontFamilyValue>)
+			| ResolvePath<Record<string, FontFamilyValue>>
 			| Record<string, FontFamilyValue>
 		outline?:
-			| ((options: ResolvePath) => Record<string, OutlineValue>)
+			| ResolvePath<Record<string, OutlineValue>>
 			| Record<string, OutlineValue>
 		colors?: WithTheme<Palette>
 		backgroundColor?: WithTheme<Palette>
@@ -307,249 +310,153 @@ declare namespace Tailwind {
 		ringOffsetColor?: WithTheme<Palette>
 		textColor?: WithTheme<Palette>
 		fill?: WithTheme<Palette>
-		borderWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		screens?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		spacing?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		animation?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		borderWidth?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		screens?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		spacing?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		animation?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		backdropBlur?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backdropBrightness?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backdropContrast?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backdropGrayscale?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backdropHueRotate?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backdropInvert?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backdropOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backdropSaturate?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backdropSepia?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backgroundImage?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backgroundOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backgroundPosition?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		backgroundSize?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		blur?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		brightness?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		blur?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		brightness?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		borderOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		borderRadius?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		boxShadow?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		contrast?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		container?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		content?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		cursor?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		boxShadow?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		contrast?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		container?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		content?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		cursor?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		divideOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		divideWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		grayscale?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		hueRotate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		invert?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		flex?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		flexGrow?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		flexShrink?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		fontWeight?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gap?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		divideWidth?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		grayscale?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		hueRotate?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		invert?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		flex?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		flexGrow?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		flexShrink?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		fontWeight?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		gap?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		gridAutoColumns?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		gridAutoRows?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		gridColumn?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		gridColumn?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		gridColumnEnd?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		gridColumnStart?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		gridRow?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		gridRow?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		gridRowStart?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		gridRowEnd?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		gridRowEnd?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		gridTemplateColumns?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		gridTemplateRows?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		height?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		inset?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		height?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		inset?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		letterSpacing?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		lineHeight?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		lineHeight?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		listStyleType?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		margin?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		maxHeight?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		maxWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		minHeight?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		minWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		margin?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		maxHeight?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		maxWidth?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		minHeight?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		minWidth?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		objectPosition?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		opacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		order?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		padding?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		opacity?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		order?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		padding?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		placeholderOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		ringOffsetWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		ringOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		ringWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		rotate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		saturate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		scale?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		sepia?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		skew?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		space?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		stroke?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		strokeWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		textOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		ringOpacity?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		ringWidth?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		rotate?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		saturate?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		scale?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		sepia?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		skew?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		space?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		stroke?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		strokeWidth?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		textOpacity?: ResolvePath<Record<string, Value>> | Record<string, Value>
 		transformOrigin?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		transitionDelay?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		transitionDuration?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		transitionProperty?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
 		transitionTimingFunction?:
-			| ((options: ResolvePath) => Record<string, Value>)
+			| ResolvePath<Record<string, Value>>
 			| Record<string, Value>
-		translate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		width?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		zIndex?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		translate?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		width?: ResolvePath<Record<string, Value>> | Record<string, Value>
+		zIndex?: ResolvePath<Record<string, Value>> | Record<string, Value>
 	}
 
 	interface CustomTheme {
