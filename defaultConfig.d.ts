@@ -99,30 +99,17 @@ declare namespace Tailwind {
 				pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
 				bounce: "bounce 1s infinite"
 			}
-			backdropBlur: (r: ResolvePath) => DefaultConfig["theme"]["blur"]
-			backdropBrightness: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["brightness"]
-			backdropContrast: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["contrast"]
-			backdropGrayscale: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["grayscale"]
-			backdropHueRotate: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["hueRotate"]
-			backdropInvert: (r: ResolvePath) => DefaultConfig["theme"]["invert"]
-			backdropOpacity: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["opacity"]
-			backdropSaturate: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["saturate"]
-			backdropSepia: (r: ResolvePath) => DefaultConfig["theme"]["sepia"]
-			backgroundColor: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["colors"]
+			backdropBlur: ResolvePath<DefaultConfig["theme"]["blur"]>
+			backdropBrightness: ResolvePath<
+				DefaultConfig["theme"]["brightness"]
+			>
+			backdropContrast: ResolvePath<DefaultConfig["theme"]["contrast"]>
+			backdropGrayscale: ResolvePath<DefaultConfig["theme"]["grayscale"]>
+			backdropHueRotate: ResolvePath<DefaultConfig["theme"]["hueRotate"]>
+			backdropInvert: ResolvePath<DefaultConfig["theme"]["invert"]>
+			backdropSaturate: ResolvePath<DefaultConfig["theme"]["saturate"]>
+			backdropSepia: ResolvePath<DefaultConfig["theme"]["sepia"]>
+			backgroundColor: ResolvePath<DefaultConfig["theme"]["colors"]>
 			backgroundImage: {
 				none: "none"
 				"gradient-to-t": "linear-gradient(to top, var(--tw-gradient-stops))"
@@ -134,9 +121,7 @@ declare namespace Tailwind {
 				"gradient-to-l": "linear-gradient(to left, var(--tw-gradient-stops))"
 				"gradient-to-tl": "linear-gradient(to top left, var(--tw-gradient-stops))"
 			}
-			backgroundOpacity: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["opacity"]
+			backgroundOpacity: ResolvePath<DefaultConfig["theme"]["opacity"]>
 			backgroundPosition: {
 				bottom: "bottom"
 				center: "center"
@@ -177,12 +162,12 @@ declare namespace Tailwind {
 				150: "1.5"
 				200: "2"
 			}
-			borderColor: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["colors"] & {
-				DEFAULT: DefaultConfig["theme"]["colors"]["gray"]["200"]
-			}
-			borderOpacity: (r: ResolvePath) => DefaultConfig["theme"]["opacity"]
+			borderColor: ResolvePath<
+				DefaultConfig["theme"]["colors"] & {
+					DEFAULT: DefaultConfig["theme"]["colors"]["gray"]["200"]
+				}
+			>
+			borderOpacity: ResolvePath<DefaultConfig["theme"]["opacity"]>
 			borderRadius: {
 				none: "0px"
 				sm: "0.125rem"
@@ -211,7 +196,7 @@ declare namespace Tailwind {
 				inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)"
 				none: "none"
 			}
-			caretColor: (r: ResolvePath) => DefaultConfig["theme"]["colors"]
+			caretColor: ResolvePath<DefaultConfig["theme"]["colors"]>
 			contrast: {
 				0: "0"
 				50: ".5"
@@ -237,9 +222,7 @@ declare namespace Tailwind {
 			}
 			divideColor: DefaultConfig["theme"]["borderColor"]
 			divideOpacity: DefaultConfig["theme"]["borderOpacity"]
-			divideWidth: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["borderWidth"]
+			divideWidth: ResolvePath<DefaultConfig["theme"]["borderWidth"]>
 			dropShadow: {
 				sm: "0 1px 1px rgba(0,0,0,0.05)"
 				DEFAULT: [
@@ -359,10 +342,8 @@ declare namespace Tailwind {
 				extrabold: "800"
 				black: "900"
 			}
-			gap: (r: ResolvePath) => DefaultConfig["theme"]["spacing"]
-			gradientColorStops: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["colors"]
+			gap: ResolvePath<DefaultConfig["theme"]["spacing"]>
+			gradientColorStops: ResolvePath<DefaultConfig["theme"]["colors"]>
 			gridAutoColumns: {
 				auto: "auto"
 				min: "min-content"
@@ -477,27 +458,29 @@ declare namespace Tailwind {
 				5: "repeat(5, minmax(0, 1fr))"
 				6: "repeat(6, minmax(0, 1fr))"
 			}
-			height: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] & {
-				auto: "auto"
-				"1/2": "50%"
-				"1/3": "33.333333%"
-				"2/3": "66.666667%"
-				"1/4": "25%"
-				"2/4": "50%"
-				"3/4": "75%"
-				"1/5": "20%"
-				"2/5": "40%"
-				"3/5": "60%"
-				"4/5": "80%"
-				"1/6": "16.666667%"
-				"2/6": "33.333333%"
-				"3/6": "50%"
-				"4/6": "66.666667%"
-				"5/6": "83.333333%"
-				full: "100%"
-				screen: "100vh"
-			}
-			inset(r: ResolvePath): Partial<
+			height: ResolvePath<
+				DefaultConfig["theme"]["spacing"] & {
+					auto: "auto"
+					"1/2": "50%"
+					"1/3": "33.333333%"
+					"2/3": "66.666667%"
+					"1/4": "25%"
+					"2/4": "50%"
+					"3/4": "75%"
+					"1/5": "20%"
+					"2/5": "40%"
+					"3/5": "60%"
+					"4/5": "80%"
+					"1/6": "16.666667%"
+					"2/6": "33.333333%"
+					"3/6": "50%"
+					"4/6": "66.666667%"
+					"5/6": "83.333333%"
+					full: "100%"
+					screen: "100vh"
+				}
+			>
+			inset: ResolvePath<
 				DefaultConfig["theme"]["spacing"] &
 					Negative<DefaultConfig["theme"]["spacing"]> & {
 						auto: "auto"
@@ -574,35 +557,39 @@ declare namespace Tailwind {
 				disc: "disc"
 				decimal: "decimal"
 			}
-			margin: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] &
-				Negative<DefaultConfig["theme"]["spacing"]> & {
-					auto: "auto"
+			margin: ResolvePath<
+				DefaultConfig["theme"]["spacing"] &
+					Negative<DefaultConfig["theme"]["spacing"]> & {
+						auto: "auto"
+					}
+			>
+			maxHeight: ResolvePath<
+				DefaultConfig["theme"]["spacing"] & {
+					full: "100%"
+					screen: "100vh"
 				}
-			maxHeight: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] & {
-				full: "100%"
-				screen: "100vh"
-			}
-			maxWidth: (r: ResolvePath) => Partial<
-				BreakPoints<DefaultConfig["theme"]["screens"]>
-			> & {
-				none: "none"
-				0: "0rem"
-				xs: "20rem"
-				sm: "24rem"
-				md: "28rem"
-				lg: "32rem"
-				xl: "36rem"
-				"2xl": "42rem"
-				"3xl": "48rem"
-				"4xl": "56rem"
-				"5xl": "64rem"
-				"6xl": "72rem"
-				"7xl": "80rem"
-				full: "100%"
-				min: "min-content"
-				max: "max-content"
-				prose: "65ch"
-			}
+			>
+			maxWidth: ResolvePath<
+				BreakPoints<DefaultConfig["theme"]["screens"]> & {
+					none: "none"
+					0: "0rem"
+					xs: "20rem"
+					sm: "24rem"
+					md: "28rem"
+					lg: "32rem"
+					xl: "36rem"
+					"2xl": "42rem"
+					"3xl": "48rem"
+					"4xl": "56rem"
+					"5xl": "64rem"
+					"6xl": "72rem"
+					"7xl": "80rem"
+					full: "100%"
+					min: "min-content"
+					max: "max-content"
+					prose: "65ch"
+				}
+			>
 			minHeight: {
 				0: "0px"
 				full: "100%"
@@ -664,19 +651,15 @@ declare namespace Tailwind {
 				white: ["2px dotted white", "2px"]
 				black: ["2px dotted black", "2px"]
 			}
-			padding: (r: ResolvePath) => DefaultConfig["theme"]["spacing"]
-			placeholderColor: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["colors"]
-			placeholderOpacity: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["opacity"]
-			ringColor: (r: ResolvePath) => DefaultConfig["theme"]["colors"] & {
-				DEFAULT: DefaultConfig["theme"]["colors"]["blue"]["500"]
-			}
-			ringOffsetColor: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["colors"]
+			padding: ResolvePath<DefaultConfig["theme"]["spacing"]>
+			placeholderColor: ResolvePath<DefaultConfig["theme"]["colors"]>
+			placeholderOpacity: ResolvePath<DefaultConfig["theme"]["opacity"]>
+			ringColor: ResolvePath<
+				DefaultConfig["theme"]["colors"] & {
+					DEFAULT: DefaultConfig["theme"]["colors"]["blue"]["500"]
+				}
+			>
+			ringOffsetColor: ResolvePath<DefaultConfig["theme"]["colors"]>
 			ringOffsetWidth: {
 				0: "0px"
 				1: "1px"
@@ -684,11 +667,11 @@ declare namespace Tailwind {
 				4: "4px"
 				8: "8px"
 			}
-			ringOpacity: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["opacity"] & {
-				DEFAULT: "0.5"
-			}
+			ringOpacity: ResolvePath<
+				DefaultConfig["theme"]["opacity"] & {
+					DEFAULT: "0.5"
+				}
+			>
 			ringWidth: {
 				DEFAULT: "3px"
 				0: "0px"
@@ -752,10 +735,10 @@ declare namespace Tailwind {
 				6: "6deg"
 				12: "12deg"
 			}
-			space: (
-				r: ResolvePath,
-			) => DefaultConfig["theme"]["spacing"] &
-				Negative<DefaultConfig["theme"]["spacing"]>
+			space: ResolvePath<
+				DefaultConfig["theme"]["spacing"] &
+					Negative<DefaultConfig["theme"]["spacing"]>
+			>
 			stroke: {
 				current: "currentColor"
 			}
@@ -764,8 +747,8 @@ declare namespace Tailwind {
 				1: "1"
 				2: "2"
 			}
-			textColor: (r: ResolvePath) => DefaultConfig["theme"]["colors"]
-			textOpacity: (r: ResolvePath) => DefaultConfig["theme"]["opacity"]
+			textColor: ResolvePath<DefaultConfig["theme"]["colors"]>
+			textOpacity: ResolvePath<DefaultConfig["theme"]["opacity"]>
 			transformOrigin: {
 				center: "center"
 				top: "top"
@@ -814,56 +797,60 @@ declare namespace Tailwind {
 				out: "cubic-bezier(0, 0, 0.2, 1)"
 				"in-out": "cubic-bezier(0.4, 0, 0.2, 1)"
 			}
-			translate: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] &
-				Negative<DefaultConfig["theme"]["spacing"]> & {
+			translate: ResolvePath<
+				DefaultConfig["theme"]["spacing"] &
+					Negative<DefaultConfig["theme"]["spacing"]> & {
+						"1/2": "50%"
+						"1/3": "33.333333%"
+						"2/3": "66.666667%"
+						"1/4": "25%"
+						"2/4": "50%"
+						"3/4": "75%"
+						full: "100%"
+						"-1/2": "-50%"
+						"-1/3": "-33.333333%"
+						"-2/3": "-66.666667%"
+						"-1/4": "-25%"
+						"-2/4": "-50%"
+						"-3/4": "-75%"
+						"-full": "-100%"
+					}
+			>
+			width: ResolvePath<
+				DefaultConfig["theme"]["spacing"] & {
+					auto: "auto"
 					"1/2": "50%"
 					"1/3": "33.333333%"
 					"2/3": "66.666667%"
 					"1/4": "25%"
 					"2/4": "50%"
 					"3/4": "75%"
+					"1/5": "20%"
+					"2/5": "40%"
+					"3/5": "60%"
+					"4/5": "80%"
+					"1/6": "16.666667%"
+					"2/6": "33.333333%"
+					"3/6": "50%"
+					"4/6": "66.666667%"
+					"5/6": "83.333333%"
+					"1/12": "8.333333%"
+					"2/12": "16.666667%"
+					"3/12": "25%"
+					"4/12": "33.333333%"
+					"5/12": "41.666667%"
+					"6/12": "50%"
+					"7/12": "58.333333%"
+					"8/12": "66.666667%"
+					"9/12": "75%"
+					"10/12": "83.333333%"
+					"11/12": "91.666667%"
 					full: "100%"
-					"-1/2": "-50%"
-					"-1/3": "-33.333333%"
-					"-2/3": "-66.666667%"
-					"-1/4": "-25%"
-					"-2/4": "-50%"
-					"-3/4": "-75%"
-					"-full": "-100%"
+					screen: "100vw"
+					min: "min-content"
+					max: "max-content"
 				}
-			width: (r: ResolvePath) => DefaultConfig["theme"]["spacing"] & {
-				auto: "auto"
-				"1/2": "50%"
-				"1/3": "33.333333%"
-				"2/3": "66.666667%"
-				"1/4": "25%"
-				"2/4": "50%"
-				"3/4": "75%"
-				"1/5": "20%"
-				"2/5": "40%"
-				"3/5": "60%"
-				"4/5": "80%"
-				"1/6": "16.666667%"
-				"2/6": "33.333333%"
-				"3/6": "50%"
-				"4/6": "66.666667%"
-				"5/6": "83.333333%"
-				"1/12": "8.333333%"
-				"2/12": "16.666667%"
-				"3/12": "25%"
-				"4/12": "33.333333%"
-				"5/12": "41.666667%"
-				"6/12": "50%"
-				"7/12": "58.333333%"
-				"8/12": "66.666667%"
-				"9/12": "75%"
-				"10/12": "83.333333%"
-				"11/12": "91.666667%"
-				full: "100%"
-				screen: "100vw"
-				min: "min-content"
-				max: "max-content"
-			}
+			>
 			zIndex: {
 				auto: "auto"
 				0: "0"

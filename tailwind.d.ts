@@ -685,7 +685,6 @@ declare namespace Tailwind {
 	interface ConfigJS extends Preset {
 		mode?: "jit" | "aot"
 		purge?: string[] | PurgeConfig
-		safelist?: SafeList
 		separator?: string
 		prefix?: string
 		important?: boolean
@@ -756,7 +755,6 @@ declare namespace Tailwind {
 	type ResolvedConfigJS = {
 		mode?: ConfigJS["mode"]
 		purge?: ConfigJS["purge"]
-		safelist: string[]
 		separator: string
 		prefix: string
 		important: boolean
