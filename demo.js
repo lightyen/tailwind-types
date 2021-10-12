@@ -3,7 +3,7 @@ const tailwindcss = require("tailwindcss")
 const resolveConfig = require("tailwindcss/resolveConfig")
 const colors = require("tailwindcss/colors")
 const plugin = require("tailwindcss/plugin")
-const defaultConfig = require("tailwindcss/stubs/defaultConfig.stub")
+const defaultConfig = require("tailwindcss/defaultConfig")
 const defaultTheme = require("tailwindcss/defaultTheme")
 
 delete colors.lightBlue
@@ -45,9 +45,7 @@ async function jit(...classNames) {
 	config.purge = { content: [] }
 	config.purge.safelist = classNames
 	const processer = postcss([tailwindcss(config)])
-	return processer.process("@tailwind components;@tailwind utilities;", {
-		from: undefined,
-	})
+	return processer.process("@tailwind components;@tailwind utilities;", {})
 }
 
 async function run() {

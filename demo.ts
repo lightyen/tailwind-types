@@ -1,8 +1,19 @@
 import postcss, { Result } from "postcss"
-import tailwindcss = require("tailwindcss")
-import resolveConfig = require("tailwindcss/resolveConfig")
-import colors = require("tailwindcss/colors")
-import plugin = require("tailwindcss/plugin")
+import tailwindcss from "tailwindcss"
+import resolveConfig from "tailwindcss/resolveConfig"
+import colors from "tailwindcss/colors"
+import plugin from "tailwindcss/plugin"
+import {
+	applyStateToMarker,
+	transformAllClasses,
+	transformAllSelectors,
+	transformLastClasses,
+	updateAllClasses,
+	updateLastClasses,
+} from "tailwindcss/lib/util/pluginUtils"
+
+import expandApplyAtRules from "tailwindcss/lib/lib/expandApplyAtRules"
+import prefixSelector from "tailwindcss/lib/util/prefixSelector"
 
 delete colors.lightBlue
 
@@ -45,13 +56,10 @@ const config: Tailwind.ConfigJS = {
 
 async function jit(...classNames: string[]): Promise<Result> {
 	classNames = classNames.map(c => c.replace(/\s/g, ""))
-	config.mode = "jit"
 	config.purge = { content: [] }
 	config.purge.safelist = classNames
 	const processer = postcss([tailwindcss(config)])
-	return processer.process("@tailwind components;@tailwind utilities;", {
-		from: undefined,
-	})
+	return processer.process("@tailwind components;@tailwind utilities;", {})
 }
 
 async function run() {

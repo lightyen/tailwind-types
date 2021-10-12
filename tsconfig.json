@@ -5,6 +5,7 @@
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "target": "ESNext",
     "lib": ["ESNext"],

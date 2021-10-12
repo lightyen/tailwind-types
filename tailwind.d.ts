@@ -29,6 +29,8 @@ declare namespace Tailwind {
 		): { [K in keyof T as `screen-${string & K}`]: T[K] }
 	}
 
+	type WithTheme<T> = T | ((options: ResolvePath) => T)
+
 	type OpacityOptions = {
 		opacityValue: string
 		opacityVariable: string
@@ -107,8 +109,6 @@ declare namespace Tailwind {
 				opacity: OpacityOptions,
 		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
 	>
-
-	type WithTheme<V> = V | ((options: ResolvePath) => V)
 
 	type ResolvedPalette = Colors<
 		| Value
@@ -301,21 +301,11 @@ declare namespace Tailwind {
 
 	interface Theme {
 		extend?: Omit<Theme, "extend">
-		fontSize?:
-			| ((options: ResolvePath) => Record<string, FontSizeValue>)
-			| Record<string, FontSizeValue>
-		keyframes?:
-			| ((options: ResolvePath) => Record<string, KeyframesValue>)
-			| Record<string, KeyframesValue>
-		dropShadow?:
-			| ((options: ResolvePath) => Record<string, DropShadowValue>)
-			| Record<string, DropShadowValue>
-		fontFamily?:
-			| ((options: ResolvePath) => Record<string, FontFamilyValue>)
-			| Record<string, FontFamilyValue>
-		outline?:
-			| ((options: ResolvePath) => Record<string, OutlineValue>)
-			| Record<string, OutlineValue>
+		fontSize?: WithTheme<Record<string, FontSizeValue>>
+		keyframes?: WithTheme<Record<string, KeyframesValue>>
+		dropShadow?: WithTheme<Record<string, DropShadowValue>>
+		fontFamily?: WithTheme<Record<string, FontFamilyValue>>
+		outline?: WithTheme<Record<string, OutlineValue>>
 		colors?: WithTheme<Palette>
 		backgroundColor?: WithTheme<Palette>
 		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
@@ -328,267 +318,93 @@ declare namespace Tailwind {
 		ringOffsetColor?: WithTheme<Palette>
 		textColor?: WithTheme<Palette>
 		fill?: WithTheme<Palette>
-		borderWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		screens?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		spacing?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		animation?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropBlur?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropBrightness?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropContrast?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropGrayscale?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropHueRotate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropInvert?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropSaturate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backdropSepia?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backgroundImage?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backgroundOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backgroundPosition?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		backgroundSize?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		blur?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		brightness?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		borderOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		borderRadius?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		boxShadow?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		contrast?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		container?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		content?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		cursor?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		divideOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		divideWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		grayscale?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		hueRotate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		invert?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		flex?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		flexGrow?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		flexShrink?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		fontWeight?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gap?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridAutoColumns?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridAutoRows?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridColumn?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridColumnEnd?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridColumnStart?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridRow?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridRowStart?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridRowEnd?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridTemplateColumns?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		gridTemplateRows?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		height?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		inset?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		letterSpacing?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		lineHeight?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		listStyleType?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		margin?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		maxHeight?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		maxWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		minHeight?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		minWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		objectPosition?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		opacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		order?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		padding?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		placeholderOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		ringOffsetWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		ringOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		ringWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		rotate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		saturate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		scale?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		sepia?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		skew?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		space?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		stroke?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		strokeWidth?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		textOpacity?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		transformOrigin?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		transitionDelay?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		transitionDuration?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		transitionProperty?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		transitionTimingFunction?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		translate?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		width?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		zIndex?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		aspectRatio?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		columns?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		scrollMargin?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		scrollPadding?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		textIndent?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
-		willChange?:
-			| ((options: ResolvePath) => Record<string, Value>)
-			| Record<string, Value>
+		borderWidth?: WithTheme<Record<string, Value>>
+		screens?: WithTheme<Record<string, Value>>
+		spacing?: WithTheme<Record<string, Value>>
+		animation?: WithTheme<Record<string, Value>>
+		backdropBlur?: WithTheme<Record<string, Value>>
+		backdropBrightness?: WithTheme<Record<string, Value>>
+		backdropContrast?: WithTheme<Record<string, Value>>
+		backdropGrayscale?: WithTheme<Record<string, Value>>
+		backdropHueRotate?: WithTheme<Record<string, Value>>
+		backdropInvert?: WithTheme<Record<string, Value>>
+		backdropOpacity?: WithTheme<Record<string, Value>>
+		backdropSaturate?: WithTheme<Record<string, Value>>
+		backdropSepia?: WithTheme<Record<string, Value>>
+		backgroundImage?: WithTheme<Record<string, Value>>
+		backgroundOpacity?: WithTheme<Record<string, Value>>
+		backgroundPosition?: WithTheme<Record<string, Value>>
+		backgroundSize?: WithTheme<Record<string, Value>>
+		blur?: WithTheme<Record<string, Value>>
+		brightness?: WithTheme<Record<string, Value>>
+		borderOpacity?: WithTheme<Record<string, Value>>
+		borderRadius?: WithTheme<Record<string, Value>>
+		boxShadow?: WithTheme<Record<string, Value>>
+		contrast?: WithTheme<Record<string, Value>>
+		container?: WithTheme<Record<string, Value>>
+		content?: WithTheme<Record<string, Value>>
+		cursor?: WithTheme<Record<string, Value>>
+		divideOpacity?: WithTheme<Record<string, Value>>
+		divideWidth?: WithTheme<Record<string, Value>>
+		grayscale?: WithTheme<Record<string, Value>>
+		hueRotate?: WithTheme<Record<string, Value>>
+		invert?: WithTheme<Record<string, Value>>
+		flex?: WithTheme<Record<string, Value>>
+		flexGrow?: WithTheme<Record<string, Value>>
+		flexShrink?: WithTheme<Record<string, Value>>
+		fontWeight?: WithTheme<Record<string, Value>>
+		gap?: WithTheme<Record<string, Value>>
+		gridAutoColumns?: WithTheme<Record<string, Value>>
+		gridAutoRows?: WithTheme<Record<string, Value>>
+		gridColumn?: WithTheme<Record<string, Value>>
+		gridColumnEnd?: WithTheme<Record<string, Value>>
+		gridColumnStart?: WithTheme<Record<string, Value>>
+		gridRow?: WithTheme<Record<string, Value>>
+		gridRowStart?: WithTheme<Record<string, Value>>
+		gridRowEnd?: WithTheme<Record<string, Value>>
+		gridTemplateColumns?: WithTheme<Record<string, Value>>
+		gridTemplateRows?: WithTheme<Record<string, Value>>
+		height?: WithTheme<Record<string, Value>>
+		inset?: WithTheme<Record<string, Value>>
+		letterSpacing?: WithTheme<Record<string, Value>>
+		lineHeight?: WithTheme<Record<string, Value>>
+		listStyleType?: WithTheme<Record<string, Value>>
+		margin?: WithTheme<Record<string, Value>>
+		maxHeight?: WithTheme<Record<string, Value>>
+		maxWidth?: WithTheme<Record<string, Value>>
+		minHeight?: WithTheme<Record<string, Value>>
+		minWidth?: WithTheme<Record<string, Value>>
+		objectPosition?: WithTheme<Record<string, Value>>
+		opacity?: WithTheme<Record<string, Value>>
+		order?: WithTheme<Record<string, Value>>
+		padding?: WithTheme<Record<string, Value>>
+		placeholderOpacity?: WithTheme<Record<string, Value>>
+		ringOffsetWidth?: WithTheme<Record<string, Value>>
+		ringOpacity?: WithTheme<Record<string, Value>>
+		ringWidth?: WithTheme<Record<string, Value>>
+		rotate?: WithTheme<Record<string, Value>>
+		saturate?: WithTheme<Record<string, Value>>
+		scale?: WithTheme<Record<string, Value>>
+		sepia?: WithTheme<Record<string, Value>>
+		skew?: WithTheme<Record<string, Value>>
+		space?: WithTheme<Record<string, Value>>
+		stroke?: WithTheme<Record<string, Value>>
+		strokeWidth?: WithTheme<Record<string, Value>>
+		textOpacity?: WithTheme<Record<string, Value>>
+		transformOrigin?: WithTheme<Record<string, Value>>
+		transitionDelay?: WithTheme<Record<string, Value>>
+		transitionDuration?: WithTheme<Record<string, Value>>
+		transitionProperty?: WithTheme<Record<string, Value>>
+		transitionTimingFunction?: WithTheme<Record<string, Value>>
+		translate?: WithTheme<Record<string, Value>>
+		width?: WithTheme<Record<string, Value>>
+		zIndex?: WithTheme<Record<string, Value>>
+		aspectRatio?: WithTheme<Record<string, Value>>
+		columns?: WithTheme<Record<string, Value>>
+		scrollMargin?: WithTheme<Record<string, Value>>
+		scrollPadding?: WithTheme<Record<string, Value>>
+		textIndent?: WithTheme<Record<string, Value>>
+		willChange?: WithTheme<Record<string, Value>>
 	}
 
 	interface CustomTheme {
@@ -1916,6 +1732,48 @@ declare namespace Tailwind {
 	interface expandApplyAtRules {
 		(context: Tailwind.Context): (root: import("postcss").Root) => void
 	}
+
+	interface updateClass {
+		(
+			classname: string,
+			options: {
+				withAttr?(className: string, attr: string): string
+				withPseudo(className: string, pseudo: string): string
+			},
+		): string | null | undefined
+	}
+
+	interface transformOptions {
+		wrap?(): import("postcss").Node
+		withRule?(rule: import("postcss").Rule): void
+	}
+
+	interface pluginUtils {
+		applyStateToMarker(
+			selector: string,
+			marker: string,
+			state: string,
+			join: (marker: string, selector: string) => string,
+		): string
+		updateLastClasses(selectors: string, updateClass: updateClass): string
+		updateAllClasses(selectors: string, updateClass: updateClass): string
+		transformAllSelectors(
+			transformSelector: updateClass,
+			options?: transformOptions,
+		): Tailwind.Generator
+		transformAllClasses(
+			transformClass: updateClass,
+			options?: transformOptions,
+		): Tailwind.Generator
+		transformLastClasses(
+			transformClass: updateClass,
+			options?: transformOptions,
+		): Tailwind.Generator
+	}
+
+	interface prefixSelector {
+		(prefix: string, selector: string): string
+	}
 }
 
 declare module "tailwindcss" {
@@ -1923,7 +1781,9 @@ declare module "tailwindcss" {
 	 * If param is not set, Tailwind will look for an optional `tailwind.config.js` file at
 	 * the root of your project where you can define any customizations.
 	 */
-	const tailwindcss: Tailwind.tailwindcss
+	function tailwindcss(
+		configOrPath?: Tailwind.ConfigJS | string,
+	): import("postcss").Plugin
 	export = tailwindcss
 }
 
@@ -1944,14 +1804,10 @@ declare module "tailwindcss/defaultTheme" {
 
 declare module "tailwindcss/resolveConfig" {
 	/** Generate a fully merged version of configuration. */
-	const resolveConfig: Tailwind.resolveConfig
+	function resolveConfig(
+		...config: Tailwind.ConfigJS[]
+	): Tailwind.ResolvedConfigJS
 	export = resolveConfig
-}
-
-declare module "tailwindcss/lib/public/resolve-config" {
-	/** Generate a fully merged version of configuration. */
-	const resolveConfig: Tailwind.resolveConfig
-	export default resolveConfig
 }
 
 declare module "tailwindcss/plugin" {
@@ -1964,18 +1820,58 @@ declare module "tailwindcss/lib/corePluginList" {
 	export default corePluginList
 }
 
-declare module "tailwindcss/lib/public/colors" {
-	const colors: Tailwind.DefaultPalette
-	export default colors
+declare module "tailwindcss/lib/util/pluginUtils" {
+	export function applyStateToMarker(
+		selector: string,
+		marker: string,
+		state: string,
+		join: (marker: string, selector: string) => string,
+	): string
+	export function updateLastClasses(
+		selectors: string,
+		updateClass: Tailwind.updateClass,
+	): string
+	export function updateAllClasses(
+		selectors: string,
+		updateClass: Tailwind.updateClass,
+	): string
+	export function transformAllSelectors(
+		transformSelector: Tailwind.updateClass,
+		options?: Tailwind.transformOptions,
+	): Tailwind.Generator
+	export function transformAllClasses(
+		transformClass: Tailwind.updateClass,
+		options?: Tailwind.transformOptions,
+	): Tailwind.Generator
+	export function transformLastClasses(
+		transformClass: Tailwind.updateClass,
+		options?: Tailwind.transformOptions,
+	): Tailwind.Generator
+}
+
+declare module "tailwindcss/lib/util/prefixSelector" {
+	export default function prefixSelector(
+		prefix: string,
+		selector: string,
+	): string
 }
 
 declare module "tailwindcss/lib/lib/setupContextUtils" {
-	export const createContext: Tailwind.createContext
+	export function createContext(
+		config: Tailwind.ResolvedConfigJS,
+		changedContent?: Array<{ content: string; extension: string }>,
+		root?: import("postcss").Root,
+	): Tailwind.Context
 }
 declare module "tailwindcss/lib/lib/generateRules" {
-	export const generateRules: Tailwind.generateRules
+	export function generateRules(
+		classnames: string[],
+		context: Tailwind.Context,
+	): Array<[bigint, import("postcss").Rule]>
 }
 declare module "tailwindcss/lib/lib/expandApplyAtRules" {
-	const expandApplyAtRules: Tailwind.expandApplyAtRules
+	function expandApplyAtRules(
+		context: Tailwind.Context,
+	): (root: import("postcss").Root) => void
 	export = expandApplyAtRules
 }
