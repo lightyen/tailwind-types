@@ -45,9 +45,7 @@ async function jit(...classNames) {
 	config.purge = { content: [] }
 	config.purge.safelist = classNames
 	const processer = postcss([tailwindcss(config)])
-	return processer.process("@tailwind components;@tailwind utilities;", {
-		from: undefined,
-	})
+	return processer.process("@tailwind components;@tailwind utilities;", {})
 }
 
 async function run() {
