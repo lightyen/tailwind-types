@@ -686,7 +686,7 @@ declare namespace Tailwind {
 		mode?: "jit" | "aot"
 		purge?: string[] | PurgeConfig
 		separator?: string
-		prefix?: string
+		prefix?: string | ((classname: string) => string)
 		important?: boolean
 		darkMode?: false | "media" | "class"
 		variantOrder?: Variant[]
@@ -756,7 +756,7 @@ declare namespace Tailwind {
 		mode?: ConfigJS["mode"]
 		purge?: ConfigJS["purge"]
 		separator: string
-		prefix: string
+		prefix: string | ((classname: string) => string)
 		important: boolean
 		darkMode: false | "media" | "class"
 		corePlugins: Array<keyof CorePluginFeatures>
