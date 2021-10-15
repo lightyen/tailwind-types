@@ -655,7 +655,7 @@ declare namespace Tailwind {
 		purge?: Content | PurgeConfig
 		safelist?: SafeList
 		separator?: string
-		prefix?: string
+		prefix?: string | GetPrefix
 		important?: boolean
 		darkMode?: "media" | "class"
 		variantOrder?: Variant[]
@@ -721,12 +721,16 @@ declare namespace Tailwind {
 		100: string
 	}
 
+	interface GetPrefix {
+		(baseClass: string): string
+	}
+
 	type ResolvedConfigJS = {
 		purge?: ConfigJS["purge"]
 		content: ConfigJS["content"]
 		safelist: string[]
 		separator: string
-		prefix: string
+		prefix: string | GetPrefix
 		important: boolean
 		darkMode: "media" | "class"
 		corePlugins: Array<keyof CorePluginFeatures>
@@ -1642,7 +1646,7 @@ declare namespace Tailwind {
 		theme(path: string, defaultValue?: any): any
 
 		/** Apply the user's configured prefix to parts of a selector. */
-		prefix(prefix: string): string
+		prefix(baseClass: string): string
 
 		corePlugins(name: keyof CorePluginFeatures): boolean
 
