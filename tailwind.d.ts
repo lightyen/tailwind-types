@@ -8,7 +8,9 @@
 declare namespace Tailwind {
 	type Value = string | number
 
-	type GetTheme = (key: string, defaultValue?: string) => any
+	interface GetTheme {
+		(key: string, defaultValue?: string): any
+	}
 
 	type Negative<T extends Record<number | string, string>> = {
 		[P in keyof T as `-${(number | string) & P}`]: `-${T[P]}`
@@ -32,12 +34,12 @@ declare namespace Tailwind {
 		(theme: GetTheme, options: ResolvePathOptions): T
 	}
 
-	type OpacityOptions = {
+	interface OpacityOptions {
 		opacityValue: string
 		opacityVariable: string
 	}
 
-	type ColorConfig = {
+	interface ColorConfig {
 		50: Value
 		100: Value
 		200: Value
@@ -51,7 +53,7 @@ declare namespace Tailwind {
 		DEFAULT: Value
 	}
 
-	type ColorConfigFunc = {
+	interface ColorConfigFunc {
 		50: (opacity: OpacityOptions) => Value
 		100: (opacity: OpacityOptions) => Value
 		200: (opacity: OpacityOptions) => Value
@@ -65,7 +67,7 @@ declare namespace Tailwind {
 		DEFAULT: (opacity: OpacityOptions) => Value
 	}
 
-	type Colors<V> = {
+	interface Colors<V> extends Record<string, V> {
 		current?: V
 		transparent?: V
 		black?: V
@@ -93,7 +95,7 @@ declare namespace Tailwind {
 		trueGray?: V
 		coolGray?: V
 		blueGray?: V
-	} & { [key: string]: V }
+	}
 
 	type Palette = Colors<
 		| Value
@@ -119,7 +121,7 @@ declare namespace Tailwind {
 		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
 	>
 
-	type CorePluginFeatures = {
+	interface CorePluginFeatures {
 		accessibility: boolean
 		alignContent: boolean
 		alignItems: boolean
@@ -570,7 +572,7 @@ declare namespace Tailwind {
 		| "xl"
 		| "2xl"
 
-	type VariantFuncOption = {
+	interface VariantFuncOption {
 		/** The `before` helper lets you add new variants to the beginning of a plugin's default variant list. */
 		before: (variants: Variant[]) => Variant[]
 		/** The `after` helper lets you add new variants to the end of a plugin's default variant list. */
@@ -670,7 +672,7 @@ declare namespace Tailwind {
 		| ((content: string) => string)
 		| Record<string, (content: string) => string>
 
-	type PurgeConfig = {
+	interface PurgeConfig {
 		mode?: "all"
 		content?: Content
 		transform?: Transform | { DEFAULT: Transform }
@@ -734,7 +736,7 @@ declare namespace Tailwind {
 		3.5: string
 	}
 
-	type OpacityConfig = {
+	interface OpacityConfig {
 		0: string
 		5: string
 		10: string
@@ -752,7 +754,7 @@ declare namespace Tailwind {
 		100: string
 	}
 
-	type ResolvedConfigJS = {
+	interface ResolvedConfigJS {
 		mode?: ConfigJS["mode"]
 		purge?: ConfigJS["purge"]
 		separator: string
@@ -1632,9 +1634,11 @@ declare namespace Tailwind {
 		postcss: import("postcss").Postcss
 	}
 
-	type PluginFunction = (options: PluginOptions) => void
+	interface PluginFunction {
+		(options: PluginOptions): void
+	}
 
-	type PluginObject = {
+	interface PluginObject {
 		handler?: PluginFunction
 		config?: ConfigJS
 	}
