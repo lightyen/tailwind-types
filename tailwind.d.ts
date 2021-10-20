@@ -642,7 +642,7 @@ declare namespace Tailwind {
 	type CSSProperties = DefinedCSSProperties &
 		Record<string, Value | DefinedCSSProperties>
 
-	type Styles = Record<string, CSSProperties>
+	type Styles = Record<string, CSSProperties> | import("postcss").Node
 
 	type PresetVariants = Partial<
 		Record<
@@ -1570,19 +1570,11 @@ declare namespace Tailwind {
 declare namespace Tailwind {
 	interface PluginOptions {
 		/** Register new base styles. */
-		addBase(
-			styles:
-				| Styles
-				| import("postcss").Node
-				| Array<Styles | import("postcss").Node>,
-		): void
+		addBase(styles: Styles | Styles[]): void
 
 		/** Register new component styles. */
 		addComponents(
-			styles:
-				| Styles
-				| import("postcss").Node
-				| Array<Styles | import("postcss").Node>,
+			styles: Styles | Styles[],
 			options?:
 				| Variant[]
 				| {
@@ -1594,10 +1586,7 @@ declare namespace Tailwind {
 
 		/** Register new utility styles. */
 		addUtilities(
-			styles:
-				| Styles
-				| import("postcss").Node
-				| Array<Styles | import("postcss").Node>,
+			styles: Styles | Styles[],
 			options?:
 				| Variant[]
 				| {
