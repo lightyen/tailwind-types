@@ -67,7 +67,7 @@ declare namespace Tailwind {
 		DEFAULT: (opacity: OpacityOptions) => Value
 	}
 
-	interface Colors<V> extends Record<string, V> {
+	type Colors<V> = Record<string, V> & {
 		current?: V
 		transparent?: V
 		black?: V
