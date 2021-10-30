@@ -230,8 +230,10 @@ declare namespace Tailwind {
 		objectPosition: boolean
 		opacity: boolean
 		order: boolean
-		outline: boolean
 		outlineColor: boolean
+		outlineOffset: boolean
+		outlineStyle: boolean
+		outlineWidth: boolean
 		overflow: boolean
 		overscrollBehavior: boolean
 		padding: boolean
@@ -302,7 +304,6 @@ declare namespace Tailwind {
 	type KeyframesValue = Record<string, CSSProperties>
 	type DropShadowValue = Value | Value[]
 	type FontFamilyValue = Value | Value[]
-	type OutlineValue = [outline: Value, outlineOffset: Value]
 
 	interface Theme {
 		extend?: Omit<Theme, "extend">
@@ -310,7 +311,6 @@ declare namespace Tailwind {
 		keyframes?: WithTheme<Record<string, KeyframesValue>>
 		dropShadow?: WithTheme<Record<string, DropShadowValue>>
 		fontFamily?: WithTheme<Record<string, FontFamilyValue>>
-		outline?: WithTheme<Record<string, OutlineValue>>
 		colors?: WithTheme<Palette>
 		backgroundColor?: WithTheme<Palette>
 		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
@@ -1341,14 +1341,20 @@ declare namespace Tailwind {
 				last: string
 				none: string
 			}>
-			outline: ResolvedResult<
-				{
-					none: OutlineValue
-					white: OutlineValue
-					black: OutlineValue
-				},
-				OutlineValue
-			>
+			outlineOffset: ResolvedResult<{
+				0: "0px"
+				1: "1px"
+				2: "2px"
+				4: "4px"
+				8: "8px"
+			}>
+			outlineWidth: ResolvedResult<{
+				0: "0px"
+				1: "1px"
+				2: "2px"
+				4: "4px"
+				8: "8px"
+			}>
 			outlineColor: ResolvedPalette
 			padding: ResolvedResult<SpacingConfig>
 			placeholderColor: ResolvedPalette
