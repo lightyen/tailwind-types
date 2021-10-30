@@ -182,6 +182,7 @@ declare namespace Tailwind {
 		fill: boolean
 		filter: boolean
 		flex: boolean
+		flexBasis: boolean
 		flexDirection: boolean
 		flexGrow: boolean
 		flexShrink: boolean
@@ -230,6 +231,7 @@ declare namespace Tailwind {
 		opacity: boolean
 		order: boolean
 		outline: boolean
+		outlineColor: boolean
 		overflow: boolean
 		overscrollBehavior: boolean
 		padding: boolean
@@ -265,6 +267,7 @@ declare namespace Tailwind {
 		textAlign: boolean
 		textColor: boolean
 		textDecoration: boolean
+		textDecorationColor: boolean
 		textIndent: boolean
 		textOpacity: boolean
 		textOverflow: boolean
@@ -314,12 +317,14 @@ declare namespace Tailwind {
 		caretColor?: WithTheme<Palette>
 		accentColor?: WithTheme<Palette> & { auto: "auto" }
 		divideColor?: WithTheme<Palette & { DEFAULT?: Value }>
+		fill?: WithTheme<Palette>
 		gradientColorStops?: WithTheme<Palette>
+		outlineColor?: WithTheme<Palette>
 		placeholderColor?: WithTheme<Palette>
 		ringColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		ringOffsetColor?: WithTheme<Palette>
 		textColor?: WithTheme<Palette>
-		fill?: WithTheme<Palette>
+		textDecorationColor?: WithTheme<Palette>
 		borderWidth?: WithTheme<Record<string, Value>>
 		screens?: WithTheme<Record<string, Value>>
 		spacing?: WithTheme<Record<string, Value>>
@@ -352,6 +357,7 @@ declare namespace Tailwind {
 		hueRotate?: WithTheme<Record<string, Value>>
 		invert?: WithTheme<Record<string, Value>>
 		flex?: WithTheme<Record<string, Value>>
+		flexBasis: WithTheme<Record<string, Value>>
 		flexGrow?: WithTheme<Record<string, Value>>
 		flexShrink?: WithTheme<Record<string, Value>>
 		fontWeight?: WithTheme<Record<string, Value>>
@@ -985,11 +991,6 @@ declare namespace Tailwind {
 				60: string
 				90: string
 				180: string
-				"-180": string
-				"-90": string
-				"-60": string
-				"-30": string
-				"-15": string
 			}>
 			invert: ResolvedResult<{
 				0: string
@@ -1001,6 +1002,38 @@ declare namespace Tailwind {
 				initial: string
 				none: string
 			}>
+			flexBasis: ResolvedResult<
+				SpacingConfig & {
+					auto: "auto"
+					"1/2": "50%"
+					"1/3": "33.333333%"
+					"2/3": "66.666667%"
+					"1/4": "25%"
+					"2/4": "50%"
+					"3/4": "75%"
+					"1/5": "20%"
+					"2/5": "40%"
+					"3/5": "60%"
+					"4/5": "80%"
+					"1/6": "16.666667%"
+					"2/6": "33.333333%"
+					"3/6": "50%"
+					"4/6": "66.666667%"
+					"5/6": "83.333333%"
+					"1/12": "8.333333%"
+					"2/12": "16.666667%"
+					"3/12": "25%"
+					"4/12": "33.333333%"
+					"5/12": "41.666667%"
+					"6/12": "50%"
+					"7/12": "58.333333%"
+					"8/12": "66.666667%"
+					"9/12": "75%"
+					"10/12": "83.333333%"
+					"11/12": "91.666667%"
+					full: "100%"
+				}
+			>
 			flexGrow: ResolvedResult<{
 				0: string
 				DEFAULT: string
@@ -1192,13 +1225,6 @@ declare namespace Tailwind {
 						"2/4": string
 						"3/4": string
 						full: string
-						"-1/2": string
-						"-1/3": string
-						"-2/3": string
-						"-1/4": string
-						"-2/4": string
-						"-3/4": string
-						"-full": string
 					}
 			>
 			keyframes: ResolvedResult<
@@ -1323,6 +1349,7 @@ declare namespace Tailwind {
 				},
 				OutlineValue
 			>
+			outlineColor: ResolvedPalette
 			padding: ResolvedResult<SpacingConfig>
 			placeholderColor: ResolvedPalette
 			placeholderOpacity: ResolvedResult<OpacityConfig>
@@ -1361,14 +1388,6 @@ declare namespace Tailwind {
 				45: string
 				90: string
 				180: string
-				"-180": string
-				"-90": string
-				"-45": string
-				"-12": string
-				"-6": string
-				"-3": string
-				"-2": string
-				"-1": string
 			}>
 			saturate: ResolvedResult<{
 				0: string
@@ -1400,11 +1419,6 @@ declare namespace Tailwind {
 				3: string
 				6: string
 				12: string
-				"-12": string
-				"-6": string
-				"-3": string
-				"-2": string
-				"-1": string
 			}>
 			space: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
 			stroke: ResolvedPalette &
@@ -1418,6 +1432,8 @@ declare namespace Tailwind {
 			}>
 			textColor: ResolvedPalette
 			textOpacity: ResolvedResult<OpacityConfig>
+			textDecorationColor: ResolvedPalette
+			textIndent: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
 			transformOrigin: ResolvedResult<{
 				center: string
 				top: string
@@ -1474,13 +1490,6 @@ declare namespace Tailwind {
 						"2/4": string
 						"3/4": string
 						full: string
-						"-1/2": string
-						"-1/3": string
-						"-2/3": string
-						"-1/4": string
-						"-2/4": string
-						"-3/4": string
-						"-full": string
 					}
 			>
 			width: ResolvedResult<
@@ -1567,7 +1576,6 @@ declare namespace Tailwind {
 					}
 			>
 			scrollPadding: ResolvedResult<SpacingConfig>
-			textIndent: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
 			willChange: ResolvedResult<{
 				auto: string
 				scroll: string

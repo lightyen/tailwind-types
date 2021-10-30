@@ -178,13 +178,13 @@ declare namespace Tailwind {
 				8: "8px"
 			}
 			boxShadow: {
-				sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)"
-				DEFAULT: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)"
-				md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
-				lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
-				xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-				"2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
-				inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)"
+				sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)"
+				DEFAULT: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px 0 rgb(0 0 0 / 0.06)"
+				md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06)"
+				lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05)"
+				xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04)"
+				"2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)"
+				inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.06)"
 				none: "none"
 			}
 			caretColor: WithTheme<DefaultConfig["theme"]["colors"]>
@@ -213,6 +213,34 @@ declare namespace Tailwind {
 				move: "move"
 				help: "help"
 				"not-allowed": "not-allowed"
+				none: "none"
+				"context-menu": "context-menu"
+				progress: "progress"
+				cell: "cell"
+				crosshair: "crosshair"
+				"vertical-text": "vertical-text"
+				alias: "alias"
+				copy: "copy"
+				"no-drop": "no-drop"
+				grab: "grab"
+				grabbing: "grabbing"
+				"all-scroll": "all-scroll"
+				"col-resize": "col-resize"
+				"row-resize": "row-resize"
+				"n-resize": "n-resize"
+				"e-resize": "e-resize"
+				"s-resize": "s-resize"
+				"w-resize": "w-resize"
+				"ne-resize": "ne-resize"
+				"nw-resize": "nw-resize"
+				"se-resize": "se-resize"
+				"sw-resize": "sw-resize"
+				"ew-resize": "ew-resize"
+				"ns-resize": "ns-resize"
+				"nesw-resize": "nesw-resize"
+				"nwse-resize": "nwse-resize"
+				"zoom-in": "zoom-in"
+				"zoom-out": "zoom-out"
 			}
 			divideColor: DefaultConfig["theme"]["borderColor"]
 			divideOpacity: DefaultConfig["theme"]["borderOpacity"]
@@ -244,11 +272,6 @@ declare namespace Tailwind {
 				DEFAULT: "100%"
 			}
 			hueRotate: {
-				"-180": "-180deg"
-				"-90": "-90deg"
-				"-60": "-60deg"
-				"-30": "-30deg"
-				"-15": "-15deg"
 				0: "0deg"
 				15: "15deg"
 				30: "30deg"
@@ -266,6 +289,38 @@ declare namespace Tailwind {
 				initial: "0 1 auto"
 				none: "none"
 			}
+			flexBasis: WithTheme<
+				DefaultConfig["theme"]["spacing"] & {
+					auto: "auto"
+					"1/2": "50%"
+					"1/3": "33.333333%"
+					"2/3": "66.666667%"
+					"1/4": "25%"
+					"2/4": "50%"
+					"3/4": "75%"
+					"1/5": "20%"
+					"2/5": "40%"
+					"3/5": "60%"
+					"4/5": "80%"
+					"1/6": "16.666667%"
+					"2/6": "33.333333%"
+					"3/6": "50%"
+					"4/6": "66.666667%"
+					"5/6": "83.333333%"
+					"1/12": "8.333333%"
+					"2/12": "16.666667%"
+					"3/12": "25%"
+					"4/12": "33.333333%"
+					"5/12": "41.666667%"
+					"6/12": "50%"
+					"7/12": "58.333333%"
+					"8/12": "66.666667%"
+					"9/12": "75%"
+					"10/12": "83.333333%"
+					"11/12": "91.666667%"
+					full: "100%"
+				}
+			>
 			flexGrow: {
 				0: "0"
 				DEFAULT: "1"
@@ -472,27 +527,22 @@ declare namespace Tailwind {
 					"5/6": "83.333333%"
 					full: "100%"
 					screen: "100vh"
+					min: "min-content"
+					max: "max-content"
+					fit: "fit-content"
 				}
 			>
 			inset: WithTheme<
-				DefaultConfig["theme"]["spacing"] &
-					Negative<DefaultConfig["theme"]["spacing"]> & {
-						auto: "auto"
-						"1/2": "50%"
-						"1/3": "33.333333%"
-						"2/3": "66.666667%"
-						"1/4": "25%"
-						"2/4": "50%"
-						"3/4": "75%"
-						full: "100%"
-						"-1/2": "-50%"
-						"-1/3": "-33.333333%"
-						"-2/3": "-66.666667%"
-						"-1/4": "-25%"
-						"-2/4": "-50%"
-						"-3/4": "-75%"
-						"-full": "-100%"
-					}
+				DefaultConfig["theme"]["spacing"] & {
+					auto: "auto"
+					"1/2": "50%"
+					"1/3": "33.333333%"
+					"2/3": "66.666667%"
+					"1/4": "25%"
+					"2/4": "50%"
+					"3/4": "75%"
+					full: "100%"
+				}
 			>
 			keyframes: {
 				spin: {
@@ -552,15 +602,17 @@ declare namespace Tailwind {
 				decimal: "decimal"
 			}
 			margin: WithTheme<
-				DefaultConfig["theme"]["spacing"] &
-					Negative<DefaultConfig["theme"]["spacing"]> & {
-						auto: "auto"
-					}
+				DefaultConfig["theme"]["spacing"] & {
+					auto: "auto"
+				}
 			>
 			maxHeight: WithTheme<
 				DefaultConfig["theme"]["spacing"] & {
 					full: "100%"
 					screen: "100vh"
+					min: "min-content"
+					max: "max-content"
+					fit: "fit-content"
 				}
 			>
 			maxWidth: WithTheme<
@@ -582,18 +634,23 @@ declare namespace Tailwind {
 				full: "100%"
 				min: "min-content"
 				max: "max-content"
+				fit: "fit-content"
 				prose: "65ch"
 			}
 			minHeight: {
 				0: "0px"
 				full: "100%"
 				screen: "100vh"
+				min: "min-content"
+				max: "max-content"
+				fit: "fit-content"
 			}
 			minWidth: {
 				0: "0px"
 				full: "100%"
 				min: "min-content"
 				max: "max-content"
+				fit: "fit-content"
 			}
 			objectPosition: {
 				bottom: "bottom"
@@ -640,14 +697,24 @@ declare namespace Tailwind {
 				11: "11"
 				12: "12"
 			}
-			outline: {
-				none: ["2px solid transparent", "2px"]
-				white: ["2px dotted white", "2px"]
-				black: ["2px dotted black", "2px"]
-			}
 			padding: WithTheme<DefaultConfig["theme"]["spacing"]>
 			placeholderColor: WithTheme<DefaultConfig["theme"]["colors"]>
 			placeholderOpacity: WithTheme<DefaultConfig["theme"]["opacity"]>
+			outlineColor: WithTheme<DefaultConfig["theme"]["colors"]>
+			outlineOffset: {
+				0: "0px"
+				1: "1px"
+				2: "2px"
+				4: "4px"
+				8: "8px"
+			}
+			outlineWidth: {
+				0: "0px"
+				1: "1px"
+				2: "2px"
+				4: "4px"
+				8: "8px"
+			}
 			ringColor: WithTheme<
 				DefaultConfig["theme"]["colors"] & {
 					DEFAULT: DefaultConfig["theme"]["colors"]["blue"]["500"]
@@ -675,14 +742,6 @@ declare namespace Tailwind {
 				8: "8px"
 			}
 			rotate: {
-				"-180": "-180deg"
-				"-90": "-90deg"
-				"-45": "-45deg"
-				"-12": "-12deg"
-				"-6": "-6deg"
-				"-3": "-3deg"
-				"-2": "-2deg"
-				"-1": "-1deg"
 				0: "0deg"
 				1: "1deg"
 				2: "2deg"
@@ -712,21 +771,13 @@ declare namespace Tailwind {
 				125: "1.25"
 				150: "1.5"
 			}
-			scrollMargin: WithTheme<
-				DefaultConfig["theme"]["spacing"] &
-					Negative<DefaultConfig["theme"]["spacing"]>
-			>
+			scrollMargin: WithTheme<DefaultConfig["theme"]["spacing"]>
 			scrollPadding: WithTheme<DefaultConfig["theme"]["spacing"]>
 			sepia: {
 				0: "0"
 				DEFAULT: "100%"
 			}
 			skew: {
-				"-12": "-12deg"
-				"-6": "-6deg"
-				"-3": "-3deg"
-				"-2": "-2deg"
-				"-1": "-1deg"
 				0: "0deg"
 				1: "1deg"
 				2: "2deg"
@@ -734,10 +785,7 @@ declare namespace Tailwind {
 				6: "6deg"
 				12: "12deg"
 			}
-			space: WithTheme<
-				DefaultConfig["theme"]["spacing"] &
-					Negative<DefaultConfig["theme"]["spacing"]>
-			>
+			space: WithTheme<DefaultConfig["theme"]["spacing"]>
 			stroke: {
 				current: "currentColor"
 			}
@@ -747,6 +795,7 @@ declare namespace Tailwind {
 				2: "2"
 			}
 			textColor: WithTheme<DefaultConfig["theme"]["colors"]>
+			textDecorationColor: WithTheme<DefaultConfig["theme"]["colors"]>
 			textIndent: WithTheme<
 				DefaultConfig["theme"]["spacing"] &
 					Negative<DefaultConfig["theme"]["spacing"]>
@@ -801,23 +850,15 @@ declare namespace Tailwind {
 				"in-out": "cubic-bezier(0.4, 0, 0.2, 1)"
 			}
 			translate: WithTheme<
-				DefaultConfig["theme"]["spacing"] &
-					Negative<DefaultConfig["theme"]["spacing"]> & {
-						"1/2": "50%"
-						"1/3": "33.333333%"
-						"2/3": "66.666667%"
-						"1/4": "25%"
-						"2/4": "50%"
-						"3/4": "75%"
-						full: "100%"
-						"-1/2": "-50%"
-						"-1/3": "-33.333333%"
-						"-2/3": "-66.666667%"
-						"-1/4": "-25%"
-						"-2/4": "-50%"
-						"-3/4": "-75%"
-						"-full": "-100%"
-					}
+				DefaultConfig["theme"]["spacing"] & {
+					"1/2": "50%"
+					"1/3": "33.333333%"
+					"2/3": "66.666667%"
+					"1/4": "25%"
+					"2/4": "50%"
+					"3/4": "75%"
+					full: "100%"
+				}
 			>
 			width: WithTheme<
 				DefaultConfig["theme"]["spacing"] & {
@@ -852,6 +893,7 @@ declare namespace Tailwind {
 					screen: "100vw"
 					min: "min-content"
 					max: "max-content"
+					fit: "fit-content"
 				}
 			>
 			willChange: {
