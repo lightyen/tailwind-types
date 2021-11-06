@@ -1589,9 +1589,9 @@ declare namespace Tailwind {
 
 	interface Generator {
 		(options: {
-			get container(): import("postcss").Root
+			container: import("postcss").Root
 			separator: string
-			modifySelectors(
+			modifySelectors?(
 				modifierFunction: (payload: {
 					get className(): string
 					selector: string
