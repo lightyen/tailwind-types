@@ -1,4 +1,4 @@
-// Type definitions for tailwindcss 3.0
+// Type definitions for tailwindcss 0.0.0-insiders.a6bcd22
 // Project: https://github.com/tailwindlabs/tailwindcss
 // Definitions by: lightyen <https://github.com/lightyen>
 
@@ -9,7 +9,7 @@ declare namespace Tailwind {
 	type Value = string | number
 
 	interface GetTheme {
-		(key: string, defaultValue?: string): any
+		(key: string, defaultValue?: unknown): any
 	}
 
 	type Negative<T extends Record<number | string, string>> = {
@@ -663,7 +663,7 @@ declare namespace Tailwind {
 		purge?: Content | PurgeConfig
 		safelist?: SafeList
 		separator?: string
-		prefix?: string | GetPrefix
+		prefix?: string
 		important?: boolean
 		darkMode?: "media" | "class"
 		variantOrder?: Variant[]
@@ -729,16 +729,12 @@ declare namespace Tailwind {
 		100: string
 	}
 
-	interface GetPrefix {
-		(baseClass: string): string
-	}
-
 	interface ResolvedConfigJS {
 		purge?: ConfigJS["purge"]
 		content: ConfigJS["content"]
 		safelist: string[]
 		separator: string
-		prefix: string | GetPrefix
+		prefix: string
 		important: boolean
 		darkMode: "media" | "class"
 		corePlugins: Array<keyof CorePluginFeatures>
@@ -1592,12 +1588,12 @@ declare namespace Tailwind {
 	}
 
 	interface Generator {
-		(opts: {
-			container: import("postcss").Root
-			separator?: string
-			modifySelectors?(
-				modifierFunction: (opts: {
-					className: string
+		(options: {
+			get container(): import("postcss").Root
+			separator: string
+			modifySelectors(
+				modifierFunction: (payload: {
+					get className(): string
 					selector: string
 				}) => string,
 			): import("postcss").Root
@@ -1613,58 +1609,65 @@ declare namespace Tailwind {
 		/** Register new component styles. */
 		addComponents(
 			styles: Styles | Styles[],
-			options?:
-				| Variant[]
-				| {
-						variants?: Variant[]
-						respectPrefix?: boolean
-						respectImportant?: boolean
-				  },
+			options?: {
+				respectPrefix?: boolean
+				respectImportant?: boolean
+			},
 		): void
 
 		/** Register new utility styles. */
 		addUtilities(
 			styles: Styles | Styles[],
-			options?:
-				| Variant[]
-				| {
-						variants?: Variant[]
-						respectPrefix?: boolean
-						respectImportant?: boolean
-				  },
+			options?: {
+				respectPrefix?: boolean
+				respectImportant?: boolean
+			},
 		): void
 
 		/** Register custom variants. */
 		addVariant(
 			variantName: string,
-			generator: Generator | Generator[],
-			options?: any,
+			generator: string | string[] | Generator | Generator[],
+			options?: { before?: string[] },
 		): void
 
 		/** Escape strings meant to be used in class names. */
 		e(classname: string): string
 
 		/** Look up values in the user's Tailwind configuration. */
-		config(path: string, defaultValue?: any): any
+		config(path: string, defaultValue?: unknown): any
 
 		/** Look up values in the user's theme configuration. */
-		theme(path: string, defaultValue?: any): any
+		theme(path: string, defaultValue?: unknown): any
 
 		/** Apply the user's configured prefix to parts of a selector. */
-		prefix(baseClass: string): string
+		prefix(selector: string): string
 
 		corePlugins(name: keyof CorePluginFeatures): boolean
 
 		matchUtilities(
-			param: Record<string, (value: Value) => CSSProperties>,
+			utilities: Record<
+				string,
+				(value?: string | undefined) => CSSProperties
+			>,
 			options?: {
-				values: string[]
+				values?: unknown
 				type?: string | string[] | undefined
 			},
 		): void
 
-		/** @deprecated Look up values in the user's variants configuration. */
-		variants(features: keyof CorePluginFeatures): Variant[]
+		matchComponents(
+			components: Record<
+				string,
+				(value?: string | undefined) => CSSProperties
+			>,
+			options?: {
+				values?: unknown
+				type?: string | string[] | undefined
+			},
+		): void
+
+		addUserCss(userCss: Styles | Styles[]): void
 
 		/** low-level manipulation with PostCSS directly */
 		postcss: import("postcss").Postcss
@@ -1709,13 +1712,13 @@ declare namespace Tailwind {
 		layerOrder: Record<string, bigint>
 		minimumScreen: bigint
 		candidateRuleMap: Map<string, Array<any>>
-		// disposables
-		// stylesheetCache
-		// ruleCache
-		// classCache
-		// applyClassCache
-		// notClassCache
-		// postCssNodeCache
+		disposables: any
+		stylesheetCache: any
+		ruleCache: any
+		classCache: any
+		applyClassCache: any
+		notClassCache: any
+		postCssNodeCache: any
 	}
 
 	interface tailwindcss {
@@ -1760,26 +1763,7 @@ declare namespace Tailwind {
 	}
 
 	interface pluginUtils {
-		applyStateToMarker(
-			selector: string,
-			marker: string,
-			state: string,
-			join: (marker: string, selector: string) => string,
-		): string
-		updateLastClasses(selectors: string, updateClass: updateClass): string
 		updateAllClasses(selectors: string, updateClass: updateClass): string
-		transformAllSelectors(
-			transformSelector: updateClass,
-			options?: transformOptions,
-		): Tailwind.Generator
-		transformAllClasses(
-			transformClass: updateClass,
-			options?: transformOptions,
-		): Tailwind.Generator
-		transformLastClasses(
-			transformClass: updateClass,
-			options?: transformOptions,
-		): Tailwind.Generator
 	}
 
 	interface prefixSelector {
@@ -1832,32 +1816,10 @@ declare module "tailwindcss/lib/corePluginList" {
 }
 
 declare module "tailwindcss/lib/util/pluginUtils" {
-	export function applyStateToMarker(
-		selector: string,
-		marker: string,
-		state: string,
-		join: (marker: string, selector: string) => string,
-	): string
-	export function updateLastClasses(
-		selectors: string,
-		updateClass: Tailwind.updateClass,
-	): string
 	export function updateAllClasses(
 		selectors: string,
 		updateClass: Tailwind.updateClass,
 	): string
-	export function transformAllSelectors(
-		transformSelector: Tailwind.updateClass,
-		options?: Tailwind.transformOptions,
-	): Tailwind.Generator
-	export function transformAllClasses(
-		transformClass: Tailwind.updateClass,
-		options?: Tailwind.transformOptions,
-	): Tailwind.Generator
-	export function transformLastClasses(
-		transformClass: Tailwind.updateClass,
-		options?: Tailwind.transformOptions,
-	): Tailwind.Generator
 }
 
 declare module "tailwindcss/lib/util/prefixSelector" {

@@ -3,14 +3,7 @@ import tailwindcss from "tailwindcss"
 import resolveConfig from "tailwindcss/resolveConfig"
 import colors from "tailwindcss/colors"
 import plugin from "tailwindcss/plugin"
-import {
-	applyStateToMarker,
-	transformAllClasses,
-	transformAllSelectors,
-	transformLastClasses,
-	updateAllClasses,
-	updateLastClasses,
-} from "tailwindcss/lib/util/pluginUtils"
+import { updateAllClasses } from "tailwindcss/lib/util/pluginUtils"
 
 import expandApplyAtRules from "tailwindcss/lib/lib/expandApplyAtRules"
 import prefixSelector from "tailwindcss/lib/util/prefixSelector"
@@ -30,15 +23,14 @@ const config: Tailwind.ConfigJS = {
 	},
 	plugins: [
 		plugin(
-			function ({ addUtilities, theme, variants }) {
+			function ({ addUtilities, theme }) {
 				addUtilities(
 					Object.fromEntries(
 						Object.entries(theme("testPlugin")).map(([k, v]) => [
 							`.test-${k}`,
 							{ testProperty: v },
 						]),
-					) as any,
-					variants("testPlugin" as any),
+					) as Tailwind.Styles,
 				)
 			},
 			{

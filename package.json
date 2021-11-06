@@ -1,6 +1,6 @@
 {
   "name": "tailwind-types",
-  "version": "3.0.0-alpha.16",
+  "version": "3.0.0-insiders.a6bcd22",
   "description": "Tailwind types",
   "license": "MIT",
   "contributors": [
@@ -19,7 +19,7 @@
     "@tailwindcss/line-clamp": "^0.2.1",
     "@tailwindcss/typography": "^0.4.1",
     "postcss": "^8.3.9",
-    "tailwindcss": "^3.0.0-alpha.1",
+    "tailwindcss": "0.0.0-insiders.a6bcd22",
     "typescript": "^4.4.4"
   },
   "peerDependencies": {

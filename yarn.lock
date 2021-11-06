@@ -327,12 +327,12 @@ glob-parent@^5.1.2, glob-parent@~5.1.2:
   dependencies:
     is-glob "^4.0.1"
 
-glob-parent@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/glob-parent/-/glob-parent-6.0.1.tgz#42054f685eb6a44e7a7d189a96efa40a54971aa7"
-  integrity sha512-kEVjS71mQazDBHKcsq4E9u/vUzaLcw1A8EtUeydawvIWQCJM0qQ08G1H7/XTjFUulla6XQiDOG6MXSaG0HDKog==
+glob-parent@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-6.0.2.tgz#6d237d99083950c79290f24c7642a3de9a28f9e3"
+  integrity sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==
   dependencies:
-    is-glob "^4.0.1"
+    is-glob "^4.0.3"
 
 glob@^7.1.3:
   version "7.1.7"
@@ -426,6 +426,13 @@ is-glob@^4.0.1, is-glob@~4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/is-glob/-/is-glob-4.0.1.tgz#7567dbe9f2f5e2467bc77ab83c4a29482407a5dc"
   integrity sha512-5G0tKtBTFImOqDnLB2hG6Bp2qcKEFduo4tZu9MT/H6NQv/ghhy30o55ufafxJ/LdH79LLs2Kfrn85TLKyA7BUg==
+  dependencies:
+    is-extglob "^2.1.1"
+
+is-glob@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-4.0.3.tgz#64f61e42cbbb2eec2071a9dac0b28ba1e65d5084"
+  integrity sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==
   dependencies:
     is-extglob "^2.1.1"
 
@@ -701,10 +708,10 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-tailwindcss@^3.0.0-alpha.1:
-  version "3.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.0.0-alpha.1.tgz#b67ac8f2676a7d80bb03ce4f118638b45752ab9a"
-  integrity sha512-VweVLyu1tpo/i2MnoyDIunToZHYhHRZLGuKDt9I+nnjFoW07NhDwwHWsUyRHKowP5MZaHduhV+AVlM6Auy7m3A==
+tailwindcss@^0.0.0-insiders.a6bcd22:
+  version "0.0.0-insiders.a6bcd22"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-0.0.0-insiders.a6bcd22.tgz#5326a0f1f317d54d580ab7827be9a5d2bb5cbe4b"
+  integrity sha512-zqaJlySDoqa/LGlRlm/kXy27lbOfNVeen5p4EjxPw3FEF3BVTzR5U4axOm8TY57aDxGj/sbAkvxsXiABOZV6zA==
   dependencies:
     arg "^5.0.1"
     chalk "^4.1.2"
@@ -715,8 +722,8 @@ tailwindcss@^3.0.0-alpha.1:
     didyoumean "^1.2.2"
     dlv "^1.1.3"
     fast-glob "^3.2.7"
-    glob-parent "^6.0.1"
-    is-glob "^4.0.1"
+    glob-parent "^6.0.2"
+    is-glob "^4.0.3"
     normalize-path "^3.0.0"
     object-hash "^2.2.0"
     postcss-js "^3.0.3"
