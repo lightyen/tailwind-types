@@ -1591,8 +1591,9 @@ declare namespace Tailwind {
 		(options: {
 			container: import("postcss").Root
 			separator: string
-			wrap(node: import("postcss").AtRule): void
-			format(selectorFormat: string): void
+			// Private API
+			wrap?(node: import("postcss").AtRule): void
+			format?(selectorFormat: string): void
 			modifySelectors?(
 				modifierFunction: (payload: {
 					get className(): string
