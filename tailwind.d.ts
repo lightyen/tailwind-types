@@ -161,6 +161,7 @@ declare namespace Tailwind {
 		borderWidth: boolean
 		boxDecorationBreak: boolean
 		boxShadow: boolean
+		boxShadowColor: boolean
 		boxSizing: boolean
 		breakAfter: boolean
 		breakBefore: boolean
@@ -325,6 +326,7 @@ declare namespace Tailwind {
 		ringOffsetColor?: WithTheme<Palette>
 		textColor?: WithTheme<Palette>
 		textDecorationColor?: WithTheme<Palette>
+		boxShadowColor?: WithTheme<Palette>
 		borderWidth?: WithTheme<Record<string, Value>>
 		screens?: WithTheme<Record<string, Value>>
 		spacing?: WithTheme<Record<string, Value>>
@@ -913,6 +915,7 @@ declare namespace Tailwind {
 				inner: string
 				none: string
 			}>
+			boxShadowColor: ResolvedPalette
 			caretColor: ResolvedPalette
 			accentColor: ResolvedPalette & { auto?: string }
 			contrast: ResolvedResult<{
