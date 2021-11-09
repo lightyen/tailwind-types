@@ -1672,7 +1672,9 @@ declare namespace Tailwind {
 			options?: Record<string, any>
 		},
 		(
+			| import("postcss").Comment
 			| import("postcss").Rule
+			| import("postcss").AtRule
 			| ((
 					modifier: string,
 			  ) => Array<Record<string, Record<string, string>>>)
