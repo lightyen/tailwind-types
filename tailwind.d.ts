@@ -556,6 +556,7 @@ declare namespace Tailwind {
 		"--tw-gradient-from": Value
 		"--tw-gradient-stops": Value
 		"--tw-gradient-to": Value
+		"--tw-content": Value
 		"--tw-ordinal": Value
 		"--tw-slashed-zero": Value
 		"--tw-numeric-figure": Value
@@ -564,6 +565,8 @@ declare namespace Tailwind {
 		"--tw-text-opacity": Value
 		"--tw-placeholder-opacity": Value
 		"--tw-shadow": Value
+		"--tw-shadow-colored": Value
+		"--tw-shadow-color": Value
 		"--tw-ring-offset-shadow": Value
 		"--tw-ring-shadow": Value
 		"--tw-ring-inset": Value
