@@ -1716,7 +1716,7 @@ declare namespace Tailwind {
 	type CandidateRule = [
 		{
 			sort: bigint
-			layer: "base" | "components" | "utilities"
+			layer: "base" | "components" | "utilities" | "user"
 			options?: Record<string, any>
 		},
 		(
