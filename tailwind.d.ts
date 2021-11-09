@@ -1725,6 +1725,7 @@ declare namespace Tailwind {
 			| import("postcss").AtRule
 			| ((
 					modifier: string,
+					options: { isOnlyPlugin: boolean },
 			  ) => Array<Record<string, Record<string, string>>>)
 		),
 	]
