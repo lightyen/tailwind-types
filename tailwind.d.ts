@@ -1665,11 +1665,32 @@ declare namespace Tailwind {
 }
 
 declare namespace Tailwind {
+	type CandidateRule = [
+		{
+			sort: bigint
+			layer: "base" | "components" | "utilities"
+			options?: Record<string, any>
+		},
+		(
+			| import("postcss").Rule
+			| ((
+					modifier: string,
+			  ) => Array<Record<string, Record<string, string>>>)
+		),
+	]
+
 	interface Context {
 		variantMap: Map<string, Array<[bigint, Generator]>>
 		tailwindConfig: Tailwind.ResolvedConfigJS
 		changedContent: Array<{ content: string; extension: string }>
-		candidateRuleMap: Map<string, Array<any>>
+		candidateRuleMap: Map<string, CandidateRule[]>
+		variantOrder: Map<string, bigint>
+		minimumScreen: bigint
+		layerOrder: {
+			base: bigint
+			components: bigint
+			utilities: bigint
+		}
 	}
 
 	interface tailwindcss {
