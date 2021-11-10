@@ -9,7 +9,7 @@ declare namespace Tailwind {
 	type Value = string | number
 
 	interface GetTheme {
-		(key: string, defaultValue?: string): any
+		(key: string, defaultValue?: unknown): any
 	}
 
 	type Negative<T extends Record<number | string, string>> = {
@@ -1609,10 +1609,10 @@ declare namespace Tailwind {
 		e(classname: string): string
 
 		/** Look up values in the user's Tailwind configuration. */
-		config(path: string, defaultValue?: any): any
+		config(path: string, defaultValue?: unknown): any
 
 		/** Look up values in the user's theme configuration. */
-		theme(path: string, defaultValue?: any): any
+		theme(path: string, defaultValue?: unknown): any
 
 		/** Apply the user's configured prefix to parts of a selector. */
 		prefix(prefix: string): string
