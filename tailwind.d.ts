@@ -1,4 +1,4 @@
-// Type definitions for tailwindcss 0.0.0-insiders.a6bcd22
+// Type definitions for tailwindcss 3.0.0-alpha.2
 // Project: https://github.com/tailwindlabs/tailwindcss
 // Definitions by: lightyen <https://github.com/lightyen>
 
@@ -66,7 +66,7 @@ declare namespace Tailwind {
 		DEFAULT: (opacity: OpacityOptions) => Value
 	}
 
-	interface Colors<V> extends Record<string, V> {
+	interface Colors<V> extends Record<string, V | undefined> {
 		inherit?: V
 		current?: V
 		transparent?: V
@@ -646,7 +646,7 @@ declare namespace Tailwind {
 		transform?: Transformers
 		extract?: Extractors
 		safelist?: SafeList
-		options?: any
+		options?: unknown
 	}
 
 	/** @deprecated */
@@ -659,7 +659,7 @@ declare namespace Tailwind {
 		enabled?: boolean
 		safelist?: SafeList
 		extract?: Extractors
-		options?: any
+		options?: unknown
 	}
 
 	interface ConfigJS extends Preset {
@@ -1616,28 +1616,16 @@ declare namespace Tailwind {
 		addBase(styles: Styles | Styles[]): void
 
 		/** Register new component styles. */
-		addComponents(
-			styles: Styles | Styles[],
-			options?: {
-				respectPrefix?: boolean
-				respectImportant?: boolean
-			},
-		): void
+		addComponents(styles: Styles | Styles[], options?: unknown): void
 
 		/** Register new utility styles. */
-		addUtilities(
-			styles: Styles | Styles[],
-			options?: {
-				respectPrefix?: boolean
-				respectImportant?: boolean
-			},
-		): void
+		addUtilities(styles: Styles | Styles[], options?: unknown): void
 
 		/** Register custom variants. */
 		addVariant(
 			variantName: string,
 			generator: string | string[] | Generator | Generator[],
-			options?: { before?: string[] },
+			options?: unknown,
 		): void
 
 		/** Escape strings meant to be used in class names. */
@@ -1659,10 +1647,7 @@ declare namespace Tailwind {
 				string,
 				(value?: string | undefined) => CSSProperties
 			>,
-			options?: {
-				values?: unknown
-				type?: string | string[] | undefined
-			},
+			options?: unknown,
 		): void
 
 		matchComponents(
@@ -1670,10 +1655,7 @@ declare namespace Tailwind {
 				string,
 				(value?: string | undefined) => CSSProperties
 			>,
-			options?: {
-				values?: unknown
-				type?: string | string[] | undefined
-			},
+			options?: unknown,
 		): void
 
 		addUserCss(userCss: Styles | Styles[]): void
@@ -1717,7 +1699,7 @@ declare namespace Tailwind {
 		{
 			sort: bigint
 			layer: "base" | "components" | "utilities" | "user"
-			options?: Record<string, any>
+			options?: unknown
 		},
 		(
 			| import("postcss").Comment
