@@ -1,4 +1,4 @@
-// Type definitions for tailwindcss 3.0.0-alpha.2
+// Type definitions for tailwindcss 3.0.0
 // Project: https://github.com/tailwindlabs/tailwindcss
 // Definitions by: lightyen <https://github.com/lightyen>
 
@@ -271,6 +271,9 @@ declare namespace Tailwind {
 		textColor: boolean
 		textDecoration: boolean
 		textDecorationColor: boolean
+		textDecorationStyle: boolean
+		textDecorationThickness: boolean
+		textUnderlineOffset: boolean
 		textIndent: boolean
 		textOpacity: boolean
 		textOverflow: boolean
@@ -401,6 +404,8 @@ declare namespace Tailwind {
 		stroke?: WithTheme<Record<string, Value>>
 		strokeWidth?: WithTheme<Record<string, Value>>
 		textOpacity?: WithTheme<Record<string, Value>>
+		textDecorationThickness?: WithTheme<Record<string, Value>>
+		textUnderlineOffset?: WithTheme<Record<string, Value>>
 		transformOrigin?: WithTheme<Record<string, Value>>
 		transitionDelay?: WithTheme<Record<string, Value>>
 		transitionDuration?: WithTheme<Record<string, Value>>
@@ -1441,6 +1446,23 @@ declare namespace Tailwind {
 			textColor: ResolvedPalette
 			textOpacity: ResolvedResult<OpacityConfig>
 			textDecorationColor: ResolvedPalette
+			textDecorationThickness: ResolvedResult<{
+				auto: string
+				"from-font": string
+				0: string
+				1: string
+				2: string
+				4: string
+				8: string
+			}>
+			textUnderlineOffset: ResolvedResult<{
+				auto: string
+				0: string
+				1: string
+				2: string
+				4: string
+				8: string
+			}>
 			textIndent: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
 			transformOrigin: ResolvedResult<{
 				center: string

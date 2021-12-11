@@ -797,6 +797,23 @@ declare namespace Tailwind {
 			}
 			textColor: WithTheme<DefaultConfig["theme"]["colors"]>
 			textDecorationColor: WithTheme<DefaultConfig["theme"]["colors"]>
+			textDecorationThickness: {
+				auto: "auto"
+				"from-font": "from-font"
+				0: "0px"
+				1: "1px"
+				2: "2px"
+				4: "4px"
+				8: "8px"
+			}
+			textUnderlineOffset: {
+				auto: "auto"
+				0: "0px"
+				1: "1px"
+				2: "2px"
+				4: "4px"
+				8: "8px"
+			}
 			textIndent: WithTheme<
 				DefaultConfig["theme"]["spacing"] &
 					Negative<DefaultConfig["theme"]["spacing"]>

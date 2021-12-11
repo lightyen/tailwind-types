@@ -220,14 +220,15 @@ const configWithoutExtend: Tailwind.ConfigJS = {
 		boxShadow: {
 			sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
 			DEFAULT:
-				"0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px 0 rgb(0 0 0 / 0.06)",
-			md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06)",
-			lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05)",
-			xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04)",
+				"0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+			md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+			lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+			xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
 			"2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-			inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.06)",
+			inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
 			none: "none",
 		},
+		boxShadowColor: ({ theme }) => theme("colors"),
 		caretColor: ({ theme }) => theme("colors"),
 		accentColor: ({ theme }) => ({
 			...theme("colors"),
@@ -302,7 +303,7 @@ const configWithoutExtend: Tailwind.ConfigJS = {
 			"2xl": "0 25px 25px rgb(0 0 0 / 0.15)",
 			none: "0 0 #0000",
 		},
-		fill: { current: "currentColor" },
+		fill: ({ theme }) => theme("colors"),
 		grayscale: {
 			0: "0",
 			DEFAULT: "100%",
@@ -818,9 +819,7 @@ const configWithoutExtend: Tailwind.ConfigJS = {
 		space: ({ theme }) => ({
 			...theme("spacing"),
 		}),
-		stroke: {
-			current: "currentColor",
-		},
+		stroke: ({ theme }) => theme("colors"),
 		strokeWidth: {
 			0: "0",
 			1: "1",
@@ -828,6 +827,23 @@ const configWithoutExtend: Tailwind.ConfigJS = {
 		},
 		textColor: ({ theme }) => theme("colors"),
 		textDecorationColor: ({ theme }) => theme("colors"),
+		textDecorationThickness: {
+			auto: "auto",
+			"from-font": "from-font",
+			0: "0px",
+			1: "1px",
+			2: "2px",
+			4: "4px",
+			8: "8px",
+		},
+		textUnderlineOffset: {
+			auto: "auto",
+			0: "0px",
+			1: "1px",
+			2: "2px",
+			4: "4px",
+			8: "8px",
+		},
 		textIndent: ({ theme }) => ({
 			...theme("spacing"),
 		}),
