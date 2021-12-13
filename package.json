@@ -1,6 +1,6 @@
 {
   "name": "tailwind-types",
-  "version": "3.0.0-alpha.2.9",
+  "version": "3.0.0",
   "description": "Tailwind types",
   "license": "MIT",
   "contributors": [
@@ -26,7 +26,7 @@
     "postcss": "^8.3.9"
   },
   "dependencies": {
-    "csstype": "3.0.9"
+    "csstype": "3.0.10"
   },
   "keywords": [
     "typescript",
