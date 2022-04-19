@@ -273,11 +273,11 @@ declare namespace Tailwind {
 		textDecorationColor: boolean
 		textDecorationStyle: boolean
 		textDecorationThickness: boolean
-		textUnderlineOffset: boolean
 		textIndent: boolean
 		textOpacity: boolean
 		textOverflow: boolean
 		textTransform: boolean
+		textUnderlineOffset: boolean
 		touchAction: boolean
 		transform: boolean
 		transformOrigin: boolean
@@ -311,29 +311,9 @@ declare namespace Tailwind {
 
 	interface Theme {
 		extend?: Omit<Theme, "extend">
-		fontSize?: WithTheme<Record<string, FontSizeValue>>
-		keyframes?: WithTheme<Record<string, KeyframesValue>>
-		dropShadow?: WithTheme<Record<string, DropShadowValue>>
-		fontFamily?: WithTheme<Record<string, FontFamilyValue>>
-		colors?: WithTheme<Palette>
-		backgroundColor?: WithTheme<Palette>
-		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
-		caretColor?: WithTheme<Palette>
 		accentColor?: WithTheme<Palette> & { auto: "auto" }
-		divideColor?: WithTheme<Palette & { DEFAULT?: Value }>
-		fill?: WithTheme<Palette>
-		gradientColorStops?: WithTheme<Palette>
-		outlineColor?: WithTheme<Palette>
-		placeholderColor?: WithTheme<Palette>
-		ringColor?: WithTheme<Palette & { DEFAULT?: Value }>
-		ringOffsetColor?: WithTheme<Palette>
-		textColor?: WithTheme<Palette>
-		textDecorationColor?: WithTheme<Palette>
-		boxShadowColor?: WithTheme<Palette>
-		borderWidth?: WithTheme<Record<string, Value>>
-		screens?: WithTheme<Record<string, Value>>
-		spacing?: WithTheme<Record<string, Value>>
 		animation?: WithTheme<Record<string, Value>>
+		aspectRatio?: WithTheme<Record<string, Value>>
 		backdropBlur?: WithTheme<Record<string, Value>>
 		backdropBrightness?: WithTheme<Record<string, Value>>
 		backdropContrast?: WithTheme<Record<string, Value>>
@@ -343,42 +323,56 @@ declare namespace Tailwind {
 		backdropOpacity?: WithTheme<Record<string, Value>>
 		backdropSaturate?: WithTheme<Record<string, Value>>
 		backdropSepia?: WithTheme<Record<string, Value>>
+		backgroundColor?: WithTheme<Palette>
 		backgroundImage?: WithTheme<Record<string, Value>>
 		backgroundOpacity?: WithTheme<Record<string, Value>>
 		backgroundPosition?: WithTheme<Record<string, Value>>
 		backgroundSize?: WithTheme<Record<string, Value>>
 		blur?: WithTheme<Record<string, Value>>
-		brightness?: WithTheme<Record<string, Value>>
+		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		borderOpacity?: WithTheme<Record<string, Value>>
 		borderRadius?: WithTheme<Record<string, Value>>
+		borderWidth?: WithTheme<Record<string, Value>>
 		boxShadow?: WithTheme<Record<string, Value>>
-		contrast?: WithTheme<Record<string, Value>>
+		boxShadowColor?: WithTheme<Palette>
+		brightness?: WithTheme<Record<string, Value>>
+		caretColor?: WithTheme<Palette>
+		colors?: WithTheme<Palette>
+		columns?: WithTheme<Record<string, Value>>
 		container?: WithTheme<Record<string, Value>>
 		content?: WithTheme<Record<string, Value>>
+		contrast?: WithTheme<Record<string, Value>>
 		cursor?: WithTheme<Record<string, Value>>
+		divideColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		divideOpacity?: WithTheme<Record<string, Value>>
 		divideWidth?: WithTheme<Record<string, Value>>
-		grayscale?: WithTheme<Record<string, Value>>
-		hueRotate?: WithTheme<Record<string, Value>>
-		invert?: WithTheme<Record<string, Value>>
+		dropShadow?: WithTheme<Record<string, DropShadowValue>>
+		fill?: WithTheme<Palette>
 		flex?: WithTheme<Record<string, Value>>
 		flexBasis: WithTheme<Record<string, Value>>
 		flexGrow?: WithTheme<Record<string, Value>>
 		flexShrink?: WithTheme<Record<string, Value>>
+		fontFamily?: WithTheme<Record<string, FontFamilyValue>>
+		fontSize?: WithTheme<Record<string, FontSizeValue>>
 		fontWeight?: WithTheme<Record<string, Value>>
 		gap?: WithTheme<Record<string, Value>>
+		gradientColorStops?: WithTheme<Palette>
+		grayscale?: WithTheme<Record<string, Value>>
 		gridAutoColumns?: WithTheme<Record<string, Value>>
 		gridAutoRows?: WithTheme<Record<string, Value>>
 		gridColumn?: WithTheme<Record<string, Value>>
 		gridColumnEnd?: WithTheme<Record<string, Value>>
 		gridColumnStart?: WithTheme<Record<string, Value>>
 		gridRow?: WithTheme<Record<string, Value>>
-		gridRowStart?: WithTheme<Record<string, Value>>
 		gridRowEnd?: WithTheme<Record<string, Value>>
+		gridRowStart?: WithTheme<Record<string, Value>>
 		gridTemplateColumns?: WithTheme<Record<string, Value>>
 		gridTemplateRows?: WithTheme<Record<string, Value>>
 		height?: WithTheme<Record<string, Value>>
+		hueRotate?: WithTheme<Record<string, Value>>
 		inset?: WithTheme<Record<string, Value>>
+		invert?: WithTheme<Record<string, Value>>
+		keyframes?: WithTheme<Record<string, KeyframesValue>>
 		letterSpacing?: WithTheme<Record<string, Value>>
 		lineHeight?: WithTheme<Record<string, Value>>
 		listStyleType?: WithTheme<Record<string, Value>>
@@ -390,21 +384,32 @@ declare namespace Tailwind {
 		objectPosition?: WithTheme<Record<string, Value>>
 		opacity?: WithTheme<Record<string, Value>>
 		order?: WithTheme<Record<string, Value>>
+		outlineColor?: WithTheme<Palette>
 		padding?: WithTheme<Record<string, Value>>
+		placeholderColor?: WithTheme<Palette>
 		placeholderOpacity?: WithTheme<Record<string, Value>>
+		ringColor?: WithTheme<Palette & { DEFAULT?: Value }>
+		ringOffsetColor?: WithTheme<Palette>
 		ringOffsetWidth?: WithTheme<Record<string, Value>>
 		ringOpacity?: WithTheme<Record<string, Value>>
 		ringWidth?: WithTheme<Record<string, Value>>
 		rotate?: WithTheme<Record<string, Value>>
 		saturate?: WithTheme<Record<string, Value>>
 		scale?: WithTheme<Record<string, Value>>
+		screens?: WithTheme<Record<string, Value>>
+		scrollMargin?: WithTheme<Record<string, Value>>
+		scrollPadding?: WithTheme<Record<string, Value>>
 		sepia?: WithTheme<Record<string, Value>>
 		skew?: WithTheme<Record<string, Value>>
 		space?: WithTheme<Record<string, Value>>
+		spacing?: WithTheme<Record<string, Value>>
 		stroke?: WithTheme<Record<string, Value>>
 		strokeWidth?: WithTheme<Record<string, Value>>
-		textOpacity?: WithTheme<Record<string, Value>>
+		textColor?: WithTheme<Palette>
+		textDecorationColor?: WithTheme<Palette>
 		textDecorationThickness?: WithTheme<Record<string, Value>>
+		textIndent?: WithTheme<Record<string, Value>>
+		textOpacity?: WithTheme<Record<string, Value>>
 		textUnderlineOffset?: WithTheme<Record<string, Value>>
 		transformOrigin?: WithTheme<Record<string, Value>>
 		transitionDelay?: WithTheme<Record<string, Value>>
@@ -413,13 +418,8 @@ declare namespace Tailwind {
 		transitionTimingFunction?: WithTheme<Record<string, Value>>
 		translate?: WithTheme<Record<string, Value>>
 		width?: WithTheme<Record<string, Value>>
-		zIndex?: WithTheme<Record<string, Value>>
-		aspectRatio?: WithTheme<Record<string, Value>>
-		columns?: WithTheme<Record<string, Value>>
-		scrollMargin?: WithTheme<Record<string, Value>>
-		scrollPadding?: WithTheme<Record<string, Value>>
-		textIndent?: WithTheme<Record<string, Value>>
 		willChange?: WithTheme<Record<string, Value>>
+		zIndex?: WithTheme<Record<string, Value>>
 	}
 
 	interface CustomTheme {
