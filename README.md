@@ -50,14 +50,13 @@ module.exports = {
 
 ```ts
 // demo.ts
-
 import colors from "tailwindcss/colors"
 
-const config: Tailwind.ConfigJS = {
+export default {
 	theme: {
 		extend: {
 			colors,
 		}
 	}
-}
+} as Tailwind.ConfigJS
 ```

@@ -269,6 +269,7 @@ declare namespace Tailwind {
 			800: "#9f1239"
 			900: "#881337"
 		}
+		/** @deprecated */
 		lightBlue?: {
 			50: "#f0f9ff"
 			100: "#e0f2fe"
@@ -281,6 +282,7 @@ declare namespace Tailwind {
 			800: "#075985"
 			900: "#0c4a6e"
 		}
+		/** @deprecated */
 		warmGray?: {
 			50: "#fafaf9"
 			100: "#f5f5f4"
@@ -293,6 +295,7 @@ declare namespace Tailwind {
 			800: "#292524"
 			900: "#1c1917"
 		}
+		/** @deprecated */
 		trueGray?: {
 			50: "#fafafa"
 			100: "#f5f5f5"
@@ -305,6 +308,7 @@ declare namespace Tailwind {
 			800: "#262626"
 			900: "#171717"
 		}
+		/** @deprecated */
 		coolGray?: {
 			50: "#f9fafb"
 			100: "#f3f4f6"
@@ -317,6 +321,7 @@ declare namespace Tailwind {
 			800: "#1f2937"
 			900: "#111827"
 		}
+		/** @deprecated */
 		blueGray?: {
 			50: "#f8fafc"
 			100: "#f1f5f9"
