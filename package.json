@@ -14,19 +14,19 @@
     "url": "https://github.com/lightyen/tailwind-types"
   },
   "devDependencies": {
-    "@tailwindcss/aspect-ratio": "^0.2.1",
-    "@tailwindcss/forms": "^0.3.3",
-    "@tailwindcss/line-clamp": "^0.2.1",
-    "@tailwindcss/typography": "^0.4.1",
+    "@tailwindcss/aspect-ratio": "0.4.0",
+    "@tailwindcss/forms": "0.5.2",
+    "@tailwindcss/line-clamp": "0.4.0",
+    "@tailwindcss/typography": "0.5.2",
     "postcss": "^8.3.9",
-    "tailwindcss": "0.0.0-insiders.a6bcd22",
-    "typescript": "^4.4.4"
+    "tailwindcss": "3.1.0",
+    "typescript": "4.7.3"
   },
   "peerDependencies": {
     "postcss": "^8.3.9"
   },
   "dependencies": {
-    "csstype": "3.0.10"
+    "csstype": "3.1.0"
   },
   "keywords": [
     "typescript",
