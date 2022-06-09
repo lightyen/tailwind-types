@@ -676,7 +676,7 @@ declare namespace Tailwind {
 		separator?: string
 		prefix?: string
 		important?: boolean
-		darkMode?: "media" | "class"
+		darkMode?: boolean | "media" | "class" | ["class", string]
 		variantOrder?: Variant[]
 		future?: "all" | Record<string, boolean>
 		experimental?: "all" | Record<string, boolean>
@@ -747,7 +747,7 @@ declare namespace Tailwind {
 		separator: string
 		prefix: string
 		important: boolean
-		darkMode: "media" | "class"
+		darkMode: boolean | "media" | "class" | ["class", string]
 		corePlugins: Array<keyof CorePluginFeatures>
 		variantOrder: Variant[]
 		presets: Preset[]
