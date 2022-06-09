@@ -170,7 +170,7 @@ declare namespace Tailwind {
 				"3xl": "1.5rem"
 				full: "9999px"
 			}
-			// borderSpacing: DefaultConfig["theme"]["spacing"]
+			borderSpacing: DefaultConfig["theme"]["spacing"]
 			borderWidth: {
 				DEFAULT: "1px"
 				0: "0px"

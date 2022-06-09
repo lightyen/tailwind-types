@@ -158,6 +158,7 @@ declare namespace Tailwind {
 		borderOpacity: boolean
 		borderRadius: boolean
 		borderStyle: boolean
+		borderSpacing: boolean
 		borderWidth: boolean
 		boxDecorationBreak: boolean
 		boxShadow: boolean
@@ -333,6 +334,7 @@ declare namespace Tailwind {
 		borderColor?: WithTheme<Palette & { DEFAULT?: Value }>
 		borderOpacity?: WithTheme<Record<string, Value>>
 		borderRadius?: WithTheme<Record<string, Value>>
+		borderSpacing?: WithTheme<Record<string, Value>>
 		borderWidth?: WithTheme<Record<string, Value>>
 		boxShadow?: WithTheme<Record<string, Value>>
 		boxShadowColor?: WithTheme<Palette>
@@ -600,6 +602,8 @@ declare namespace Tailwind {
 		"--tw-backdrop-opacity": Value
 		"--tw-backdrop-saturate": Value
 		"--tw-backdrop-sepia": Value
+		"--tw-border-spacing-x": Value
+		"--tw-border-spacing-y": Value
 	}
 
 	type DefinedCSSProperties = Partial<InnerCustomProperties> &
@@ -904,6 +908,7 @@ declare namespace Tailwind {
 				"3xl": string
 				full: string
 			}>
+			borderSpacing: ResolvedResult<SpacingConfig>
 			borderWidth: ResolvedResult<{
 				0: string
 				2: string
