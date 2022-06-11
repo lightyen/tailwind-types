@@ -1879,11 +1879,10 @@ declare module "tailwindcss/lib/lib/setupContextUtils" {
 	): Tailwind.Context
 }
 declare module "tailwindcss/lib/lib/generateRules" {
-	function generateRules(
+	export function generateRules(
 		classnames: string[],
 		context: Tailwind.Context,
 	): Array<[bigint, import("postcss").Rule]>
-	export = generateRules
 }
 declare module "tailwindcss/lib/lib/expandApplyAtRules" {
 	function expandApplyAtRules(
