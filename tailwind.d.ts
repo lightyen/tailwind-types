@@ -1879,14 +1879,20 @@ declare module "tailwindcss/lib/lib/setupContextUtils" {
 	): Tailwind.Context
 }
 declare module "tailwindcss/lib/lib/generateRules" {
-	export function generateRules(
+	function generateRules(
 		classnames: string[],
 		context: Tailwind.Context,
 	): Array<[bigint, import("postcss").Rule]>
+	export = generateRules
 }
 declare module "tailwindcss/lib/lib/expandApplyAtRules" {
 	function expandApplyAtRules(
 		context: Tailwind.Context,
 	): (root: import("postcss").Root) => void
 	export = expandApplyAtRules
+}
+
+declare module "tailwindcss/lib/util/escapeClassName" {
+	function escapeClassName(classname: string): string
+	export = escapeClassName
 }
