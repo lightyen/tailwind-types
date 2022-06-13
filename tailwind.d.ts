@@ -1656,6 +1656,11 @@ declare namespace Tailwind {
 			options?: unknown,
 		): void
 
+		matchVariant(
+			variants: Record<string, (name: string) => string | string[]>,
+			options?: { values: Record<string, string> },
+		): void
+
 		/** Escape strings meant to be used in class names. */
 		e(classname: string): string
 
@@ -1681,7 +1686,7 @@ declare namespace Tailwind {
 		matchComponents(
 			components: Record<
 				string,
-				(value?: string | undefined) => CSSProperties
+				(value?: string | undefined) => Styles | Styles[]
 			>,
 			options?: unknown,
 		): void
