@@ -391,7 +391,9 @@ declare namespace Tailwind {
 		padding?: WithTheme<Record<string, Value>>
 		placeholderColor?: WithTheme<Palette>
 		placeholderOpacity?: WithTheme<Record<string, Value>>
-		ringColor?: WithTheme<Palette & { DEFAULT?: Value }>
+		ringColor?: WithTheme<
+			Palette & { DEFAULT?: Value | ((opacity: OpacityOptions) => Value) }
+		>
 		ringOffsetColor?: WithTheme<Palette>
 		ringOffsetWidth?: WithTheme<Record<string, Value>>
 		ringOpacity?: WithTheme<Record<string, Value>>
