@@ -1767,7 +1767,13 @@ declare namespace Tailwind {
 		{
 			sort: bigint
 			layer: "base" | "components" | "utilities" | "user"
-			options?: unknown
+			options?: {
+				values?: Record<string, Value>
+				type?: ValueType | ValueType[]
+				respectPrefix?: boolean
+				respectImportant?: boolean
+				supportsNegativeValues?: boolean
+			}
 		},
 		(
 			| import("postcss").Comment
