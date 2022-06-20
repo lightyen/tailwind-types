@@ -1,4 +1,4 @@
-// Type definitions for tailwindcss 3.0.0
+// Type definitions for tailwindcss v3
 // Project: https://github.com/tailwindlabs/tailwindcss
 // Definitions by: lightyen <https://github.com/lightyen>
 
@@ -37,6 +37,23 @@ declare namespace Tailwind {
 		opacityValue: string
 		opacityVariable: string
 	}
+
+	type ValueType =
+		| "any"
+		| "color"
+		| "url"
+		| "image"
+		| "length"
+		| "percentage"
+		| "position"
+		| "lookup"
+		| "generic-name"
+		| "family-name"
+		| "number"
+		| "line-width"
+		| "absolute-size"
+		| "relative-size"
+		| "shadow"
 
 	interface ColorConfig {
 		50: Value
@@ -1646,21 +1663,28 @@ declare namespace Tailwind {
 		addBase(styles: Styles | Styles[]): void
 
 		/** Register new component styles. */
-		addComponents(styles: Styles | Styles[], options?: unknown): void
+		addComponents(
+			styles: Styles | Styles[],
+			options?: {
+				respectPrefix?: boolean
+				respectImportant?: boolean
+			},
+		): void
 
 		/** Register new utility styles. */
-		addUtilities(styles: Styles | Styles[], options?: unknown): void
+		addUtilities(
+			styles: Styles | Styles[],
+			options?: {
+				respectPrefix?: boolean
+				respectImportant?: boolean
+			},
+		): void
 
 		/** Register custom variants. */
 		addVariant(
 			variantName: string,
 			generator: string | string[] | Generator | Generator[],
 			options?: unknown,
-		): void
-
-		matchVariant(
-			variants: Record<string, (name: string) => string | string[]>,
-			options?: { values: Record<string, string> },
 		): void
 
 		/** Escape strings meant to be used in class names. */
@@ -1677,23 +1701,32 @@ declare namespace Tailwind {
 
 		corePlugins(name: keyof CorePluginFeatures): boolean
 
-		matchUtilities(
-			utilities: Record<
-				string,
-				(value?: string | undefined) => CSSProperties
-			>,
-			options?: unknown,
-		): void
-
 		matchComponents(
-			components: Record<
-				string,
-				(value?: string | undefined) => Styles | Styles[]
-			>,
-			options?: unknown,
+			components: Record<string, (value: string) => Styles | Styles[]>,
+			options?: {
+				values?: Record<string, Value>
+				type?: ValueType | ValueType[]
+				respectPrefix?: boolean
+				respectImportant?: boolean
+				supportsNegativeValues?: boolean
+			},
 		): void
 
-		addUserCss(userCss: Styles | Styles[]): void
+		matchUtilities(
+			utilities: Record<string, (value: string) => CSSProperties>,
+			options?: {
+				values?: Record<string, Value>
+				type?: ValueType | ValueType[]
+				respectPrefix?: boolean
+				respectImportant?: boolean
+				supportsNegativeValues?: boolean
+			},
+		): void
+
+		matchVariant(
+			variants: Record<string, (value: string) => string | string[]>,
+			options?: { values: Record<string, string> },
+		): void
 
 		/** low-level manipulation with PostCSS directly */
 		postcss: import("postcss").Postcss
