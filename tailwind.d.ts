@@ -1724,7 +1724,7 @@ declare namespace Tailwind {
 		): void
 
 		matchVariant(
-			variants: Record<string, (value: string) => string | string[]>,
+			variants: Record<string, (value?: string) => string | string[]>,
 			options?: { values: Record<string, string> },
 		): void
 
