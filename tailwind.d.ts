@@ -631,7 +631,10 @@ declare namespace Tailwind {
 	type CSSProperties = DefinedCSSProperties &
 		Record<string, Value | DefinedCSSProperties>
 
-	type Styles = Record<string, CSSProperties> | import("postcss").Node
+	type Styles =
+		| CSSProperties
+		| Record<string, CSSProperties>
+		| import("postcss").Node
 
 	type PresetVariants = Partial<
 		Record<
@@ -701,8 +704,18 @@ declare namespace Tailwind {
 		important?: boolean
 		darkMode?: boolean | "media" | "class" | ["class", string]
 		variantOrder?: Variant[]
-		future?: "all" | Record<string, boolean>
-		experimental?: "all" | Record<string, boolean>
+		future?:
+			| "all"
+			| {
+					hoverOnlyWhenSupported?: boolean
+					respectDefaultRingColorOpacity?: boolean
+			  }
+		experimental?:
+			| "all"
+			| {
+					optimizeUniversalDefaults?: boolean
+					matchVariant?: boolean
+			  }
 	}
 
 	type ResolvedResult<T, V = string> = Partial<T> & Record<string, V>
@@ -1653,7 +1666,7 @@ declare namespace Tailwind {
 					selector: string
 				}) => string,
 			): import("postcss").Root
-		}): string | null | undefined
+		}): string | string[] | null | undefined
 	}
 }
 

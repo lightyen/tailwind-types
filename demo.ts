@@ -22,6 +22,27 @@ const config: Tailwind.ConfigJS = {
 		},
 	},
 	plugins: [
+		{
+			handler({ addUtilities, theme }) {
+				addUtilities(
+					Object.fromEntries(
+						Object.entries(theme("testPlugin")).map(([k, v]) => [
+							`.test-${k}`,
+							{ testProperty: v },
+						]),
+					) as Tailwind.Styles,
+				)
+			},
+			config: {
+				theme: {
+					testPlugin: {
+						sm: "1rem",
+						md: "2rem",
+						lg: "3rem",
+					},
+				},
+			},
+		},
 		plugin(
 			function ({ addUtilities, theme }) {
 				addUtilities(
@@ -43,6 +64,60 @@ const config: Tailwind.ConfigJS = {
 				},
 			},
 		),
+		function ({ matchUtilities, matchComponents, matchVariant, theme, e }) {
+			matchUtilities({
+				tab(value) {
+					return {
+						tabSize: value,
+					}
+				},
+			})
+			matchComponents(
+				{
+					test(value) {
+						return {
+							"&.test": {
+								backgroundColor: value,
+							},
+						}
+					},
+				},
+				{ values: theme("colors.cyan") },
+			)
+			matchComponents({
+				card: value => {
+					return [
+						{ color: value },
+						{
+							".card-header": {
+								borderTopWidth: 3,
+								borderTopColor: value,
+							},
+						},
+						{
+							".card-footer": {
+								borderBottomWidth: 3,
+								borderBottomColor: value,
+							},
+						},
+					]
+				},
+			})
+			matchVariant({
+				tab(value) {
+					if (value == null) return "& > *"
+					return `&.${e(value ?? "")} > *`
+				},
+			})
+		},
+		function ({ addVariant }) {
+			addVariant("test", "&::test")
+			addVariant("test", ["& *::test", "&::test"])
+		},
+		function ({ addVariant }) {
+			addVariant("test", () => "& *::test")
+			addVariant("test", () => ["& *::test", "&::test"])
+		},
 	],
 }
 
