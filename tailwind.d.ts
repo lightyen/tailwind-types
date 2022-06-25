@@ -1701,6 +1701,11 @@ declare namespace Tailwind {
 			options?: unknown,
 		): void
 
+		addDefaults(
+			group: string,
+			declarations: Record<string, Value | Value[]>,
+		): void
+
 		/** Escape strings meant to be used in class names. */
 		e(classname: string): string
 

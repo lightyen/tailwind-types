@@ -165,6 +165,19 @@ const config: Tailwind.ConfigJS = {
 				})
 			})
 		},
+		({ addUtilities, addDefaults }) => {
+			addDefaults("my-type", {
+				"--my-var": "proximity",
+			})
+
+			addUtilities({
+				".my-none": { "my-type": "none" },
+				".my-x": {
+					"@defaults my-type": {},
+					"my-type": "x var(--my-var)",
+				},
+			})
+		},
 	],
 }
 
