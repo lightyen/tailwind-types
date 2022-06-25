@@ -628,8 +628,9 @@ declare namespace Tailwind {
 	type DefinedCSSProperties = Partial<InnerCustomProperties> &
 		import("csstype").Properties<Value>
 
-	type CSSProperties = DefinedCSSProperties &
-		Record<string, Value | DefinedCSSProperties>
+	type CSSProperties =
+		| DefinedCSSProperties
+		| Record<string, Value | DefinedCSSProperties>
 
 	type Styles =
 		| CSSProperties
@@ -1666,7 +1667,7 @@ declare namespace Tailwind {
 					selector: string
 				}) => string,
 			): import("postcss").Root
-		}): string | string[] | null | undefined
+		}): string | string[] | null | undefined | void
 	}
 }
 
@@ -1715,7 +1716,10 @@ declare namespace Tailwind {
 		corePlugins(name: keyof CorePluginFeatures): boolean
 
 		matchComponents(
-			components: Record<string, (value: string) => Styles | Styles[]>,
+			components: Record<
+				string,
+				(value: string) => CSSProperties | CSSProperties[]
+			>,
 			options?: {
 				values?: Record<string, Value>
 				type?: ValueType | ValueType[]
@@ -1726,7 +1730,10 @@ declare namespace Tailwind {
 		): void
 
 		matchUtilities(
-			utilities: Record<string, (value: string) => CSSProperties>,
+			utilities: Record<
+				string,
+				(value: string) => CSSProperties | CSSProperties[]
+			>,
 			options?: {
 				values?: Record<string, Value>
 				type?: ValueType | ValueType[]

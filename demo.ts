@@ -4,7 +4,7 @@ import resolveConfig from "tailwindcss/resolveConfig"
 import colors from "tailwindcss/colors"
 import plugin from "tailwindcss/plugin"
 import { updateAllClasses } from "tailwindcss/lib/util/pluginUtils"
-
+import selectorParser from "postcss-selector-parser"
 import expandApplyAtRules from "tailwindcss/lib/lib/expandApplyAtRules"
 import prefixSelector from "tailwindcss/lib/util/prefixSelector"
 
@@ -53,6 +53,8 @@ const config: Tailwind.ConfigJS = {
 						]),
 					) as Tailwind.Styles,
 				)
+				addUtilities({ color: "red" })
+				addUtilities([{ color: "red" }])
 			},
 			{
 				theme: {
@@ -117,6 +119,51 @@ const config: Tailwind.ConfigJS = {
 		function ({ addVariant }) {
 			addVariant("test", () => "& *::test")
 			addVariant("test", () => ["& *::test", "&::test"])
+			addVariant("before", ({ container }) => {
+				container.walkRules(rule => {
+					let foundContent = false
+					rule.walkDecls("content", () => {
+						foundContent = true
+					})
+
+					if (!foundContent) {
+						rule.prepend(
+							postcss.decl({
+								prop: "content",
+								value: "var(--tw-content)",
+							}),
+						)
+					}
+				})
+
+				return "&::before"
+			})
+			addVariant(
+				"foo",
+				({ container }) => {
+					container.walkRules(rule => {
+						rule.selector = `.foo\\:${rule.selector.slice(1)}`
+						rule.walkDecls(decl => {
+							decl.important = true
+						})
+					})
+				},
+				{ before: "sm" },
+			)
+			addVariant("foo", ({ modifySelectors, separator }) => {
+				if (!modifySelectors) return
+				modifySelectors(({ selector }) => {
+					return selectorParser(selectors => {
+						selectors.walkClasses(classNode => {
+							classNode.value = `foo${separator}${classNode.value}`
+							classNode.parent?.insertBefore(
+								classNode,
+								selectorParser().astSync(`.foo `),
+							)
+						})
+					}).processSync(selector)
+				})
+			})
 		},
 	],
 }
