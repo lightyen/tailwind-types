@@ -359,7 +359,10 @@ declare namespace Tailwind {
 		caretColor?: WithTheme<Palette>
 		colors?: WithTheme<Palette>
 		columns?: WithTheme<Record<string, Value>>
-		container?: WithTheme<Record<string, Value>>
+		container?: WithTheme<{
+			padding?: Record<string, Tailwind.Value>
+			center?: boolean
+		}>
 		content?: WithTheme<Record<string, Value>>
 		contrast?: WithTheme<Record<string, Value>>
 		cursor?: WithTheme<Record<string, Value>>

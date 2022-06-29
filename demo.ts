@@ -13,6 +13,9 @@ delete colors.lightBlue
 const config: Tailwind.ConfigJS = {
 	theme: {
 		extend: {
+			container: {
+				padding: { sm: 123 },
+			},
 			colors: {
 				...colors,
 				custom: ({ opacityValue }) => {
