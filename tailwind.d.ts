@@ -319,7 +319,11 @@ declare namespace Tailwind {
 		| [fontSize: Value, lineHeight: Value]
 		| [
 				fontSize: Value,
-				options: { letterSpacing?: Value; lineHeight?: Value },
+				options: {
+					lineHeight?: Value
+					letterSpacing?: Value
+					fontWeight?: Value
+				},
 		  ]
 
 	type FontSizeString = Value
