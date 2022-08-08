@@ -34,8 +34,8 @@ declare namespace Tailwind {
 	type WithTheme<T> = T | ((options: ResolvePath) => T)
 
 	interface OpacityOptions {
-		opacityValue: string
-		opacityVariable: string
+		opacityValue?: Value // 'var(--tw-text-opacity)'
+		opacityVariable?: string // '--tw-text-opacity'
 	}
 
 	type ValueType =
@@ -55,35 +55,15 @@ declare namespace Tailwind {
 		| "relative-size"
 		| "shadow"
 
-	interface ColorConfig {
-		50: Value
-		100: Value
-		200: Value
-		300: Value
-		400: Value
-		500: Value
-		600: Value
-		700: Value
-		800: Value
-		900: Value
-		DEFAULT: Value
+	export type ColorMap = {
+		[key: string]: Value | ColorValueFunc | ColorMap | undefined
 	}
 
-	interface ColorConfigFunc {
-		50: (opacity: OpacityOptions) => Value
-		100: (opacity: OpacityOptions) => Value
-		200: (opacity: OpacityOptions) => Value
-		300: (opacity: OpacityOptions) => Value
-		400: (opacity: OpacityOptions) => Value
-		500: (opacity: OpacityOptions) => Value
-		600: (opacity: OpacityOptions) => Value
-		700: (opacity: OpacityOptions) => Value
-		800: (opacity: OpacityOptions) => Value
-		900: (opacity: OpacityOptions) => Value
-		DEFAULT: (opacity: OpacityOptions) => Value
-	}
+	type ColorValueFunc = (opacity: OpacityOptions) => Value
 
-	interface Colors<V> extends Record<string, V | undefined> {
+	type ColorValue = Value | ColorValueFunc | ColorMap | undefined
+
+	interface BuiltInColors<V> extends Record<string, V | undefined> {
 		inherit?: V
 		current?: V
 		transparent?: V
@@ -118,27 +98,7 @@ declare namespace Tailwind {
 		blueGray?: V
 	}
 
-	type Palette = Colors<
-		| Value
-		| (Partial<ColorConfig> & { [key: string]: Value })
-		| (Partial<ColorConfigFunc> & {
-				[key: string]: (opacity: OpacityOptions) => Value
-		  })
-		| ((
-				opacity: OpacityOptions,
-		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
-	>
-
-	type ResolvedPalette = Colors<
-		| Value
-		| (Partial<ColorConfig> & { [key: string]: Value })
-		| (Partial<ColorConfigFunc> & {
-				[key: string]: (opacity: OpacityOptions) => Value
-		  })
-		| ((
-				opacity: OpacityOptions,
-		  ) => Value | (Partial<ColorConfig> & { [key: string]: Value }))
-	>
+	type Palette = BuiltInColors<ColorValue> & ColorMap
 
 	interface CorePluginFeatures {
 		accentColor: boolean
@@ -334,7 +294,7 @@ declare namespace Tailwind {
 
 	interface Theme {
 		extend?: Omit<Theme, "extend">
-		accentColor?: WithTheme<Palette> & { auto: "auto" }
+		accentColor?: WithTheme<Palette>
 		animation?: WithTheme<Record<string, Value>>
 		aspectRatio?: WithTheme<Record<string, Value>>
 		backdropBlur?: WithTheme<Record<string, Value>>
@@ -376,7 +336,7 @@ declare namespace Tailwind {
 		dropShadow?: WithTheme<Record<string, DropShadowValue>>
 		fill?: WithTheme<Palette>
 		flex?: WithTheme<Record<string, Value>>
-		flexBasis: WithTheme<Record<string, Value>>
+		flexBasis?: WithTheme<Record<string, Value>>
 		flexGrow?: WithTheme<Record<string, Value>>
 		flexShrink?: WithTheme<Record<string, Value>>
 		fontFamily?: WithTheme<Record<string, FontFamilyValue>>
@@ -412,12 +372,12 @@ declare namespace Tailwind {
 		opacity?: WithTheme<Record<string, Value>>
 		order?: WithTheme<Record<string, Value>>
 		outlineColor?: WithTheme<Palette>
+		outlineOffset?: WithTheme<Record<string, Value>>
+		outlineWidth?: WithTheme<Record<string, Value>>
 		padding?: WithTheme<Record<string, Value>>
 		placeholderColor?: WithTheme<Palette>
 		placeholderOpacity?: WithTheme<Record<string, Value>>
-		ringColor?: WithTheme<
-			Palette & { DEFAULT?: Value | ((opacity: OpacityOptions) => Value) }
-		>
+		ringColor?: WithTheme<Palette & { DEFAULT?: ColorValue }>
 		ringOffsetColor?: WithTheme<Palette>
 		ringOffsetWidth?: WithTheme<Record<string, Value>>
 		ringOpacity?: WithTheme<Record<string, Value>>
@@ -449,10 +409,6 @@ declare namespace Tailwind {
 		width?: WithTheme<Record<string, Value>>
 		willChange?: WithTheme<Record<string, Value>>
 		zIndex?: WithTheme<Record<string, Value>>
-	}
-
-	interface CustomTheme {
-		[key: string]: any
 	}
 
 	type Variant =
@@ -644,20 +600,8 @@ declare namespace Tailwind {
 		| Record<string, CSSProperties>
 		| import("postcss").Node
 
-	type PresetVariants = Partial<
-		Record<
-			keyof CorePluginFeatures,
-			Variant[] | ((options: VariantFuncOption) => Variant[])
-		>
-	>
-
-	interface Preset {
-		presets?: Preset[]
-		theme?: Theme | CustomTheme
-		plugins?: Plugin[]
-		corePlugins?:
-			| Partial<CorePluginFeatures>
-			| Array<keyof CorePluginFeatures>
+	interface PresetFunction {
+		(): ConfigJS
 	}
 
 	type SafeList = Array<string | { pattern: RegExp; variants: string[] }>
@@ -702,7 +646,18 @@ declare namespace Tailwind {
 		options?: unknown
 	}
 
-	interface ConfigJS extends Preset {
+	interface CustomTheme {
+		[key: string]: WithTheme<any>
+	}
+
+	interface ConfigJS {
+		presets?: (ConfigJS | PresetFunction)[]
+		theme?: Theme & CustomTheme
+		plugins?: Plugin[]
+		corePlugins?:
+			| Partial<CorePluginFeatures>
+			| Array<keyof CorePluginFeatures>
+
 		content?: Content | ContentConfig | undefined
 		/** @deprecated */
 		purge?: Content | PurgeConfig
@@ -785,6 +740,8 @@ declare namespace Tailwind {
 	}
 
 	interface ResolvedConfigJS {
+		presets: ConfigJS[]
+
 		purge?: ConfigJS["purge"]
 		content: ConfigJS["content"]
 		safelist: string[]
@@ -794,7 +751,6 @@ declare namespace Tailwind {
 		darkMode: boolean | "media" | "class" | ["class", string]
 		corePlugins: Array<keyof CorePluginFeatures>
 		variantOrder: Variant[]
-		presets: Preset[]
 		plugins: Plugin[]
 		theme: {
 			screens: ResolvedResult<{
@@ -804,7 +760,7 @@ declare namespace Tailwind {
 				xl: string
 				"2xl": string
 			}>
-			colors: ResolvedPalette
+			colors: Palette
 			spacing: ResolvedResult<SpacingConfig>
 			animation: ResolvedResult<{
 				none: string
@@ -879,7 +835,7 @@ declare namespace Tailwind {
 				0: string
 				DEFAULT: string
 			}>
-			backgroundColor: ResolvedPalette
+			backgroundColor: Palette
 			backgroundImage: ResolvedResult<{
 				none: string
 				"gradient-to-t": string
@@ -932,7 +888,7 @@ declare namespace Tailwind {
 				150: string
 				200: string
 			}>
-			borderColor: ResolvedPalette &
+			borderColor: Palette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
@@ -966,9 +922,9 @@ declare namespace Tailwind {
 				inner: string
 				none: string
 			}>
-			boxShadowColor: ResolvedPalette
-			caretColor: ResolvedPalette
-			accentColor: ResolvedPalette & { auto?: string }
+			boxShadowColor: Palette
+			caretColor: Palette
+			accentColor: Palette & { auto: string }
 			contrast: ResolvedResult<{
 				0: string
 				50: string
@@ -992,7 +948,7 @@ declare namespace Tailwind {
 				help: string
 				"not-allowed": string
 			}>
-			divideColor: ResolvedPalette &
+			divideColor: Palette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
@@ -1029,7 +985,7 @@ declare namespace Tailwind {
 				"2xl": string | string[]
 				none: string | string[]
 			}>
-			fill: ResolvedPalette &
+			fill: Palette &
 				ResolvedResult<{
 					current: string
 				}>
@@ -1130,7 +1086,7 @@ declare namespace Tailwind {
 				black: string
 			}>
 			gap: ResolvedResult<SpacingConfig>
-			gradientColorStops: ResolvedPalette
+			gradientColorStops: Palette
 			gridAutoColumns: ResolvedResult<{
 				auto: string
 				min: string
@@ -1408,15 +1364,15 @@ declare namespace Tailwind {
 				4: "4px"
 				8: "8px"
 			}>
-			outlineColor: ResolvedPalette
+			outlineColor: Palette
 			padding: ResolvedResult<SpacingConfig>
-			placeholderColor: ResolvedPalette
+			placeholderColor: Palette
 			placeholderOpacity: ResolvedResult<OpacityConfig>
-			ringColor: ResolvedPalette &
+			ringColor: Palette &
 				ResolvedResult<{
 					DEFAULT: string
 				}>
-			ringOffsetColor: ResolvedPalette
+			ringOffsetColor: Palette
 			ringOffsetWidth: ResolvedResult<{
 				0: string
 				1: string
@@ -1480,7 +1436,7 @@ declare namespace Tailwind {
 				12: string
 			}>
 			space: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
-			stroke: ResolvedPalette &
+			stroke: Palette &
 				ResolvedResult<{
 					current: string
 				}>
@@ -1489,9 +1445,9 @@ declare namespace Tailwind {
 				1: string
 				2: string
 			}>
-			textColor: ResolvedPalette
+			textColor: Palette
 			textOpacity: ResolvedResult<OpacityConfig>
-			textDecorationColor: ResolvedPalette
+			textDecorationColor: Palette
 			textDecorationThickness: ResolvedResult<{
 				auto: string
 				"from-font": string
@@ -1773,24 +1729,31 @@ declare namespace Tailwind {
 		config?: ConfigJS
 	}
 
-	type Plugin = PluginFunction | PluginObject
+	type Plugin = PluginObject | PluginFunction
 
 	type OptionType<F> = F extends (options: infer P) => any ? P : F
+
+	interface PluginFunctionWithOption<Options = unknown> {
+		(options?: Options): {
+			__options: Options
+			handler: PluginFunction
+			config: ConfigJS
+		}
+		__isOptionsFunction: boolean
+		__pluginFunction: (options?: Options) => PluginFunction
+		__configFunction: (options?: Options) => ConfigJS
+	}
 
 	interface createPlugin {
 		(
 			handler: Tailwind.PluginFunction,
 			config?: Tailwind.ConfigJS,
 		): Tailwind.PluginObject
-		withOptions<P extends (options: any) => Tailwind.PluginFunction>(
-			pluginFunction: P,
-			configFunction?: (options: OptionType<P>) => Tailwind.ConfigJS,
-		): (options: OptionType<P>) => PluginObject & {
-			__options: OptionType<P>
-			__isOptionsFunction: true
-			__pluginFunction: P
-			__configFunction?: (options: OptionType<P>) => Tailwind.ConfigJS
-		}
+
+		withOptions<Options = any>(
+			pluginFunction: (options?: Options) => Tailwind.PluginFunction,
+			configFunction?: (options?: Options) => Tailwind.ConfigJS,
+		): PluginFunctionWithOption<Options>
 	}
 }
 
@@ -1897,7 +1860,7 @@ declare module "tailwindcss" {
 	 * the root of your project where you can define any customizations.
 	 */
 	function tailwindcss(
-		configOrPath?: Tailwind.ConfigJS | string,
+		configOrPath?: Tailwind.ConfigJS | string | undefined,
 	): import("postcss").Plugin
 	export = tailwindcss
 }
@@ -1930,6 +1893,13 @@ declare module "tailwindcss/plugin" {
 	export = createPlugin
 }
 
+declare module "tailwindcss/lib/util/resolveConfig" {
+	function resolveConfig(
+		configs: Tailwind.ConfigJS[],
+	): Tailwind.ResolvedConfigJS
+	export = resolveConfig
+}
+
 declare module "tailwindcss/lib/corePluginList" {
 	const corePluginList: Array<keyof Tailwind.CorePluginFeatures>
 	export default corePluginList
@@ -1952,8 +1922,10 @@ declare module "tailwindcss/lib/util/prefixSelector" {
 declare module "tailwindcss/lib/lib/setupContextUtils" {
 	export function createContext(
 		config: Tailwind.ResolvedConfigJS,
-		changedContent?: Array<{ content: string; extension: string }>,
-		root?: import("postcss").Root,
+		changedContent?:
+			| Array<{ content: string; extension: string }>
+			| undefined,
+		root?: import("postcss").Root | undefined,
 	): Tailwind.Context
 }
 declare module "tailwindcss/lib/lib/generateRules" {

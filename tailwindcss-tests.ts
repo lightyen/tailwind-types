@@ -990,6 +990,11 @@ const configWithoutExtend: Tailwind.ConfigJS = {
 				matchUtilities,
 			}) => {},
 		),
+		plugin.withOptions(
+			() =>
+				({ addUtilities }) => {},
+			() => ({ theme: { extend: {} } }),
+		),
 	],
 	prefix: "",
 	important: false,
@@ -1011,6 +1016,7 @@ resolveConfig({ theme: { extend: { colors } } })
 resolveConfig({
 	theme: { extend: { fill: { ...colors, hello: { 100: "#123" } } } },
 })
+resolveConfig({}, { theme: defaultTheme }, { separator: "abc" })
 resolveConfig(resolveConfig({}, { theme: defaultTheme }, { separator: "abc" }))
 
 const resolved = resolveConfig(config)
@@ -1065,12 +1071,6 @@ resolved.presets
 
 // $ExpectType false | "media" | "class"
 resolved.darkMode = "media"
-
-// @ts-expect-error cannot assign `false`. `darkMode` isn't boolean
-resolved.darkMode = false
-
-// @ts-expect-error cannot assign `true`. `darkMode` isn't boolean
-resolved.darkMode = true
 
 // @ts-expect-error accepts only specific values
 resolved.darkMode = "invalid-value"
