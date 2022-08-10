@@ -1870,12 +1870,27 @@ declare module "tailwindcss/colors" {
 	export = colors
 }
 
+declare module "tailwindcss/colors.js" {
+	const colors: Tailwind.DefaultPalette
+	export = colors
+}
+
 declare module "tailwindcss/defaultConfig" {
 	const config: Tailwind.DefaultConfig
 	export = config
 }
 
+declare module "tailwindcss/defaultConfig.js" {
+	const config: Tailwind.DefaultConfig
+	export = config
+}
+
 declare module "tailwindcss/defaultTheme" {
+	const theme: Tailwind.DefaultConfig["theme"]
+	export = theme
+}
+
+declare module "tailwindcss/defaultTheme.js" {
 	const theme: Tailwind.DefaultConfig["theme"]
 	export = theme
 }
@@ -1888,7 +1903,20 @@ declare module "tailwindcss/resolveConfig" {
 	export = resolveConfig
 }
 
+declare module "tailwindcss/resolveConfig.js" {
+	/** Generate a fully merged version of configuration. */
+	function resolveConfig(
+		...config: Tailwind.ConfigJS[]
+	): Tailwind.ResolvedConfigJS
+	export = resolveConfig
+}
+
 declare module "tailwindcss/plugin" {
+	const createPlugin: Tailwind.createPlugin
+	export = createPlugin
+}
+
+declare module "tailwindcss/plugin.js" {
 	const createPlugin: Tailwind.createPlugin
 	export = createPlugin
 }
@@ -1900,7 +1928,19 @@ declare module "tailwindcss/lib/util/resolveConfig" {
 	export = resolveConfig
 }
 
+declare module "tailwindcss/lib/util/resolveConfig.js" {
+	function resolveConfig(
+		configs: Tailwind.ConfigJS[],
+	): Tailwind.ResolvedConfigJS
+	export = resolveConfig
+}
+
 declare module "tailwindcss/lib/corePluginList" {
+	const corePluginList: Array<keyof Tailwind.CorePluginFeatures>
+	export default corePluginList
+}
+
+declare module "tailwindcss/lib/corePluginList.js" {
 	const corePluginList: Array<keyof Tailwind.CorePluginFeatures>
 	export default corePluginList
 }
@@ -1912,7 +1952,21 @@ declare module "tailwindcss/lib/util/pluginUtils" {
 	): string
 }
 
+declare module "tailwindcss/lib/util/pluginUtils.js" {
+	export function updateAllClasses(
+		selectors: string,
+		updateClass: Tailwind.updateClass,
+	): string
+}
+
 declare module "tailwindcss/lib/util/prefixSelector" {
+	export default function prefixSelector(
+		prefix: string,
+		selector: string,
+	): string
+}
+
+declare module "tailwindcss/lib/util/prefixSelector.js" {
 	export default function prefixSelector(
 		prefix: string,
 		selector: string,
@@ -1928,12 +1982,31 @@ declare module "tailwindcss/lib/lib/setupContextUtils" {
 		root?: import("postcss").Root | undefined,
 	): Tailwind.Context
 }
+
+declare module "tailwindcss/lib/lib/setupContextUtils.js" {
+	export function createContext(
+		config: Tailwind.ResolvedConfigJS,
+		changedContent?:
+			| Array<{ content: string; extension: string }>
+			| undefined,
+		root?: import("postcss").Root | undefined,
+	): Tailwind.Context
+}
+
 declare module "tailwindcss/lib/lib/generateRules" {
 	export function generateRules(
 		classnames: string[],
 		context: Tailwind.Context,
 	): Array<[bigint, import("postcss").Rule]>
 }
+
+declare module "tailwindcss/lib/lib/generateRules.js" {
+	export function generateRules(
+		classnames: string[],
+		context: Tailwind.Context,
+	): Array<[bigint, import("postcss").Rule]>
+}
+
 declare module "tailwindcss/lib/lib/expandApplyAtRules" {
 	function expandApplyAtRules(
 		context: Tailwind.Context,
@@ -1941,7 +2014,19 @@ declare module "tailwindcss/lib/lib/expandApplyAtRules" {
 	export = expandApplyAtRules
 }
 
+declare module "tailwindcss/lib/lib/expandApplyAtRules.js" {
+	function expandApplyAtRules(
+		context: Tailwind.Context,
+	): (root: import("postcss").Root) => void
+	export = expandApplyAtRules
+}
+
 declare module "tailwindcss/lib/util/escapeClassName" {
+	function escapeClassName(classname: string): string
+	export = escapeClassName
+}
+
+declare module "tailwindcss/lib/util/escapeClassName.js" {
 	function escapeClassName(classname: string): string
 	export = escapeClassName
 }
