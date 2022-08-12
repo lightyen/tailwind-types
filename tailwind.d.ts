@@ -751,7 +751,7 @@ declare namespace Tailwind {
 		darkMode: boolean | "media" | "class" | ["class", string]
 		corePlugins: Array<keyof CorePluginFeatures>
 		variantOrder: Variant[]
-		plugins: Plugin[]
+		plugins: Array<PluginObject | PluginFunction | PluginFunctionWithOption>
 		theme: {
 			screens: ResolvedResult<{
 				sm: string
@@ -1722,6 +1722,7 @@ declare namespace Tailwind {
 
 	interface PluginFunction {
 		(options: PluginOptions): void
+		__isOptionsFunction?: boolean
 	}
 
 	interface PluginObject {
@@ -1734,12 +1735,8 @@ declare namespace Tailwind {
 	type OptionType<F> = F extends (options: infer P) => any ? P : F
 
 	interface PluginFunctionWithOption<Options = unknown> {
-		(options?: Options): {
-			__options: Options
-			handler: PluginFunction
-			config: ConfigJS
-		}
-		__isOptionsFunction: boolean
+		(options?: Options): PluginObject & { __options?: Options }
+		__isOptionsFunction: true
 		__pluginFunction: (options?: Options) => PluginFunction
 		__configFunction: (options?: Options) => ConfigJS
 	}
