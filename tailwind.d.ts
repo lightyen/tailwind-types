@@ -324,7 +324,11 @@ declare namespace Tailwind {
 		colors?: WithTheme<Palette>
 		columns?: WithTheme<Record<string, Value>>
 		container?: WithTheme<{
-			padding?: Record<string, Tailwind.Value>
+			screens?: Record<
+				string,
+				Value | [min: Value, max: Value] | { min?: Value; max?: Value }
+			>
+			padding?: Tailwind.Value | Record<string, Tailwind.Value>
 			center?: boolean
 		}>
 		content?: WithTheme<Record<string, Value>>
@@ -385,7 +389,12 @@ declare namespace Tailwind {
 		rotate?: WithTheme<Record<string, Value>>
 		saturate?: WithTheme<Record<string, Value>>
 		scale?: WithTheme<Record<string, Value>>
-		screens?: WithTheme<Record<string, Value>>
+		screens?: WithTheme<
+			Record<
+				string,
+				Value | [min: Value, max: Value] | { min?: Value; max?: Value }
+			>
+		>
 		scrollMargin?: WithTheme<Record<string, Value>>
 		scrollPadding?: WithTheme<Record<string, Value>>
 		sepia?: WithTheme<Record<string, Value>>
