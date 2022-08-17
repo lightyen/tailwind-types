@@ -3,8 +3,8 @@
 declare namespace Tailwind {
 	type DefaultConfig = {
 		content: string[]
-		presets: Exclude<ConfigJS["presets"], undefined>
-		darkMode: Exclude<ConfigJS["darkMode"], undefined>
+		presets: Exclude<StrictConfigJS["presets"], undefined>
+		darkMode: Exclude<StrictConfigJS["darkMode"], undefined>
 		theme: {
 			screens: {
 				sm: "640px"
@@ -815,10 +815,7 @@ declare namespace Tailwind {
 				4: "4px"
 				8: "8px"
 			}
-			textIndent: WithTheme<
-				DefaultConfig["theme"]["spacing"] &
-					Negative<DefaultConfig["theme"]["spacing"]>
-			>
+			textIndent: WithTheme<DefaultConfig["theme"]["spacing"]>
 			textOpacity: WithTheme<DefaultConfig["theme"]["opacity"]>
 			transformOrigin: {
 				center: "center"

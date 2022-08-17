@@ -1027,8 +1027,11 @@ resolved.theme.height
 
 // $ExpectType string | undefined
 if (typeof resolved.theme.colors === "object") {
-	if (typeof resolved.theme.colors?.gray === "object") {
-		resolved.theme.colors?.gray[100]
+	if (
+		typeof resolved.theme.colors?.gray === "object" &&
+		resolved.theme.colors?.gray !== null
+	) {
+		resolved.theme.colors?.gray
 	}
 }
 

@@ -6,22 +6,22 @@
 /// <reference path="defaultConfig.d.ts" />
 
 declare namespace Tailwind {
-	type Value = string | number
-
-	interface GetTheme {
-		(key: string, defaultValue?: unknown): any
-	}
-
-	type Negative<T extends Record<number | string, string>> = {
-		[P in keyof T as `-${(number | string) & P}`]: `-${T[P]}`
-	}
+	type Value = unknown
 
 	type BreakPoints<T extends Record<number | string, string>> = {
 		[K in keyof T as `screen-${string & K}`]: T[K]
 	}
 
-	interface ResolvePath extends GetTheme {
+	interface GetTheme {
+		(key: string, defaultValue?: unknown): any
+	}
+
+	interface ResolvePath extends ConfigUtils {
+		(key: string, defaultValue?: unknown): any
 		theme: GetTheme
+	}
+
+	interface ConfigUtils {
 		colors: Record<string, Record<string, string>>
 		negative<T extends Record<string, string>>(
 			value: T,
@@ -31,11 +31,11 @@ declare namespace Tailwind {
 		): { [K in keyof T as `screen-${string & K}`]: T[K] }
 	}
 
-	type WithTheme<T> = T | ((options: ResolvePath) => T)
+	type WithTheme<T> = T | ((theme: ResolvePath, utils: ConfigUtils) => T)
 
 	interface OpacityOptions {
 		opacityValue?: Value // 'var(--tw-text-opacity)'
-		opacityVariable?: string // '--tw-text-opacity'
+		opacityVariable?: Value // '--tw-text-opacity'
 	}
 
 	type ValueType =
@@ -286,11 +286,9 @@ declare namespace Tailwind {
 				},
 		  ]
 
-	type FontSizeString = Value
-
 	type KeyframesValue = Record<string, CSSProperties>
-	type DropShadowValue = Value | Value[]
-	type FontFamilyValue = Value | Value[]
+	type DropShadowValue = unknown
+	type FontFamilyValue = unknown
 
 	interface Theme {
 		extend?: Omit<Theme, "extend">
@@ -324,12 +322,9 @@ declare namespace Tailwind {
 		colors?: WithTheme<Palette>
 		columns?: WithTheme<Record<string, Value>>
 		container?: WithTheme<{
-			screens?: Record<
-				string,
-				Value | [min: Value, max: Value] | { min?: Value; max?: Value }
-			>
-			padding?: Tailwind.Value | Record<string, Tailwind.Value>
-			center?: boolean
+			screens?: Record<string, unknown>
+			padding?: unknown
+			center?: unknown
 		}>
 		content?: WithTheme<Record<string, Value>>
 		contrast?: WithTheme<Record<string, Value>>
@@ -389,12 +384,7 @@ declare namespace Tailwind {
 		rotate?: WithTheme<Record<string, Value>>
 		saturate?: WithTheme<Record<string, Value>>
 		scale?: WithTheme<Record<string, Value>>
-		screens?: WithTheme<
-			Record<
-				string,
-				Value | [min: Value, max: Value] | { min?: Value; max?: Value }
-			>
-		>
+		screens?: WithTheme<Record<string, unknown>>
 		scrollMargin?: WithTheme<Record<string, Value>>
 		scrollPadding?: WithTheme<Record<string, Value>>
 		sepia?: WithTheme<Record<string, Value>>
@@ -659,7 +649,11 @@ declare namespace Tailwind {
 		[key: string]: WithTheme<any>
 	}
 
-	interface ConfigJS {
+	interface ConfigJS extends StrictConfigJS {
+		[key: string]: unknown
+	}
+
+	interface StrictConfigJS {
 		presets?: (ConfigJS | PresetFunction)[]
 		theme?: Theme & CustomTheme
 		plugins?: Plugin[]
@@ -690,44 +684,44 @@ declare namespace Tailwind {
 			  }
 	}
 
-	type ResolvedResult<T, V = string> = Partial<T> & Record<string, V>
+	type ResolvedResult<T, V = unknown> = Partial<T> & Record<string, V>
 
 	type SpacingConfig = {
-		0: string
-		1: string
-		2: string
-		3: string
-		4: string
-		5: string
-		6: string
-		7: string
-		8: string
-		9: string
-		10: string
-		11: string
-		12: string
-		14: string
-		16: string
-		20: string
-		24: string
-		28: string
-		32: string
-		36: string
-		40: string
-		44: string
-		48: string
-		52: string
-		56: string
-		60: string
-		64: string
-		72: string
-		80: string
-		96: string
-		px: string
-		0.5: string
-		1.5: string
-		2.5: string
-		3.5: string
+		0: unknown
+		1: unknown
+		2: unknown
+		3: unknown
+		4: unknown
+		5: unknown
+		6: unknown
+		7: unknown
+		8: unknown
+		9: unknown
+		10: unknown
+		11: unknown
+		12: unknown
+		14: unknown
+		16: unknown
+		20: unknown
+		24: unknown
+		28: unknown
+		32: unknown
+		36: unknown
+		40: unknown
+		44: unknown
+		48: unknown
+		52: unknown
+		56: unknown
+		60: unknown
+		64: unknown
+		72: unknown
+		80: unknown
+		96: unknown
+		px: unknown
+		0.5: unknown
+		1.5: unknown
+		2.5: unknown
+		3.5: unknown
 	}
 
 	interface OpacityConfig {
@@ -748,11 +742,14 @@ declare namespace Tailwind {
 		100: string
 	}
 
-	interface ResolvedConfigJS {
-		presets: ConfigJS[]
+	interface ResolvedConfigJS extends StrictResolvedConfigJS {
+		[key: string]: unknown
+	}
 
-		purge?: ConfigJS["purge"]
-		content: ConfigJS["content"]
+	interface StrictResolvedConfigJS {
+		presets: ConfigJS[]
+		purge?: StrictConfigJS["purge"]
+		content: StrictConfigJS["content"]
 		safelist: string[]
 		separator: string
 		prefix: string
@@ -763,452 +760,453 @@ declare namespace Tailwind {
 		plugins: Array<PluginObject | PluginFunction | PluginFunctionWithOption>
 		theme: {
 			screens: ResolvedResult<{
-				sm: string
-				md: string
-				lg: string
-				xl: string
-				"2xl": string
+				sm: unknown
+				md: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
 			}>
 			colors: Palette
 			spacing: ResolvedResult<SpacingConfig>
 			animation: ResolvedResult<{
-				none: string
-				spin: string
-				ping: string
-				pulse: string
-				bounce: string
+				none: unknown
+				spin: unknown
+				ping: unknown
+				pulse: unknown
+				bounce: unknown
 			}>
 			backdropBlur: ResolvedResult<{
-				0: string
-				none: string
-				sm: string
-				DEFAULT: string
-				md: string
-				lg: string
-				xl: string
-				"2xl": string
-				"3xl": string
+				0: unknown
+				none: unknown
+				sm: unknown
+				DEFAULT: unknown
+				md: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
+				"3xl": unknown
 			}>
 			backdropBrightness: ResolvedResult<{
-				0: string
-				50: string
-				75: string
-				90: string
-				95: string
-				100: string
-				105: string
-				110: string
-				125: string
-				150: string
-				200: string
+				0: unknown
+				50: unknown
+				75: unknown
+				90: unknown
+				95: unknown
+				100: unknown
+				105: unknown
+				110: unknown
+				125: unknown
+				150: unknown
+				200: unknown
 			}>
 			backdropContrast: ResolvedResult<{
-				0: string
-				50: string
-				75: string
-				100: string
-				125: string
-				150: string
-				200: string
+				0: unknown
+				50: unknown
+				75: unknown
+				100: unknown
+				125: unknown
+				150: unknown
+				200: unknown
 			}>
 			backdropGrayscale: ResolvedResult<{
-				0: string
-				DEFAULT: string
+				0: unknown
+				DEFAULT: unknown
 			}>
 			backdropHueRotate: ResolvedResult<{
-				0: string
-				15: string
-				30: string
-				60: string
-				90: string
-				180: string
-				"-180": string
-				"-90": string
-				"-60": string
-				"-30": string
-				"-15": string
+				0: unknown
+				15: unknown
+				30: unknown
+				60: unknown
+				90: unknown
+				180: unknown
+				"-180": unknown
+				"-90": unknown
+				"-60": unknown
+				"-30": unknown
+				"-15": unknown
 			}>
 			backdropInvert: ResolvedResult<{
-				0: string
-				DEFAULT: string
+				0: unknown
+				DEFAULT: unknown
 			}>
 			backdropOpacity: ResolvedResult<OpacityConfig>
 			backdropSaturate: ResolvedResult<{
-				0: string
-				50: string
-				100: string
-				150: string
-				200: string
+				0: unknown
+				50: unknown
+				100: unknown
+				150: unknown
+				200: unknown
 			}>
 			backdropSepia: ResolvedResult<{
-				0: string
-				DEFAULT: string
+				0: unknown
+				DEFAULT: unknown
 			}>
 			backgroundColor: Palette
 			backgroundImage: ResolvedResult<{
-				none: string
-				"gradient-to-t": string
-				"gradient-to-tr": string
-				"gradient-to-r": string
-				"gradient-to-br": string
-				"gradient-to-b": string
-				"gradient-to-bl": string
-				"gradient-to-l": string
-				"gradient-to-tl": string
+				none: unknown
+				"gradient-to-t": unknown
+				"gradient-to-tr": unknown
+				"gradient-to-r": unknown
+				"gradient-to-br": unknown
+				"gradient-to-b": unknown
+				"gradient-to-bl": unknown
+				"gradient-to-l": unknown
+				"gradient-to-tl": unknown
 			}>
 			backgroundOpacity: ResolvedResult<OpacityConfig>
 			backgroundPosition: ResolvedResult<{
-				bottom: string
-				center: string
-				left: string
-				"left-bottom": string
-				"left-top": string
-				right: string
-				"right-bottom": string
-				"right-top": string
-				top: string
+				bottom: unknown
+				center: unknown
+				left: unknown
+				"left-bottom": unknown
+				"left-top": unknown
+				right: unknown
+				"right-bottom": unknown
+				"right-top": unknown
+				top: unknown
 			}>
 			backgroundSize: ResolvedResult<{
-				auto: string
-				cover: string
-				contain: string
+				auto: unknown
+				cover: unknown
+				contain: unknown
 			}>
 			blur: ResolvedResult<{
-				0: string
-				none: string
-				sm: string
-				DEFAULT: string
-				md: string
-				lg: string
-				xl: string
-				"2xl": string
-				"3xl": string
+				0: unknown
+				none: unknown
+				sm: unknown
+				DEFAULT: unknown
+				md: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
+				"3xl": unknown
 			}>
 			brightness: ResolvedResult<{
-				0: string
-				50: string
-				75: string
-				90: string
-				95: string
-				100: string
-				105: string
-				110: string
-				125: string
-				150: string
-				200: string
+				0: unknown
+				50: unknown
+				75: unknown
+				90: unknown
+				95: unknown
+				100: unknown
+				105: unknown
+				110: unknown
+				125: unknown
+				150: unknown
+				200: unknown
 			}>
 			borderColor: Palette &
 				ResolvedResult<{
-					DEFAULT: string
+					DEFAULT: unknown
 				}>
 			borderOpacity: ResolvedResult<OpacityConfig>
 			borderRadius: ResolvedResult<{
-				none: string
-				sm: string
-				DEFAULT: string
-				md: string
-				lg: string
-				xl: string
-				"2xl": string
-				"3xl": string
-				full: string
+				none: unknown
+				sm: unknown
+				DEFAULT: unknown
+				md: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
+				"3xl": unknown
+				full: unknown
 			}>
 			borderSpacing: ResolvedResult<SpacingConfig>
 			borderWidth: ResolvedResult<{
-				0: string
-				2: string
-				4: string
-				8: string
-				DEFAULT: string
+				0: unknown
+				2: unknown
+				4: unknown
+				8: unknown
+				DEFAULT: unknown
 			}>
 			boxShadow: ResolvedResult<{
-				sm: string
-				DEFAULT: string
-				md: string
-				lg: string
-				xl: string
-				"2xl": string
-				inner: string
-				none: string
+				sm: unknown
+				DEFAULT: unknown
+				md: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
+				inner: unknown
+				none: unknown
 			}>
 			boxShadowColor: Palette
 			caretColor: Palette
-			accentColor: Palette & { auto: string }
+			accentColor: Palette & { auto: unknown }
 			contrast: ResolvedResult<{
-				0: string
-				50: string
-				75: string
-				100: string
-				125: string
-				150: string
-				200: string
+				0: unknown
+				50: unknown
+				75: unknown
+				100: unknown
+				125: unknown
+				150: unknown
+				200: unknown
 			}>
-			container: ResolvedResult<{}>
+			container: ResolvedResult<{
+				screens: Record<string, unknown>
+				padding: unknown
+				center: unknown
+			}>
 			content: ResolvedResult<{
-				none: string
+				none: unknown
 			}>
 			cursor: ResolvedResult<{
-				auto: string
-				default: string
-				pointer: string
-				wait: string
-				text: string
-				move: string
-				help: string
-				"not-allowed": string
+				auto: unknown
+				default: unknown
+				pointer: unknown
+				wait: unknown
+				text: unknown
+				move: unknown
+				help: unknown
+				"not-allowed": unknown
 			}>
 			divideColor: Palette &
 				ResolvedResult<{
-					DEFAULT: string
+					DEFAULT: unknown
 				}>
 			divideOpacity: ResolvedResult<{
-				0: string
-				5: string
-				10: string
-				20: string
-				25: string
-				30: string
-				40: string
-				50: string
-				60: string
-				70: string
-				75: string
-				80: string
-				90: string
-				95: string
-				100: string
+				0: unknown
+				5: unknown
+				10: unknown
+				20: unknown
+				25: unknown
+				30: unknown
+				40: unknown
+				50: unknown
+				60: unknown
+				70: unknown
+				75: unknown
+				80: unknown
+				90: unknown
+				95: unknown
+				100: unknown
 			}>
 			divideWidth: ResolvedResult<{
-				0: string
-				2: string
-				4: string
-				8: string
-				DEFAULT: string
+				0: unknown
+				2: unknown
+				4: unknown
+				8: unknown
+				DEFAULT: unknown
 			}>
 			dropShadow: ResolvedResult<{
-				DEFAULT: string | string[]
-				sm: string | string[]
-				md: string | string[]
-				lg: string | string[]
-				xl: string | string[]
-				"2xl": string | string[]
-				none: string | string[]
+				DEFAULT: unknown
+				sm: unknown
+				md: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
+				none: unknown
 			}>
 			fill: Palette &
 				ResolvedResult<{
-					current: string
+					current: unknown
 				}>
 			grayscale: ResolvedResult<{
-				0: string
-				DEFAULT: string
+				0: unknown
+				DEFAULT: unknown
 			}>
 			hueRotate: ResolvedResult<{
-				0: string
-				15: string
-				30: string
-				60: string
-				90: string
-				180: string
+				0: unknown
+				15: unknown
+				30: unknown
+				60: unknown
+				90: unknown
+				180: unknown
 			}>
 			invert: ResolvedResult<{
-				0: string
-				DEFAULT: string
+				0: unknown
+				DEFAULT: unknown
 			}>
 			flex: ResolvedResult<{
-				1: string
-				auto: string
-				initial: string
-				none: string
+				1: unknown
+				auto: unknown
+				initial: unknown
+				none: unknown
 			}>
 			flexBasis: ResolvedResult<
 				SpacingConfig & {
-					auto: "auto"
-					"1/2": "50%"
-					"1/3": "33.333333%"
-					"2/3": "66.666667%"
-					"1/4": "25%"
-					"2/4": "50%"
-					"3/4": "75%"
-					"1/5": "20%"
-					"2/5": "40%"
-					"3/5": "60%"
-					"4/5": "80%"
-					"1/6": "16.666667%"
-					"2/6": "33.333333%"
-					"3/6": "50%"
-					"4/6": "66.666667%"
-					"5/6": "83.333333%"
-					"1/12": "8.333333%"
-					"2/12": "16.666667%"
-					"3/12": "25%"
-					"4/12": "33.333333%"
-					"5/12": "41.666667%"
-					"6/12": "50%"
-					"7/12": "58.333333%"
-					"8/12": "66.666667%"
-					"9/12": "75%"
-					"10/12": "83.333333%"
-					"11/12": "91.666667%"
-					full: "100%"
+					auto: unknown
+					"1/2": unknown
+					"1/3": unknown
+					"2/3": unknown
+					"1/4": unknown
+					"2/4": unknown
+					"3/4": unknown
+					"1/5": unknown
+					"2/5": unknown
+					"3/5": unknown
+					"4/5": unknown
+					"1/6": unknown
+					"2/6": unknown
+					"3/6": unknown
+					"4/6": unknown
+					"5/6": unknown
+					"1/12": unknown
+					"2/12": unknown
+					"3/12": unknown
+					"4/12": unknown
+					"5/12": unknown
+					"6/12": unknown
+					"7/12": unknown
+					"8/12": unknown
+					"9/12": unknown
+					"10/12": unknown
+					"11/12": unknown
+					full: unknown
 				}
 			>
 			flexGrow: ResolvedResult<{
-				0: string
-				DEFAULT: string
+				0: unknown
+				DEFAULT: unknown
 			}>
 			flexShrink: ResolvedResult<{
-				0: string
-				DEFAULT: string
+				0: unknown
+				DEFAULT: unknown
 			}>
 			fontFamily: ResolvedResult<{
-				sans: string | string[]
-				serif: string | string[]
-				mono: string | string[]
+				sans: unknown
+				serif: unknown
+				mono: unknown
 			}>
-			fontSize: ResolvedResult<
-				{
-					xs: FontSizeValue
-					sm: FontSizeValue
-					base: FontSizeValue
-					lg: FontSizeValue
-					xl: FontSizeValue
-					"2xl": FontSizeValue
-					"3xl": FontSizeValue
-					"4xl": FontSizeValue
-					"5xl": FontSizeValue
-					"6xl": FontSizeValue
-					"7xl": FontSizeValue
-					"8xl": FontSizeValue
-					"9xl": FontSizeValue
-				},
-				FontSizeValue
-			>
+			fontSize: ResolvedResult<{
+				xs: unknown
+				sm: unknown
+				base: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
+				"3xl": unknown
+				"4xl": unknown
+				"5xl": unknown
+				"6xl": unknown
+				"7xl": unknown
+				"8xl": unknown
+				"9xl": unknown
+			}>
 			fontWeight: ResolvedResult<{
-				thin: string
-				extralight: string
-				light: string
-				normal: string
-				medium: string
-				semibold: string
-				bold: string
-				extrabold: string
-				black: string
+				thin: unknown
+				extralight: unknown
+				light: unknown
+				normal: unknown
+				medium: unknown
+				semibold: unknown
+				bold: unknown
+				extrabold: unknown
+				black: unknown
 			}>
 			gap: ResolvedResult<SpacingConfig>
 			gradientColorStops: Palette
 			gridAutoColumns: ResolvedResult<{
-				auto: string
-				min: string
-				max: string
-				fr: string
+				auto: unknown
+				min: unknown
+				max: unknown
+				fr: unknown
 			}>
 			gridAutoRows: ResolvedResult<{
-				auto: string
-				min: string
-				max: string
-				fr: string
+				auto: unknown
+				min: unknown
+				max: unknown
+				fr: unknown
 			}>
 			gridColumn: ResolvedResult<{
-				auto: string
-				"span-1": string
-				"span-2": string
-				"span-3": string
-				"span-4": string
-				"span-5": string
-				"span-6": string
-				"span-7": string
-				"span-8": string
-				"span-9": string
-				"span-10": string
-				"span-11": string
-				"span-12": string
-				"span-full": string
+				auto: unknown
+				"span-1": unknown
+				"span-2": unknown
+				"span-3": unknown
+				"span-4": unknown
+				"span-5": unknown
+				"span-6": unknown
+				"span-7": unknown
+				"span-8": unknown
+				"span-9": unknown
+				"span-10": unknown
+				"span-11": unknown
+				"span-12": unknown
+				"span-full": unknown
 			}>
 			gridColumnEnd: ResolvedResult<{
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				8: string
-				9: string
-				10: string
-				11: string
-				12: string
-				13: string
-				auto: string
+				1: unknown
+				2: unknown
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				7: unknown
+				8: unknown
+				9: unknown
+				10: unknown
+				11: unknown
+				12: unknown
+				13: unknown
+				auto: unknown
 			}>
 			gridColumnStart: ResolvedResult<{
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				8: string
-				9: string
-				10: string
-				11: string
-				12: string
-				13: string
-				auto: string
+				1: unknown
+				2: unknown
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				7: unknown
+				8: unknown
+				9: unknown
+				10: unknown
+				11: unknown
+				12: unknown
+				13: unknown
+				auto: unknown
 			}>
 			gridRow: ResolvedResult<{
-				auto: string
-				"span-1": string
-				"span-2": string
-				"span-3": string
-				"span-4": string
-				"span-5": string
-				"span-6": string
-				"span-full": string
+				auto: unknown
+				"span-1": unknown
+				"span-2": unknown
+				"span-3": unknown
+				"span-4": unknown
+				"span-5": unknown
+				"span-6": unknown
+				"span-full": unknown
 			}>
 			gridRowStart: ResolvedResult<{
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				auto: string
+				1: unknown
+				2: unknown
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				7: unknown
+				auto: unknown
 			}>
 			gridRowEnd: ResolvedResult<{
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				auto: string
+				1: unknown
+				2: unknown
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				7: unknown
+				auto: unknown
 			}>
 			gridTemplateColumns: ResolvedResult<{
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				8: string
-				9: string
-				10: string
-				11: string
-				12: string
-				none: string
+				1: unknown
+				2: unknown
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				7: unknown
+				8: unknown
+				9: unknown
+				10: unknown
+				11: unknown
+				12: unknown
+				none: unknown
 			}>
 			gridTemplateRows: ResolvedResult<{
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				none: string
+				1: unknown
+				2: unknown
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				none: unknown
 			}>
 			height: ResolvedResult<
 				SpacingConfig & {
@@ -1234,15 +1232,15 @@ declare namespace Tailwind {
 			>
 			inset: ResolvedResult<
 				SpacingConfig &
-					Negative<SpacingConfig> & {
-						auto: string
-						"1/2": string
-						"1/3": string
-						"2/3": string
-						"1/4": string
-						"2/4": string
-						"3/4": string
-						full: string
+					SpacingConfig & {
+						auto: unknown
+						"1/2": unknown
+						"1/3": unknown
+						"2/3": unknown
+						"1/4": unknown
+						"2/4": unknown
+						"3/4": unknown
+						full: unknown
 					}
 			>
 			keyframes: ResolvedResult<
@@ -1255,109 +1253,109 @@ declare namespace Tailwind {
 				KeyframesValue
 			>
 			letterSpacing: ResolvedResult<{
-				tighter: string
-				tight: string
-				normal: string
-				wide: string
-				wider: string
-				widest: string
+				tighter: unknown
+				tight: unknown
+				normal: unknown
+				wide: unknown
+				wider: unknown
+				widest: unknown
 			}>
 			lineHeight: ResolvedResult<{
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				8: string
-				9: string
-				10: string
-				none: string
-				tight: string
-				snug: string
-				normal: string
-				relaxed: string
-				loose: string
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				7: unknown
+				8: unknown
+				9: unknown
+				10: unknown
+				none: unknown
+				tight: unknown
+				snug: unknown
+				normal: unknown
+				relaxed: unknown
+				loose: unknown
 			}>
 			listStyleType: ResolvedResult<{
-				none: string
-				disc: string
-				decimal: string
+				none: unknown
+				disc: unknown
+				decimal: unknown
 			}>
 			margin: ResolvedResult<
 				SpacingConfig &
-					Negative<SpacingConfig> & {
-						auto: string
+					SpacingConfig & {
+						auto: unknown
 					}
 			>
 			maxHeight: ResolvedResult<
 				SpacingConfig & {
-					full: string
-					screen: string
+					full: unknown
+					screen: unknown
 				}
 			>
 			maxWidth: ResolvedResult<{
-				0: string
-				none: string
-				xs: string
-				sm: string
-				md: string
-				lg: string
-				xl: string
-				"2xl": string
-				"3xl": string
-				"4xl": string
-				"5xl": string
-				"6xl": string
-				"7xl": string
-				full: string
-				min: string
-				max: string
-				prose: string
-				"screen-sm": string
-				"screen-md": string
-				"screen-lg": string
-				"screen-xl": string
-				"screen-2xl": string
+				0: unknown
+				none: unknown
+				xs: unknown
+				sm: unknown
+				md: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
+				"3xl": unknown
+				"4xl": unknown
+				"5xl": unknown
+				"6xl": unknown
+				"7xl": unknown
+				full: unknown
+				min: unknown
+				max: unknown
+				prose: unknown
+				"screen-sm": unknown
+				"screen-md": unknown
+				"screen-lg": unknown
+				"screen-xl": unknown
+				"screen-2xl": unknown
 			}>
 			minHeight: ResolvedResult<{
-				0: string
-				full: string
-				screen: string
+				0: unknown
+				full: unknown
+				screen: unknown
 			}>
 			minWidth: ResolvedResult<{
-				0: string
-				full: string
-				min: string
-				max: string
+				0: unknown
+				full: unknown
+				min: unknown
+				max: unknown
 			}>
 			objectPosition: ResolvedResult<{
-				bottom: string
-				center: string
-				left: string
-				"left-bottom": string
-				"left-top": string
-				right: string
-				"right-bottom": string
-				"right-top": string
-				top: string
+				bottom: unknown
+				center: unknown
+				left: unknown
+				"left-bottom": unknown
+				"left-top": unknown
+				right: unknown
+				"right-bottom": unknown
+				"right-top": unknown
+				top: unknown
 			}>
 			opacity: ResolvedResult<OpacityConfig>
 			order: ResolvedResult<{
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				8: string
-				9: string
-				10: string
-				11: string
-				12: string
-				first: string
-				last: string
-				none: string
+				1: unknown
+				2: unknown
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				7: unknown
+				8: unknown
+				9: unknown
+				10: unknown
+				11: unknown
+				12: unknown
+				first: unknown
+				last: unknown
+				none: unknown
 			}>
 			outlineOffset: ResolvedResult<{
 				0: "0px"
@@ -1379,249 +1377,247 @@ declare namespace Tailwind {
 			placeholderOpacity: ResolvedResult<OpacityConfig>
 			ringColor: Palette &
 				ResolvedResult<{
-					DEFAULT: string
+					DEFAULT: unknown
 				}>
 			ringOffsetColor: Palette
 			ringOffsetWidth: ResolvedResult<{
-				0: string
-				1: string
-				2: string
-				4: string
-				8: string
+				0: unknown
+				1: unknown
+				2: unknown
+				4: unknown
+				8: unknown
 			}>
 			ringOpacity: ResolvedResult<
 				OpacityConfig & {
-					DEFAULT: string
+					DEFAULT: unknown
 				}
 			>
 			ringWidth: ResolvedResult<{
-				0: string
-				1: string
-				2: string
-				4: string
-				8: string
-				DEFAULT: string
+				0: unknown
+				1: unknown
+				2: unknown
+				4: unknown
+				8: unknown
+				DEFAULT: unknown
 			}>
 			rotate: ResolvedResult<{
-				0: string
-				1: string
-				2: string
-				3: string
-				6: string
-				12: string
-				45: string
-				90: string
-				180: string
+				0: unknown
+				1: unknown
+				2: unknown
+				3: unknown
+				6: unknown
+				12: unknown
+				45: unknown
+				90: unknown
+				180: unknown
 			}>
 			saturate: ResolvedResult<{
-				0: string
-				50: string
-				100: string
-				150: string
-				200: string
+				0: unknown
+				50: unknown
+				100: unknown
+				150: unknown
+				200: unknown
 			}>
 			scale: ResolvedResult<{
-				0: string
-				50: string
-				75: string
-				90: string
-				95: string
-				100: string
-				105: string
-				110: string
-				125: string
-				150: string
+				0: unknown
+				50: unknown
+				75: unknown
+				90: unknown
+				95: unknown
+				100: unknown
+				105: unknown
+				110: unknown
+				125: unknown
+				150: unknown
 			}>
 			sepia: ResolvedResult<{
-				0: string
-				DEFAULT: string
+				0: unknown
+				DEFAULT: unknown
 			}>
 			skew: ResolvedResult<{
-				0: string
-				1: string
-				2: string
-				3: string
-				6: string
-				12: string
+				0: unknown
+				1: unknown
+				2: unknown
+				3: unknown
+				6: unknown
+				12: unknown
 			}>
-			space: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
+			space: ResolvedResult<SpacingConfig>
 			stroke: Palette &
 				ResolvedResult<{
-					current: string
+					current: unknown
 				}>
 			strokeWidth: ResolvedResult<{
-				0: string
-				1: string
-				2: string
+				0: unknown
+				1: unknown
+				2: unknown
 			}>
 			textColor: Palette
 			textOpacity: ResolvedResult<OpacityConfig>
 			textDecorationColor: Palette
 			textDecorationThickness: ResolvedResult<{
-				auto: string
-				"from-font": string
-				0: string
-				1: string
-				2: string
-				4: string
-				8: string
+				auto: unknown
+				"from-font": unknown
+				0: unknown
+				1: unknown
+				2: unknown
+				4: unknown
+				8: unknown
 			}>
 			textUnderlineOffset: ResolvedResult<{
-				auto: string
-				0: string
-				1: string
-				2: string
-				4: string
-				8: string
+				auto: unknown
+				0: unknown
+				1: unknown
+				2: unknown
+				4: unknown
+				8: unknown
 			}>
-			textIndent: ResolvedResult<SpacingConfig & Negative<SpacingConfig>>
+			textIndent: ResolvedResult<SpacingConfig>
 			transformOrigin: ResolvedResult<{
-				center: string
-				top: string
-				"top-right": string
-				right: string
-				"bottom-right": string
-				bottom: string
-				"bottom-left": string
-				left: string
-				"top-left": string
+				center: unknown
+				top: unknown
+				"top-right": unknown
+				right: unknown
+				"bottom-right": unknown
+				bottom: unknown
+				"bottom-left": unknown
+				left: unknown
+				"top-left": unknown
 			}>
 			transitionDelay: ResolvedResult<{
-				75: string
-				100: string
-				150: string
-				200: string
-				300: string
-				500: string
-				700: string
-				1000: string
+				75: unknown
+				100: unknown
+				150: unknown
+				200: unknown
+				300: unknown
+				500: unknown
+				700: unknown
+				1000: unknown
 			}>
 			transitionDuration: ResolvedResult<{
-				75: string
-				100: string
-				150: string
-				200: string
-				300: string
-				500: string
-				700: string
-				1000: string
+				75: unknown
+				100: unknown
+				150: unknown
+				200: unknown
+				300: unknown
+				500: unknown
+				700: unknown
+				1000: unknown
 			}>
 			transitionProperty: ResolvedResult<{
-				none: string
-				all: string
-				DEFAULT: string
-				colors: string
-				opacity: string
-				shadow: string
-				transform: string
+				none: unknown
+				all: unknown
+				DEFAULT: unknown
+				colors: unknown
+				opacity: unknown
+				shadow: unknown
+				transform: unknown
 			}>
 			transitionTimingFunction: ResolvedResult<{
-				linear: string
-				in: string
-				out: string
-				"in-out": string
+				linear: unknown
+				in: unknown
+				out: unknown
+				"in-out": unknown
 			}>
 			translate: ResolvedResult<
-				SpacingConfig &
-					Negative<SpacingConfig> & {
-						"1/2": string
-						"1/3": string
-						"2/3": string
-						"1/4": string
-						"2/4": string
-						"3/4": string
-						full: string
-					}
+				SpacingConfig & {
+					"1/2": unknown
+					"1/3": unknown
+					"2/3": unknown
+					"1/4": unknown
+					"2/4": unknown
+					"3/4": unknown
+					full: unknown
+				}
 			>
 			width: ResolvedResult<
 				SpacingConfig & {
-					auto: string
-					"1/2": string
-					"1/3": string
-					"2/3": string
-					"1/4": string
-					"2/4": string
-					"3/4": string
-					"1/5": string
-					"2/5": string
-					"3/5": string
-					"4/5": string
-					"1/6": string
-					"2/6": string
-					"3/6": string
-					"4/6": string
-					"5/6": string
-					"1/12": string
-					"2/12": string
-					"3/12": string
-					"4/12": string
-					"5/12": string
-					"6/12": string
-					"7/12": string
-					"8/12": string
-					"9/12": string
-					"10/12": string
-					"11/12": string
-					full: string
-					screen: string
-					min: string
-					max: string
+					auto: unknown
+					"1/2": unknown
+					"1/3": unknown
+					"2/3": unknown
+					"1/4": unknown
+					"2/4": unknown
+					"3/4": unknown
+					"1/5": unknown
+					"2/5": unknown
+					"3/5": unknown
+					"4/5": unknown
+					"1/6": unknown
+					"2/6": unknown
+					"3/6": unknown
+					"4/6": unknown
+					"5/6": unknown
+					"1/12": unknown
+					"2/12": unknown
+					"3/12": unknown
+					"4/12": unknown
+					"5/12": unknown
+					"6/12": unknown
+					"7/12": unknown
+					"8/12": unknown
+					"9/12": unknown
+					"10/12": unknown
+					"11/12": unknown
+					full: unknown
+					screen: unknown
+					min: unknown
+					max: unknown
 				}
 			>
 			zIndex: ResolvedResult<{
-				0: string
-				10: string
-				20: string
-				30: string
-				40: string
-				50: string
-				auto: string
+				0: unknown
+				10: unknown
+				20: unknown
+				30: unknown
+				40: unknown
+				50: unknown
+				auto: unknown
 			}>
 			aspectRatio: ResolvedResult<{
-				auto: string
-				square: string
-				video: string
+				auto: unknown
+				square: unknown
+				video: unknown
 			}>
 			columns: ResolvedResult<{
-				auto: string
-				1: string
-				2: string
-				3: string
-				4: string
-				5: string
-				6: string
-				7: string
-				8: string
-				9: string
-				10: string
-				11: string
-				12: string
-				"3xs": string
-				"2xs": string
-				xs: string
-				sm: string
-				md: string
-				lg: string
-				xl: string
-				"2xl": string
-				"3xl": string
-				"4xl": string
-				"5xl": string
-				"6xl": string
-				"7xl": string
+				auto: unknown
+				1: unknown
+				2: unknown
+				3: unknown
+				4: unknown
+				5: unknown
+				6: unknown
+				7: unknown
+				8: unknown
+				9: unknown
+				10: unknown
+				11: unknown
+				12: unknown
+				"3xs": unknown
+				"2xs": unknown
+				xs: unknown
+				sm: unknown
+				md: unknown
+				lg: unknown
+				xl: unknown
+				"2xl": unknown
+				"3xl": unknown
+				"4xl": unknown
+				"5xl": unknown
+				"6xl": unknown
+				"7xl": unknown
 			}>
 			scrollMargin: ResolvedResult<
-				SpacingConfig &
-					Negative<SpacingConfig> & {
-						auto: string
-					}
+				SpacingConfig & {
+					auto: unknown
+				}
 			>
 			scrollPadding: ResolvedResult<SpacingConfig>
 			willChange: ResolvedResult<{
-				auto: string
-				scroll: string
-				contents: string
-				transform: string
+				auto: unknown
+				scroll: unknown
+				contents: unknown
+				transform: unknown
 			}>
 		}
 	}
