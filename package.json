@@ -1,6 +1,6 @@
 {
   "name": "tailwind-types",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "Tailwind types",
   "license": "MIT",
   "contributors": [
@@ -36,10 +36,7 @@
     "tailwindcss"
   ],
   "files": [
-    "index.d.ts",
-    "tailwind.d.ts",
-    "colors.d.ts",
-    "defaultConfig.d.ts",
+    "*.d.ts",
     "LICENSE",
     "README.md",
     "empty.js"
