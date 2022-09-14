@@ -1,6 +1,11 @@
 /// <reference path="colors.d.ts" />
+/// <reference path="tailwind.d.ts" />
 
 declare namespace Tailwind {
+	type BreakPoints<T extends Record<number | string, string>> = {
+		[K in keyof T as `screen-${string & K}`]: T[K]
+	}
+
 	type DefaultConfig = {
 		content: string[]
 		presets: Exclude<StrictConfigJS["presets"], undefined>
@@ -13,7 +18,7 @@ declare namespace Tailwind {
 				xl: "1280px"
 				"2xl": "1536px"
 			}
-			colors: DefaultPalette
+			colors: DefaultColors
 			columns: {
 				auto: "auto"
 				1: "1"
@@ -91,16 +96,32 @@ declare namespace Tailwind {
 				square: "1 / 1"
 				video: "16 / 9"
 			}
-			backdropBlur: WithTheme<DefaultConfig["theme"]["blur"]>
-			backdropBrightness: WithTheme<DefaultConfig["theme"]["brightness"]>
-			backdropContrast: WithTheme<DefaultConfig["theme"]["contrast"]>
-			backdropGrayscale: WithTheme<DefaultConfig["theme"]["grayscale"]>
-			backdropHueRotate: WithTheme<DefaultConfig["theme"]["hueRotate"]>
-			backdropInvert: WithTheme<DefaultConfig["theme"]["invert"]>
-			backdropOpacity: WithTheme<DefaultConfig["theme"]["opacity"]>
-			backdropSaturate: WithTheme<DefaultConfig["theme"]["saturate"]>
-			backdropSepia: WithTheme<DefaultConfig["theme"]["sepia"]>
-			backgroundColor: WithTheme<DefaultConfig["theme"]["colors"]>
+			backdropBlur: WithResolveThemePath<DefaultConfig["theme"]["blur"]>
+			backdropBrightness: WithResolveThemePath<
+				DefaultConfig["theme"]["brightness"]
+			>
+			backdropContrast: WithResolveThemePath<
+				DefaultConfig["theme"]["contrast"]
+			>
+			backdropGrayscale: WithResolveThemePath<
+				DefaultConfig["theme"]["grayscale"]
+			>
+			backdropHueRotate: WithResolveThemePath<
+				DefaultConfig["theme"]["hueRotate"]
+			>
+			backdropInvert: WithResolveThemePath<
+				DefaultConfig["theme"]["invert"]
+			>
+			backdropOpacity: WithResolveThemePath<
+				DefaultConfig["theme"]["opacity"]
+			>
+			backdropSaturate: WithResolveThemePath<
+				DefaultConfig["theme"]["saturate"]
+			>
+			backdropSepia: WithResolveThemePath<DefaultConfig["theme"]["sepia"]>
+			backgroundColor: WithResolveThemePath<
+				DefaultConfig["theme"]["colors"]
+			>
 			backgroundImage: {
 				none: "none"
 				"gradient-to-t": "linear-gradient(to top, var(--tw-gradient-stops))"
@@ -112,7 +133,9 @@ declare namespace Tailwind {
 				"gradient-to-l": "linear-gradient(to left, var(--tw-gradient-stops))"
 				"gradient-to-tl": "linear-gradient(to top left, var(--tw-gradient-stops))"
 			}
-			backgroundOpacity: WithTheme<DefaultConfig["theme"]["opacity"]>
+			backgroundOpacity: WithResolveThemePath<
+				DefaultConfig["theme"]["opacity"]
+			>
 			backgroundPosition: {
 				bottom: "bottom"
 				center: "center"
@@ -153,12 +176,14 @@ declare namespace Tailwind {
 				150: "1.5"
 				200: "2"
 			}
-			borderColor: WithTheme<
+			borderColor: WithResolveThemePath<
 				DefaultConfig["theme"]["colors"] & {
 					DEFAULT: DefaultConfig["theme"]["colors"]["gray"]["200"]
 				}
 			>
-			borderOpacity: WithTheme<DefaultConfig["theme"]["opacity"]>
+			borderOpacity: WithResolveThemePath<
+				DefaultConfig["theme"]["opacity"]
+			>
 			borderRadius: {
 				none: "0px"
 				sm: "0.125rem"
@@ -188,9 +213,11 @@ declare namespace Tailwind {
 				inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)"
 				none: "none"
 			}
-			boxShadowColor: WithTheme<DefaultConfig["theme"]["colors"]>
-			caretColor: WithTheme<DefaultConfig["theme"]["colors"]>
-			accentColor: WithTheme<
+			boxShadowColor: WithResolveThemePath<
+				DefaultConfig["theme"]["colors"]
+			>
+			caretColor: WithResolveThemePath<DefaultConfig["theme"]["colors"]>
+			accentColor: WithResolveThemePath<
 				DefaultConfig["theme"]["colors"] & { auto: "auto" }
 			>
 			contrast: {
@@ -246,7 +273,9 @@ declare namespace Tailwind {
 			}
 			divideColor: DefaultConfig["theme"]["borderColor"]
 			divideOpacity: DefaultConfig["theme"]["borderOpacity"]
-			divideWidth: WithTheme<DefaultConfig["theme"]["borderWidth"]>
+			divideWidth: WithResolveThemePath<
+				DefaultConfig["theme"]["borderWidth"]
+			>
 			dropShadow: {
 				sm: "0 1px 1px rgb(0 0 0 / 0.05)"
 				DEFAULT: [
@@ -291,7 +320,7 @@ declare namespace Tailwind {
 				initial: "0 1 auto"
 				none: "none"
 			}
-			flexBasis: WithTheme<
+			flexBasis: WithResolveThemePath<
 				DefaultConfig["theme"]["spacing"] & {
 					auto: "auto"
 					"1/2": "50%"
@@ -393,8 +422,10 @@ declare namespace Tailwind {
 				extrabold: "800"
 				black: "900"
 			}
-			gap: WithTheme<DefaultConfig["theme"]["spacing"]>
-			gradientColorStops: WithTheme<DefaultConfig["theme"]["colors"]>
+			gap: WithResolveThemePath<DefaultConfig["theme"]["spacing"]>
+			gradientColorStops: WithResolveThemePath<
+				DefaultConfig["theme"]["colors"]
+			>
 			gridAutoColumns: {
 				auto: "auto"
 				min: "min-content"
@@ -509,7 +540,7 @@ declare namespace Tailwind {
 				5: "repeat(5, minmax(0, 1fr))"
 				6: "repeat(6, minmax(0, 1fr))"
 			}
-			height: WithTheme<
+			height: WithResolveThemePath<
 				DefaultConfig["theme"]["spacing"] & {
 					auto: "auto"
 					"1/2": "50%"
@@ -534,7 +565,7 @@ declare namespace Tailwind {
 					fit: "fit-content"
 				}
 			>
-			inset: WithTheme<
+			inset: WithResolveThemePath<
 				DefaultConfig["theme"]["spacing"] & {
 					auto: "auto"
 					"1/2": "50%"
@@ -603,12 +634,12 @@ declare namespace Tailwind {
 				disc: "disc"
 				decimal: "decimal"
 			}
-			margin: WithTheme<
+			margin: WithResolveThemePath<
 				DefaultConfig["theme"]["spacing"] & {
 					auto: "auto"
 				}
 			>
-			maxHeight: WithTheme<
+			maxHeight: WithResolveThemePath<
 				DefaultConfig["theme"]["spacing"] & {
 					full: "100%"
 					screen: "100vh"
@@ -617,7 +648,7 @@ declare namespace Tailwind {
 					fit: "fit-content"
 				}
 			>
-			maxWidth: WithTheme<
+			maxWidth: WithResolveThemePath<
 				BreakPoints<DefaultConfig["theme"]["screens"]>
 			> & {
 				none: "none"
@@ -699,10 +730,14 @@ declare namespace Tailwind {
 				11: "11"
 				12: "12"
 			}
-			padding: WithTheme<DefaultConfig["theme"]["spacing"]>
-			placeholderColor: WithTheme<DefaultConfig["theme"]["colors"]>
-			placeholderOpacity: WithTheme<DefaultConfig["theme"]["opacity"]>
-			outlineColor: WithTheme<DefaultConfig["theme"]["colors"]>
+			padding: WithResolveThemePath<DefaultConfig["theme"]["spacing"]>
+			placeholderColor: WithResolveThemePath<
+				DefaultConfig["theme"]["colors"]
+			>
+			placeholderOpacity: WithResolveThemePath<
+				DefaultConfig["theme"]["opacity"]
+			>
+			outlineColor: WithResolveThemePath<DefaultConfig["theme"]["colors"]>
 			outlineOffset: {
 				0: "0px"
 				1: "1px"
@@ -717,12 +752,14 @@ declare namespace Tailwind {
 				4: "4px"
 				8: "8px"
 			}
-			ringColor: WithTheme<
+			ringColor: WithResolveThemePath<
 				DefaultConfig["theme"]["colors"] & {
 					DEFAULT: DefaultConfig["theme"]["colors"]["blue"]["500"]
 				}
 			>
-			ringOffsetColor: WithTheme<DefaultConfig["theme"]["colors"]>
+			ringOffsetColor: WithResolveThemePath<
+				DefaultConfig["theme"]["colors"]
+			>
 			ringOffsetWidth: {
 				0: "0px"
 				1: "1px"
@@ -730,7 +767,7 @@ declare namespace Tailwind {
 				4: "4px"
 				8: "8px"
 			}
-			ringOpacity: WithTheme<
+			ringOpacity: WithResolveThemePath<
 				DefaultConfig["theme"]["opacity"] & {
 					DEFAULT: "0.5"
 				}
@@ -773,8 +810,12 @@ declare namespace Tailwind {
 				125: "1.25"
 				150: "1.5"
 			}
-			scrollMargin: WithTheme<DefaultConfig["theme"]["spacing"]>
-			scrollPadding: WithTheme<DefaultConfig["theme"]["spacing"]>
+			scrollMargin: WithResolveThemePath<
+				DefaultConfig["theme"]["spacing"]
+			>
+			scrollPadding: WithResolveThemePath<
+				DefaultConfig["theme"]["spacing"]
+			>
 			sepia: {
 				0: "0"
 				DEFAULT: "100%"
@@ -787,7 +828,7 @@ declare namespace Tailwind {
 				6: "6deg"
 				12: "12deg"
 			}
-			space: WithTheme<DefaultConfig["theme"]["spacing"]>
+			space: WithResolveThemePath<DefaultConfig["theme"]["spacing"]>
 			stroke: {
 				current: "currentColor"
 			}
@@ -796,8 +837,10 @@ declare namespace Tailwind {
 				1: "1"
 				2: "2"
 			}
-			textColor: WithTheme<DefaultConfig["theme"]["colors"]>
-			textDecorationColor: WithTheme<DefaultConfig["theme"]["colors"]>
+			textColor: WithResolveThemePath<DefaultConfig["theme"]["colors"]>
+			textDecorationColor: WithResolveThemePath<
+				DefaultConfig["theme"]["colors"]
+			>
 			textDecorationThickness: {
 				auto: "auto"
 				"from-font": "from-font"
@@ -815,8 +858,8 @@ declare namespace Tailwind {
 				4: "4px"
 				8: "8px"
 			}
-			textIndent: WithTheme<DefaultConfig["theme"]["spacing"]>
-			textOpacity: WithTheme<DefaultConfig["theme"]["opacity"]>
+			textIndent: WithResolveThemePath<DefaultConfig["theme"]["spacing"]>
+			textOpacity: WithResolveThemePath<DefaultConfig["theme"]["opacity"]>
 			transformOrigin: {
 				center: "center"
 				top: "top"
@@ -865,7 +908,7 @@ declare namespace Tailwind {
 				out: "cubic-bezier(0, 0, 0.2, 1)"
 				"in-out": "cubic-bezier(0.4, 0, 0.2, 1)"
 			}
-			translate: WithTheme<
+			translate: WithResolveThemePath<
 				DefaultConfig["theme"]["spacing"] & {
 					"1/2": "50%"
 					"1/3": "33.333333%"
@@ -876,7 +919,7 @@ declare namespace Tailwind {
 					full: "100%"
 				}
 			>
-			width: WithTheme<
+			width: WithResolveThemePath<
 				DefaultConfig["theme"]["spacing"] & {
 					auto: "auto"
 					"1/2": "50%"

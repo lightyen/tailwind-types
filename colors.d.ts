@@ -1,5 +1,5 @@
 declare namespace Tailwind {
-	type DefaultPalette = {
+	type DefaultColors = {
 		inherit: "inherit"
 		transparent: "transparent"
 		current: "currentColor"
