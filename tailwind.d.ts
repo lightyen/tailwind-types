@@ -2,267 +2,43 @@
 // Project: https://github.com/tailwindlabs/tailwindcss
 // Definitions by: lightyen <https://github.com/lightyen>
 
+/// <reference path="base.d.ts" />
 /// <reference path="colors.d.ts" />
 /// <reference path="features.d.ts" />
 /// <reference path="theme.d.ts" />
+/// <reference path="plugin.d.ts" />
 
 declare namespace Tailwind {
-	type CSSValue = string | number
+	interface ConfigJS extends StrictConfigJS, ConfigObject {}
 
-	type CSSTYPE = import("csstype").Properties<CSSValue>
-
-	interface DefinedCSSProperties extends Customized, CSSTYPE {}
-
-	interface CSSProperties extends Customized {
-		[key: string | symbol]: CSSProperties | DefinedCSSProperties | CSSValue
+	interface StrictConfigJS extends OtherConfigJS {
+		presets?: (ConfigJS | PresetFunction)[]
+		theme?: Theme & CustomTheme & ConfigObject
+		plugins?: Plugin[]
+		darkMode?: "media" | "class" | ["class", string]
+		corePlugins?:
+			| Partial<CorePluginFeatures>
+			| Array<keyof CorePluginFeatures>
+		separator?: string
+		prefix?: string
+		important?: boolean | string
 	}
 
-	type Styles = CSSProperties | import("postcss").Node
+	interface ResolvedConfigJS extends StrictResolvedConfigJS, ConfigObject {}
 
-	type Primitive =
-		| string
-		| bigint
-		| number
-		| boolean
-		| symbol
-		| null
-		| undefined
-
-	interface Func {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(...args: any): any
+	interface StrictResolvedConfigJS extends OtherConfigJS {
+		presets: ConfigJS[]
+		separator: string
+		prefix: string
+		important: boolean
+		darkMode: "media" | "class" | ["class", string]
+		plugins: (
+			| UserPluginObject
+			| UserPluginFunction
+			| UserPluginFunctionWithOption
+		)[]
+		theme: ResolvedTheme & ConfigObject
 	}
-
-	type ConfigValue = Func | Primitive
-
-	interface ConfigObject {
-		[key: string]: ConfigEntry
-	}
-
-	type ConfigArray = Array<ConfigEntry>
-
-	type ConfigEntry = ConfigValue | ConfigArray | ConfigObject
-
-	interface ConfigUtils {
-		colors: DefaultColors
-		negative<T extends Record<string, string>>(
-			value: T,
-		): { [P in keyof T]: `-${T[P]}` }
-		breakpoints<T extends Record<string, unknown>>(
-			value: T,
-		): { [K in keyof T as `screen-${string & K}`]: T[K] }
-	}
-
-	interface ResolvePath {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(path: string, defaultValue?: unknown): any
-	}
-
-	interface ResolveThemePath extends ResolvePath, ConfigUtils {
-		theme: ResolvePath
-	}
-
-	type WithResolveThemePath<T> =
-		| T
-		| ((theme: ResolveThemePath, utils: ConfigUtils) => T)
-
-	interface CustomPalette {
-		[key: string | symbol]: ColorValue
-	}
-
-	interface ColorValueFunc {
-		(options: {
-			/** ex: `var(--tw-text-opacity)` */
-			opacityValue?: string
-			/** ex: `--tw-text-opacity` */
-			opacityVariable?: string
-		}): string
-	}
-
-	type ColorValue = ColorValueFunc | CustomPalette | string
-
-	interface BaseColors {
-		inherit?: ColorValue
-		current?: ColorValue
-		transparent?: ColorValue
-		black?: ColorValue
-		white?: ColorValue
-		slate?: ColorValue
-		gray?: ColorValue
-		zinc?: ColorValue
-		neutral?: ColorValue
-		stone?: ColorValue
-		red?: ColorValue
-		orange?: ColorValue
-		amber?: ColorValue
-		yellow?: ColorValue
-		lime?: ColorValue
-		green?: ColorValue
-		emerald?: ColorValue
-		teal?: ColorValue
-		cyan?: ColorValue
-		sky?: ColorValue
-		blue?: ColorValue
-		indigo?: ColorValue
-		violet?: ColorValue
-		purple?: ColorValue
-		fuchsia?: ColorValue
-		pink?: ColorValue
-		rose?: ColorValue
-	}
-
-	type Palette<T extends Record<string | symbol, unknown> = {}> = {
-		[key: string | symbol]: ColorValue
-	} & BaseColors & { [P in keyof T]?: ColorValue }
-
-	type WithResolvePathPalette<
-		T extends Record<string | symbol, unknown> = {},
-	> = WithResolveThemePath<
-		{
-			[key: string | symbol]: ColorValue
-		} & BaseColors & { [P in keyof T]?: ColorValue }
-	>
-
-	type CoreThemeObject<
-		T extends Record<string | symbol, unknown> = {},
-		V = ConfigEntry,
-	> = WithResolveThemePath<
-		{
-			[key: string | symbol]: V
-		} & {
-			[P in keyof T]?: V
-		}
-	>
-
-	interface UserPluginFunction {
-		(options: UserPluginOptions): void
-	}
-
-	interface UserPluginObject {
-		handler?: UserPluginFunction
-		config?: ConfigJS
-		name?: string
-		[key: string | symbol]: ConfigEntry
-	}
-
-	interface UserPluginFunctionWithOption<Options = unknown> {
-		(options?: Options): UserPluginObject
-	}
-
-	type Plugin = UserPluginObject | UserPluginFunction
-
-	interface Customized {
-		[key: string | symbol]: ConfigEntry
-	}
-
-	type ValueType =
-		| "any"
-		| "color"
-		| "url"
-		| "image"
-		| "length"
-		| "percentage"
-		| "position"
-		| "lookup"
-		| "generic-name"
-		| "family-name"
-		| "number"
-		| "line-width"
-		| "absolute-size"
-		| "relative-size"
-		| "shadow"
-
-	interface AddOption {
-		respectPrefix?: boolean
-		respectImportant?: boolean
-	}
-
-	interface MatchOption {
-		values?: ConfigObject
-		type?: ValueType | ValueType[]
-		supportsNegativeValues?: boolean
-		filterDefault?: boolean
-		respectPrefix?: boolean
-		respectImportant?: boolean
-	}
-
-	interface Generator {
-		(options: {
-			container: import("postcss").Root
-			separator: string
-			// Private API
-			wrap?(node: import("postcss").AtRule): void
-			format?(selectorFormat: string): void
-			modifySelectors?(
-				modifierFunction: (payload: {
-					get className(): string
-					selector: string
-				}) => string,
-			): import("postcss").Root
-		}): any
-	}
-
-	interface UserPluginOptions {
-		addDefaults(
-			group: string,
-			declarations: Record<string, string | string[]>,
-		): void
-
-		/** Register new base styles. */
-		addBase(bases: Styles | Styles[]): void
-
-		/** Register new utilities. */
-		addUtilities(utilities: Styles | Styles[], options?: AddOption): void
-
-		/** Register new components. */
-		addComponents(components: Styles | Styles[], options?: AddOption): void
-
-		/** Register new utilities. */
-		matchUtilities(
-			utilities: Record<string, (value: CSSValue) => Styles | Styles[]>,
-			options?: MatchOption,
-		): void
-
-		/** Register new components. */
-		matchComponents(
-			components: Record<string, (value: CSSValue) => Styles | Styles[]>,
-			options?: MatchOption,
-		): void
-
-		/** Register a custom variant. */
-		addVariant(
-			variantName: string,
-			generator: string | string[] | Generator | Generator[],
-			options?: {},
-		): void
-
-		/** Register an arbitrary variant */
-		matchVariant(
-			variants: Record<string, (value?: string) => string | string[]>,
-			options?: { values?: ConfigObject },
-		): void
-
-		/** Look up values in the user's theme configuration. */
-		theme: ResolvePath
-
-		/** Look up values in the user's Tailwind configuration. */
-		config: ResolvePath
-
-		/** Escape strings meant to be used in class names. */
-		e(classname: string): string
-
-		/** Apply the user's configured prefix to parts of a selector. */
-		prefix(selector: string): string
-
-		variants(corePlugin: string): string[]
-
-		corePlugins(feature: keyof CorePluginFeatures): boolean
-
-		/** low-level manipulation with PostCSS directly */
-		postcss: import("postcss").Postcss
-	}
-
-	interface ConfigJS extends StrictConfigJS, Customized {}
 
 	interface PresetFunction {
 		(): ConfigJS
@@ -276,7 +52,7 @@ declare namespace Tailwind {
 		| Extractor
 		| (Partial<{ DEFAULT: Extractor }> & Record<string, Extractor>)
 
-	type SafeList = Array<string | { pattern: RegExp; variants: string[] }>
+	type SafeList = Array<string | { pattern: RegExp; variants?: string[] }>
 
 	interface Transformer {
 		(content: string): string
@@ -287,7 +63,7 @@ declare namespace Tailwind {
 		| (Partial<{ DEFAULT: Transformer }> & Record<string, Transformer>)
 
 	/** @deprecated */
-	interface PurgeConfig extends Customized {
+	interface PurgeConfig extends ConfigObject {
 		mode?: "all"
 		content?: Content
 		transform?: Transformers & ConfigEntry
@@ -301,7 +77,7 @@ declare namespace Tailwind {
 
 	type Content = Array<string | { raw: string }>
 
-	interface ContentConfig extends Customized {
+	interface ContentConfig extends ConfigObject {
 		content?: Content
 		files?: Content
 		transform?: Transformers & ConfigEntry
@@ -434,56 +210,6 @@ declare namespace Tailwind {
 					matchVariant?: boolean
 			  }
 	}
-
-	interface StrictConfigJS extends OtherConfigJS {
-		presets?: (ConfigJS | PresetFunction)[]
-		theme?: Theme & CustomTheme
-		plugins?: Plugin[]
-		darkMode?: boolean | "media" | "class" | ["class", string]
-		corePlugins?:
-			| Partial<CorePluginFeatures>
-			| Array<keyof CorePluginFeatures>
-		separator?: string
-		prefix?: string
-		important?: boolean | string
-	}
-
-	interface ResolvedConfigJS extends StrictResolvedConfigJS, Customized {}
-
-	interface StrictResolvedConfigJS extends OtherConfigJS {
-		presets: ConfigJS[]
-		separator: string
-		prefix: string
-		important: boolean
-		darkMode: boolean | "media" | "class" | ["class", string]
-		plugins: (
-			| UserPluginObject
-			| UserPluginFunction
-			| UserPluginFunctionWithOption
-		)[]
-		theme: ResolvedTheme & Customized
-	}
-
-	interface PluginFunction<Options> {
-		(options: Options): UserPluginFunction
-	}
-	interface ConfigFunction<Options> {
-		(options: Options): ConfigJS
-	}
-
-	interface CreatePluginWithOptions {
-		/** Create a tailwind plugin with options. */
-		<Options = unknown>(
-			pluginFunction: PluginFunction<Options>,
-			configFunction?: ConfigFunction<Options>,
-		): UserPluginFunctionWithOption<Options>
-	}
-
-	interface CreatePlugin {
-		(handler: UserPluginFunction, config?: ConfigJS): Plugin
-		/** Create a tailwind plugin with options. */
-		withOptions: CreatePluginWithOptions
-	}
 }
 
 declare namespace Tailwind {
@@ -615,12 +341,12 @@ declare module "tailwindcss/defaultConfig.js" {
 }
 
 declare module "tailwindcss/defaultTheme" {
-	const theme: Tailwind.Theme & Tailwind.CustomTheme
+	const theme: Tailwind.Theme & Tailwind.CustomTheme & Tailwind.ConfigObject
 	export = theme
 }
 
 declare module "tailwindcss/defaultTheme.js" {
-	const theme: Tailwind.Theme & Tailwind.CustomTheme
+	const theme: Tailwind.Theme & Tailwind.CustomTheme & Tailwind.ConfigObject
 	export = theme
 }
 

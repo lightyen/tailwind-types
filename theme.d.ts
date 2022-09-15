@@ -1,7 +1,75 @@
 /// <reference path="tailwind.d.ts" />
 
 declare namespace Tailwind {
-	interface FontSizeValueExtension extends Customized {
+	interface ConfigUtils {
+		colors: DefaultColors
+		negative<T extends Record<string, string>>(
+			value: T,
+		): { [P in keyof T]: `-${T[P]}` }
+		breakpoints<T extends Record<string, unknown>>(
+			value: T,
+		): { [K in keyof T as `screen-${string & K}`]: T[K] }
+	}
+
+	interface ResolvePath {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(path: string, defaultValue?: unknown): any
+	}
+
+	interface ResolveThemePath extends ResolvePath, ConfigUtils {
+		theme: ResolvePath
+	}
+
+	type WithResolveThemePath<T> =
+		| T
+		| ((theme: ResolveThemePath, configUtils: ConfigUtils) => T | void)
+
+	interface CustomPalette {
+		[key: string | symbol]: ColorValue
+	}
+
+	interface ColorValueFunc {
+		(options: {
+			/** ex: `var(--tw-text-opacity)` */
+			opacityValue?: string
+			/** ex: `--tw-text-opacity` */
+			opacityVariable?: string
+		}): string
+	}
+
+	type ColorValue = ColorValueFunc | CustomPalette | string
+
+	interface BaseColors {
+		inherit?: ColorValue
+		current?: ColorValue
+		transparent?: ColorValue
+		black?: ColorValue
+		white?: ColorValue
+		slate?: ColorValue
+		gray?: ColorValue
+		zinc?: ColorValue
+		neutral?: ColorValue
+		stone?: ColorValue
+		red?: ColorValue
+		orange?: ColorValue
+		amber?: ColorValue
+		yellow?: ColorValue
+		lime?: ColorValue
+		green?: ColorValue
+		emerald?: ColorValue
+		teal?: ColorValue
+		cyan?: ColorValue
+		sky?: ColorValue
+		blue?: ColorValue
+		indigo?: ColorValue
+		violet?: ColorValue
+		purple?: ColorValue
+		fuchsia?: ColorValue
+		pink?: ColorValue
+		rose?: ColorValue
+	}
+
+	interface FontSizeValueExtension extends ConfigObject {
 		/** @link https://developer.mozilla.org/en-US/docs/Web/CSS/line-height */
 		lineHeight?: CSSValue
 		/** @link https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing */
@@ -17,11 +85,11 @@ declare namespace Tailwind {
 
 	type ScreenValue =
 		| CSSValue
-		| [min?: CSSValue, max?: CSSValue]
+		| { raw?: CSSValue }
 		| { min?: CSSValue; max?: CSSValue }
 
-	interface FontFamilyValueExtension extends Customized {
-		/** @link https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings */
+	interface FontFamilyValueExtension extends ConfigObject {
+		/** https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings */
 		fontFeatureSettings?: CSSValue
 	}
 
@@ -30,22 +98,37 @@ declare namespace Tailwind {
 		| CSSValue[]
 		| [value: CSSValue | CSSValue[], options: FontFamilyValueExtension]
 
-	interface ContainerConfig extends Customized {
+	interface ContainerConfig extends ConfigObject {
 		center?: boolean
 		padding?: CSSValue | { [key: string]: CSSValue }
 		screens?: { [key: string]: ScreenValue }
 	}
 
-	interface CustomTheme {
-		[key: string | symbol]: WithResolveThemePath<ConfigEntry>
-	}
+	type WithResolvePathPalette<
+		T extends Record<string | symbol, unknown> = {},
+	> = WithResolveThemePath<
+		{
+			[key: string | symbol]: ColorValue
+		} & BaseColors & { [P in keyof T]?: ColorValue }
+	>
 
-	interface ResolvedThemeObject<V = ConfigEntry> {
-		[key: string | symbol]: V
-	}
+	/** User-defined theme */
+	interface CustomTheme {}
+
+	type CoreThemeObject<
+		T extends Record<string | symbol, unknown> = {},
+		V = ConfigEntry,
+	> = WithResolveThemePath<
+		{
+			[key: string | symbol]: V
+		} & {
+			[P in keyof T]?: V
+		}
+	>
 
 	interface Theme {
-		/**
+		/** Extend your theme.
+		 *
 		 * {@link https://tailwindcss.com/docs/configuration Reference}
 		 */
 		extend?: Omit<Theme, "extend"> & CustomTheme
@@ -1419,7 +1502,18 @@ declare namespace Tailwind {
 		textOpacity?: Theme["opacity"]
 	}
 
-	interface ResolvedTheme {
+	/** User-defined resolved theme */
+	interface ResolvedCustomTheme {}
+
+	type Palette<T extends Record<string | symbol, unknown> = {}> = {
+		[key: string | symbol]: ColorValue
+	} & BaseColors & { [P in keyof T]?: ColorValue }
+
+	interface ResolvedThemeObject<V = ConfigEntry> {
+		[key: string | symbol]: V
+	}
+
+	interface ResolvedTheme extends ResolvedCustomTheme {
 		screens: ResolvedThemeObject<ScreenValue>
 		container: ContainerConfig
 		colors: Palette
