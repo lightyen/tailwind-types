@@ -165,5 +165,11 @@ declare namespace Tailwind {
 		willChange: boolean
 		wordBreak: boolean
 		zIndex: boolean
+		backgroundOpacity: boolean
+		borderOpacity: boolean
+		divideOpacity: boolean
+		placeholderOpacity: boolean
+		ringOpacity: boolean
+		textOpacity: boolean
 	}
 }
