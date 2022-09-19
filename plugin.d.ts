@@ -91,10 +91,7 @@ declare namespace Tailwind {
 		/** Register an arbitrary variant */
 		matchVariant(
 			variantName: string,
-			variantFunc:
-				| string
-				| MatchVariantFunc
-				| Array<string | MatchVariantFunc>,
+			variantFunc: MatchVariantFunc | Array<MatchVariantFunc>,
 			options?: { values?: ConfigObject },
 		): void
 
