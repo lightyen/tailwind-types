@@ -51,7 +51,7 @@ declare namespace Tailwind {
 	}
 
 	interface MatchVariantFunc {
-		(options: { value: string }): string
+		(options: { value: string }): string | string[]
 	}
 
 	interface UserPluginOptions {
@@ -91,7 +91,7 @@ declare namespace Tailwind {
 		/** Register an arbitrary variant */
 		matchVariant(
 			variantName: string,
-			variantFunc: MatchVariantFunc | Array<MatchVariantFunc>,
+			variantFunc: MatchVariantFunc,
 			options?: { values?: ConfigObject },
 		): void
 
