@@ -237,7 +237,7 @@ declare namespace Tailwind {
 	]
 
 	interface Context {
-		variantMap: Map<string, Array<[bigint, Generator]>>
+		variantMap: Map<string, Array<[bigint, VariantFunc]>>
 		getClassList(): string[]
 		tailwindConfig: ResolvedConfigJS
 		changedContent: Array<{ content: string; extension: string }>

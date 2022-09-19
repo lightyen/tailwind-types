@@ -34,7 +34,7 @@ declare namespace Tailwind {
 		respectImportant?: boolean
 	}
 
-	interface Generator {
+	interface VariantFunc {
 		(options: {
 			container: import("postcss").Root
 			separator: string
@@ -47,7 +47,11 @@ declare namespace Tailwind {
 					selector: string
 				}) => string,
 			): import("postcss").Root
-		}): any
+		}): string
+	}
+
+	interface MatchVariantFunc {
+		(options: { value: string }): string
 	}
 
 	interface UserPluginOptions {
@@ -80,13 +84,18 @@ declare namespace Tailwind {
 		/** Register a custom variant. */
 		addVariant(
 			variantName: string,
-			generator: string | string[] | Generator | Generator[],
+			variantFunc: string | string[] | VariantFunc | VariantFunc[],
 			options?: {},
 		): void
 
 		/** Register an arbitrary variant */
 		matchVariant(
-			variants: Record<string, (value?: string) => string | string[]>,
+			variantName: string,
+			variantFunc:
+				| string
+				| string[]
+				| MatchVariantFunc
+				| MatchVariantFunc[],
 			options?: { values?: ConfigObject },
 		): void
 
