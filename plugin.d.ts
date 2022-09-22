@@ -88,7 +88,12 @@ declare namespace Tailwind {
 			options?: {},
 		): void
 
-		/** Register an arbitrary variant */
+		/**
+		 * Register an arbitrary variant.
+		 *
+		 * `config.experimental.matchVariant = true`
+		 * @experimental
+		 */
 		matchVariant(
 			variantName: string,
 			variantFunc: MatchVariantFunc,

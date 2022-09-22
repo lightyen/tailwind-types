@@ -34,10 +34,10 @@ declare namespace Tailwind {
 			opacityValue?: string
 			/** ex: `--tw-text-opacity` */
 			opacityVariable?: string
-		}): string
+		}): Primitive
 	}
 
-	type ColorValue = ColorValueFunc | CustomPalette | string
+	type ColorValue = ColorValueFunc | CustomPalette | Primitive
 
 	interface BaseColors {
 		inherit?: ColorValue
