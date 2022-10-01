@@ -3,10 +3,6 @@ import tailwindcss from "tailwindcss"
 import resolveConfig from "tailwindcss/resolveConfig"
 import colors from "tailwindcss/colors"
 import plugin from "tailwindcss/plugin"
-import { updateAllClasses } from "tailwindcss/lib/util/pluginUtils"
-import selectorParser from "postcss-selector-parser"
-import expandApplyAtRules from "tailwindcss/lib/lib/expandApplyAtRules"
-import prefixSelector from "tailwindcss/lib/util/prefixSelector"
 
 delete colors.lightBlue
 
@@ -108,11 +104,9 @@ const config: Tailwind.ConfigJS = {
 					]
 				},
 			})
-			matchVariant({
-				tab(value) {
-					if (value == null) return "& > *"
-					return `&.${e(value ?? "")} > *`
-				},
+			matchVariant("tab", ({ value }) => {
+				if (!value) return "& > *"
+				return `&.${e(value)} > *`
 			})
 		},
 		function ({ addVariant }) {
@@ -141,32 +135,6 @@ const config: Tailwind.ConfigJS = {
 
 				return "&::before"
 			})
-			addVariant(
-				"foo",
-				({ container }) => {
-					container.walkRules(rule => {
-						rule.selector = `.foo\\:${rule.selector.slice(1)}`
-						rule.walkDecls(decl => {
-							decl.important = true
-						})
-					})
-				},
-				{ before: "sm" },
-			)
-			addVariant("foo", ({ modifySelectors, separator }) => {
-				if (!modifySelectors) return
-				modifySelectors(({ selector }) => {
-					return selectorParser(selectors => {
-						selectors.walkClasses(classNode => {
-							classNode.value = `foo${separator}${classNode.value}`
-							classNode.parent?.insertBefore(
-								classNode,
-								selectorParser().astSync(`.foo `),
-							)
-						})
-					}).processSync(selector)
-				})
-			})
 		},
 		({ addUtilities, addDefaults }) => {
 			addDefaults("my-type", {
@@ -183,6 +151,8 @@ const config: Tailwind.ConfigJS = {
 		},
 	],
 }
+
+resolveConfig(config)
 
 async function jit(...classNames: string[]): Promise<Result> {
 	classNames = classNames.map(c => c.replace(/\s/g, ""))

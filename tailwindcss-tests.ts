@@ -987,8 +987,34 @@ const configWithoutExtend: Tailwind.ConfigJS = {
 				postcss,
 				prefix,
 				corePlugins,
+				matchVariant,
+				matchComponents,
 				matchUtilities,
-			}) => {},
+			}) => {
+				matchComponents({
+					card: value => {
+						return [
+							{ color: value },
+							{
+								".card-header": {
+									borderTopWidth: 3,
+									borderTopColor: value,
+								},
+							},
+							{
+								".card-footer": {
+									borderBottomWidth: 3,
+									borderBottomColor: value,
+								},
+							},
+						]
+					},
+				})
+				matchVariant("tab", ({ value }) => {
+					if (!value) return "& > *"
+					return `&.${e(value)} > *`
+				})
+			},
 		),
 		plugin.withOptions(
 			() =>

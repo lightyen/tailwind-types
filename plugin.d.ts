@@ -47,7 +47,7 @@ declare namespace Tailwind {
 					selector: string
 				}) => string,
 			): import("postcss").Root
-		}): string
+		}): string | string[]
 	}
 
 	interface MatchVariantFunc {
